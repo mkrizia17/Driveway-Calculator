@@ -1,101 +1,184 @@
-import Image from "next/image";
+'use client'
+
+import Image from 'next/image'
+import Link from 'next/link'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { CalculatorIcon, DollarSignIcon, TruckIcon, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <main className="flex min-h-screen flex-col bg-gray-900 text-gray-100">
+      {/* Hero Section */}
+      <section className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hero-driveway.jpg-JEa1BKUj9Gsp8ZxiApTdyULbn6sDU5.jpeg"
+          alt="Beautiful residential property with a curved concrete driveway surrounded by manicured lawn and landscaping"
+          fill
+          style={{ objectFit: "cover", objectPosition: "center bottom" }}
+          className="absolute inset-0"
           priority
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-center p-6">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-200 text-transparent bg-clip-text">
+            Driveway Cost Calculator
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 max-w-2xl">
+            Estimate costs for gravel, concrete, asphalt, and paver driveways with precision
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link href="/gravel">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Gravel</Button>
+            </Link>
+            <Link href="/concrete">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Concrete</Button>
+            </Link>
+            <Link href="/asphalt">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Asphalt</Button>
+            </Link>
+            <Link href="/pavers">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Pavers</Button>
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </section>
+
+      {/* Features Section */}
+      <section className="bg-gray-800 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12 text-blue-400">Why Use Our Driveway Calculator?</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="bg-gray-700 border-gray-600">
+              <CardHeader>
+                <CalculatorIcon className="w-12 h-12 text-blue-400 mb-2 mx-auto" />
+                <CardTitle className="text-xl text-center text-blue-200">Accurate Estimates</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-300 text-center">Get precise cost calculations for various driveway materials, including gravel, concrete, and more.</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-gray-700 border-gray-600">
+              <CardHeader>
+                <DollarSignIcon className="w-12 h-12 text-blue-400 mb-2 mx-auto" />
+                <CardTitle className="text-xl text-center text-blue-200">Cost Breakdown</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-300 text-center">See detailed breakdowns of material costs, labor expenses, and additional fees for your project.</p>
+              </CardContent>
+            </Card>
+            <Card className="bg-gray-700 border-gray-600">
+              <CardHeader>
+                <TruckIcon className="w-12 h-12 text-blue-400 mb-2 mx-auto" />
+                <CardTitle className="text-xl text-center text-blue-200">Material Calculator</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-300 text-center">Calculate exact quantities of materials needed, helping you avoid over-ordering or shortages.</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="bg-gray-900 py-16">
+        <div className="container mx-auto px-4">
+          <Card className="bg-gray-700 border-gray-600">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-blue-400 text-center">
+                Benefits of Our Driveway Cost Calculator
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="list-disc list-inside space-y-2 text-gray-300">
+                <li>Precise estimates for gravel, concrete, asphalt, and paver driveways</li>
+                <li>Calculate costs for various driveway types, including stamped concrete</li>
+                <li>Get accurate material quantities to avoid over-ordering</li>
+                <li>Compare costs between different driveway options</li>
+                <li>Customizable options for your specific project needs</li>
+                <li>Up-to-date pricing based on current market rates</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-gray-800 py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-blue-400">
+            Ready to Plan Your Driveway Project?
+          </h2>
+          <p className="text-xl mb-8 text-gray-300">Choose your driveway material and get started with your free estimate now.</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
+            <Link href="/gravel">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Gravel Calculator</Button>
+            </Link>
+            <Link href="/concrete">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Concrete Calculator</Button>
+            </Link>
+            <Link href="/asphalt">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Asphalt Calculator</Button>
+            </Link>
+            <Link href="/pavers">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Pavers Calculator</Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-300 py-12 border-t border-gray-800">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4 text-blue-400">Driveway Calculator</h3>
+              <p className="text-sm">Helping you estimate and plan your perfect driveway project with precision and ease.</p>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-blue-400">Quick Links</h4>
+              <ul className="space-y-2">
+                <li><Link href="/gravel" className="hover:text-blue-400 transition-colors">Gravel Calculator</Link></li>
+                <li><Link href="/concrete" className="hover:text-blue-400 transition-colors">Concrete Calculator</Link></li>
+                <li><Link href="/asphalt" className="hover:text-blue-400 transition-colors">Asphalt Calculator</Link></li>
+                <li><Link href="/pavers" className="hover:text-blue-400 transition-colors">Pavers Calculator</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-blue-400">Resources</h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="hover:text-blue-400 transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors">FAQs</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors">Contact Us</a></li>
+                <li><a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold mb-4 text-blue-400">Connect With Us</h4>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <span className="sr-only">Facebook</span>
+                  <Facebook size={24} />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <span className="sr-only">Twitter</span>
+                  <Twitter size={24} />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <span className="sr-only">Instagram</span>
+                  <Instagram size={24} />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <span className="sr-only">LinkedIn</span>
+                  <Linkedin size={24} />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="mt-8 pt-8 border-t border-gray-800 text-center">
+            <p className="text-sm">&copy; {new Date().getFullYear()} Driveway Calculator. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
-    </div>
-  );
+    </main>
+  )
 }
