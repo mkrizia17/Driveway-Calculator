@@ -20,33 +20,117 @@ export default function Home() {
           priority
         />
         <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-center p-6">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-200 text-transparent bg-clip-text">
+          <h1 className="text-6xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-200 text-transparent bg-clip-text">
             Driveway Cost Calculator
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl">
             Estimate costs for gravel, concrete, asphalt, and paver driveways with precision
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Link href="/gravel">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Gravel</Button>
-            </Link>
-            <Link href="/concrete">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Concrete</Button>
-            </Link>
-            <Link href="/asphalt">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Asphalt</Button>
-            </Link>
-            <Link href="/pavers">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Pavers</Button>
-            </Link>
-          </div>
+        
         </div>
       </section>
+
+      {/* Calculator Section */}
+      <div className="container mx-auto py-12">
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">
+          Find Your Calculator
+        </h2>
+        
+        <div className="flex justify-center space-x-8">
+          <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
+            <div className="flex flex-col space-y-1.5 p-6">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+                <Image
+                  src="/images/gravel.jpg"
+                  alt="Gravel driveway"
+                  fill
+                  className="rounded-lg object-cover"
+                />
+              </div>
+              <Link 
+                href="/gravel" 
+                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
+              >
+                Gravel
+              </Link>
+            </div>
+            <div className="p-6 pt-0">
+              <p className="text-gray-300 text-center text-base">Loose stone material, ideal for rustic and cost-effective driveways</p>
+            </div>
+          </div>
+
+          <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
+            <div className="flex flex-col space-y-1.5 p-6">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+                <Image
+                  src="/images/concrete.jpg"
+                  alt="Concrete driveway"
+                  fill
+                  className="rounded-lg object-cover"
+                />
+              </div>
+              <Link 
+                href="/concrete" 
+                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
+              >
+                Concrete
+              </Link>
+            </div>
+            <div className="p-6 pt-0">
+              <p className="text-gray-300 text-center text-base">Durable, low-maintenance material for long-lasting driveways</p>
+            </div>
+          </div>
+
+          <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
+            <div className="flex flex-col space-y-1.5 p-6">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+                <Image
+                  src="/images/asphalt.jpg"
+                  alt="Asphalt driveway"
+                  fill
+                  className="rounded-lg object-cover"
+                />
+              </div>
+              <Link 
+                href="/asphalt" 
+                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
+              >
+                Asphalt
+              </Link>
+            </div>
+            <div className="p-6 pt-0">
+              <p className="text-gray-300 text-center text-base">Smooth, weather-resistant surface for professional-looking driveways</p>
+            </div>
+          </div>
+
+          <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
+            <div className="flex flex-col space-y-1.5 p-6">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+                <Image
+                  src="/images/pavers.jpg"
+                  alt="Paver driveway"
+                  fill
+                  className="rounded-lg object-cover"
+                />
+              </div>
+              <Link 
+                href="/pavers" 
+                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
+              >
+                Pavers
+              </Link>
+            </div>
+            <div className="p-6 pt-0">
+              <p className="text-gray-300 text-center text-base">Decorative blocks for customizable, elegant driveway designs</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Features Section */}
       <section className="bg-gray-800 py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12 text-blue-400">Why Use Our Driveway Calculator?</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">Why Use Our Driveway Calculator?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="bg-gray-700 border-gray-600">
               <CardHeader>
