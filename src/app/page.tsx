@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { CalculatorIcon, DollarSignIcon, TruckIcon, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { CalculatorIcon, DollarSignIcon, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 
 export default function Home() {
   return (
