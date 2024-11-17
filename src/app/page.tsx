@@ -39,18 +39,21 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/images/gravel.jpg"
-                  alt="Gravel driveway"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 
-                         (max-width: 1024px) 50vw,
-                         25vw"
-                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
-                />
-              </div>
-              <h3 className="text-2xl font-semibold text-center">
+              <Link href="/gravel" className="block">
+                <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
+                  <Image
+                    src="/images/gravel.jpg"
+                    alt="Gravel driveway"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 
+                           (max-width: 1024px) 50vw,
+                           25vw"
+                    className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  />
+                </div>
+              </Link>
+              
+              <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
                   href="/gravel" 
                   className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
@@ -66,23 +69,28 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/images/concrete.jpg"
-                  alt="Concrete surface"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 
-                         (max-width: 1024px) 50vw,
-                         25vw"
-                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
-                />
-              </div>
-              <Link 
-                href="/concrete" 
-                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
-              >
-                Concrete
+              <Link href="/concrete" className="block">
+                <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
+                  <Image
+                    src="/images/concrete.jpg"
+                    alt="Concrete surface"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 
+                           (max-width: 1024px) 50vw,
+                           25vw"
+                    className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  />
+                </div>
               </Link>
+              
+              <h3 className="text-2xl font-semibold text-center mt-4">
+                <Link 
+                  href="/concrete" 
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                >
+                  Concrete Calculator
+                </Link>
+              </h3>
             </div>
             <div className="p-6 pt-0">
               <p className="text-gray-300 text-center text-base">Durable, low-maintenance material for long-lasting driveways</p>
@@ -91,23 +99,28 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/images/asphalt.jpg"
-                  alt="Asphalt road"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 
-                         (max-width: 1024px) 50vw,
-                         25vw"
-                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
-                />
-              </div>
-              <Link 
-                href="/asphalt" 
-                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
-              >
-                Asphalt
+              <Link href="/asphalt" className="block">
+                <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
+                  <Image
+                    src="/images/asphalt.jpg"
+                    alt="Asphalt road"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 
+                           (max-width: 1024px) 50vw,
+                           25vw"
+                    className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  />
+                </div>
               </Link>
+              
+              <h3 className="text-2xl font-semibold text-center mt-4">
+                <Link 
+                  href="/asphalt" 
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                >
+                  Asphalt Calculator
+                </Link>
+              </h3>
             </div>
             <div className="p-6 pt-0">
               <p className="text-gray-300 text-center text-base">Smooth, weather-resistant surface for professional-looking driveways</p>
@@ -116,23 +129,28 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/images/pavers.jpg"
-                  alt="Paver pathway"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 
-                         (max-width: 1024px) 50vw,
-                         25vw"
-                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
-                />
-              </div>
-              <Link 
-                href="/pavers" 
-                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
-              >
-                Pavers
+              <Link href="/pavers" className="block">
+                <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
+                  <Image
+                    src="/images/pavers.jpg"
+                    alt="Paver pathway"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 
+                           (max-width: 1024px) 50vw,
+                           25vw"
+                    className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
+                  />
+                </div>
               </Link>
+              
+              <h3 className="text-2xl font-semibold text-center mt-4">
+                <Link 
+                  href="/pavers" 
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                >
+                  Pavers Calculator
+                </Link>
+              </h3>
             </div>
             <div className="p-6 pt-0">
               <p className="text-gray-300 text-center text-base">Decorative blocks for customizable, elegant driveway designs</p>
