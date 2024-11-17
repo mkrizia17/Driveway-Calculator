@@ -39,12 +39,12 @@ export default function Home() {
         <div className="flex justify-center space-x-8">
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/gravel.jpg"
                   alt="Gravel driveway"
                   fill
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
               <Link 
@@ -61,12 +61,12 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/concrete.jpg"
                   alt="Concrete driveway"
                   fill
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
               <Link 
@@ -83,12 +83,12 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/asphalt.jpg"
                   alt="Asphalt driveway"
                   fill
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
               <Link 
@@ -105,12 +105,12 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4">
+              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/pavers.jpg"
                   alt="Paver driveway"
                   fill
-                  className="rounded-lg object-cover"
+                  className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
               <Link 
