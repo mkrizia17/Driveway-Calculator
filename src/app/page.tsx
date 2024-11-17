@@ -39,7 +39,7 @@ export default function Home() {
         <div className="flex justify-center space-x-8">
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/gravel.jpg"
                   alt="Gravel driveway"
@@ -61,7 +61,7 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/concrete.jpg"
                   alt="Concrete driveway"
@@ -83,7 +83,7 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/asphalt.jpg"
                   alt="Asphalt driveway"
@@ -105,7 +105,7 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[375px] h-[375px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
                 <Image
                   src="/images/pavers.jpg"
                   alt="Paver driveway"
