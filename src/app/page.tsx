@@ -148,7 +148,7 @@ export default function Home() {
                   href="/pavers" 
                   className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
                 >
-                  Pavers Calculator
+                  Paver Calculator
                 </Link>
               </h3>
             </div>
@@ -278,7 +278,7 @@ export default function Home() {
               <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Asphalt Calculator</Button>
             </Link>
             <Link href="/pavers">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Pavers Calculator</Button>
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Paver Calculator</Button>
             </Link>
           </div>
         </div>
@@ -298,7 +298,7 @@ export default function Home() {
                 <li><Link href="/gravel" className="hover:text-blue-400 transition-colors">Gravel Calculator</Link></li>
                 <li><Link href="/concrete" className="hover:text-blue-400 transition-colors">Concrete Calculator</Link></li>
                 <li><Link href="/asphalt" className="hover:text-blue-400 transition-colors">Asphalt Calculator</Link></li>
-                <li><Link href="/pavers" className="hover:text-blue-400 transition-colors">Pavers Calculator</Link></li>
+                <li><Link href="/pavers" className="hover:text-blue-400 transition-colors">Paver Calculator</Link></li>
               </ul>
             </div>
             <div>
