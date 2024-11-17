@@ -18,6 +18,7 @@ input, button, p, ul, li, h2, h3 {
     background: rgb(31 41 55);  /* This is Tailwind's gray-800 color */
     color: hsl(0 0% 98%);
     padding: 2rem;
+    font-family: 'Roboto', sans-serif;
 }
 
 .content-wrapper {
@@ -42,7 +43,45 @@ input, button, p, ul, li, h2, h3 {
     backdrop-filter: blur(10px);
 }
 
+.info-section h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.875rem;  /* 30px */
+    font-weight: 500;
+}
+
+.info-section h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;    /* 24px */
+    font-weight: 500;
+    margin-top: 1.5rem;
+}
+
+.info-section p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;      /* 16px */
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.info-section ul {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;      /* 16px */
+}
+
+.info-section li {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;      /* 16px */
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.info-section strong {
+    font-weight: 500;
+}
+
 .page-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
     color: #ffffff;
     margin-bottom: 2rem;
 }
@@ -55,6 +94,8 @@ input, button, p, ul, li, h2, h3 {
     display: block;
     margin-bottom: 0.5rem;
     color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
 }
 
 .input-group input {
@@ -75,6 +116,8 @@ input, button, p, ul, li, h2, h3 {
     cursor: pointer;
     font-size: 1rem;
     margin-top: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
 }
 
 .calculate-button:hover {
@@ -86,10 +129,13 @@ input, button, p, ul, li, h2, h3 {
     padding: 1rem;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
 }
 
-h2, h3 {
+h2, h3, h4 {
     color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
 }
 
 ul {
@@ -112,4 +158,62 @@ li {
     .info-section {
         flex: 2;
     }
+}
+
+/* Result sections styling */
+.result h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.75rem;  /* 28px */
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.result p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.25rem;  /* 20px */
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+}
+
+/* Total cost specific styling */
+.total-cost {
+    font-size: 1.75rem;  /* 28px */
+    font-weight: 500;
+}
+
+.warning-text {
+    font-size: 1.25rem;  /* 20px */
+    font-weight: 400;
+    color: #ff6b6b;
+}
+
+/* Formula text can stay slightly smaller */
+.formula-text {
+    font-size: 1.125rem;  /* 18px */
+    font-style: italic;
+    color: hsl(0 0% 70%);
+}
+
+.required {
+    color: #ff6b6b;
+    margin-left: 4px;
+}
+
+/* Remove this if you have it */
+.calculator-section::after {
+    content: none;  /* or just delete this block entirely */
+}
+
+.input-group input::placeholder {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.input-group input[required]:invalid {
+    border-color: #ff6b6b;
+}
+
+/* Style for the required placeholder */
+.input-group input[required]:invalid::placeholder {
+    color: #ff6b6b;
 } 
