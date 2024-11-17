@@ -9,12 +9,30 @@ export default function GravelPage() {
     const [depth, setDepth] = useState<number>(0);
     const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
     const [totalCost, setTotalCost] = useState<number | null>(null);
+    const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
+    const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
 
     const calculateGravel = () => {
-        const depthInFeet = depth / 12;
-        const volumeInCubicFeet = width * length * depthInFeet;
-        const volumeInCubicYards = volumeInCubicFeet / 27;
-        const cost = volumeInCubicYards * pricePerCubicYard;
+        if (width <= 0 || length <= 0 || depth <= 0) {
+            alert("Please enter valid positive numbers for all dimensions");
+            return;
+        }
+
+        // Convert feet to yards for length and width
+        const widthYards = Math.round(width / 3);
+        const lengthYards = Math.round(length / 3);
+        // Convert inches to yards for depth
+        const depthYards = depth / 36;
+        
+        // Calculate volume in cubic yards and round to 1 decimal place
+        const calculatedVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
+        setVolumeInCubicYards(calculatedVolume);
+        
+        // Calculate tons based on rounded volume
+        setTonsNeeded(calculatedVolume * 1.35);
+        
+        // Calculate cost
+        const cost = pricePerCubicYard > 0 ? calculatedVolume * pricePerCubicYard : 0;
         setTotalCost(cost);
     };
 
@@ -43,16 +61,38 @@ export default function GravelPage() {
                     </div>
                     <div className="input-group">
                         <label>
-                            Price per Cubic Yard:
+                            Price per Cubic Yard (Optional):
                             <input type="number" value={pricePerCubicYard} onChange={(e) => setPricePerCubicYard(parseFloat(e.target.value))} />
                         </label>
                     </div>
                     <button className="calculate-button" onClick={calculateGravel}>Calculate</button>
-                    {totalCost !== null && (
-                        <div className="result">
-                            <h2>Total Cost: ${totalCost.toFixed(2)}</h2>
-                        </div>
-                    )}
+
+                    {/* Detailed Sections */}
+                    <div className="result">
+                        <h2>Dimensions</h2>
+                        <p>Area: {((length * width) ?? 0).toFixed(2)} sq ft</p>
+                        <p>Volume: {(volumeInCubicYards ?? 0).toFixed(1)} cubic yards</p>
+                        <p>Weight: {(tonsNeeded ?? 0).toFixed(1)} tons</p>
+                    </div>
+
+                    <div className="result">
+                        <h2>Cost Breakdown</h2>
+                        <p>Price per Cubic Yard: ${(pricePerCubicYard ?? 0).toFixed(2)}</p>
+                        <p>Price per Cubic Foot: ${((pricePerCubicYard ?? 0) / 27).toFixed(2)}</p>
+                        <p>Price per Square Foot: ${((totalCost ?? 0) / (length * width)).toFixed(2)}</p>
+                    </div>
+
+                    <div className="result">
+                        <h2>Estimated Total Cost</h2>
+                        {(!pricePerCubicYard || pricePerCubicYard <= 0) ? (
+                            <p className="warning-text">Please enter Price per Cubic Yard to calculate total cost</p>
+                        ) : (
+                            <>
+                                <h4 className="total-cost">${(totalCost ?? 0).toFixed(2)}</h4>
+                               
+                            </>
+                        )}
+                    </div>
                 </div>
                 <div className="info-section">
                     <h2>How the Gravel Driveway Calculator Works</h2>
