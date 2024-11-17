@@ -31,28 +31,33 @@ export default function Home() {
       </section>
 
       {/* Calculator Section */}
-      <div className="container mx-auto py-12">
+      <div className="container mx-auto py-12 px-4">
         <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">
           Find Your Calculator
         </h2>
         
-        <div className="flex justify-center space-x-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
                 <Image
                   src="/images/gravel.jpg"
                   alt="Gravel driveway"
                   fill
+                  sizes="(max-width: 640px) 100vw, 
+                         (max-width: 1024px) 50vw,
+                         25vw"
                   className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
-              <Link 
-                href="/gravel" 
-                className="font-semibold tracking-tight text-3xl text-center text-blue-200"
-              >
-                Gravel
-              </Link>
+              <h3 className="text-2xl font-semibold text-center">
+                <Link 
+                  href="/gravel" 
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                >
+                  Gravel Calculator
+                </Link>
+              </h3>
             </div>
             <div className="p-6 pt-0">
               <p className="text-gray-300 text-center text-base">Loose stone material, ideal for rustic and cost-effective driveways</p>
@@ -61,11 +66,14 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
                 <Image
                   src="/images/concrete.jpg"
-                  alt="Concrete driveway"
+                  alt="Concrete surface"
                   fill
+                  sizes="(max-width: 640px) 100vw, 
+                         (max-width: 1024px) 50vw,
+                         25vw"
                   className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
@@ -83,11 +91,14 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
                 <Image
                   src="/images/asphalt.jpg"
-                  alt="Asphalt driveway"
+                  alt="Asphalt road"
                   fill
+                  sizes="(max-width: 640px) 100vw, 
+                         (max-width: 1024px) 50vw,
+                         25vw"
                   className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
@@ -105,11 +116,14 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <div className="relative w-[300px] h-[300px] mx-auto mb-4 overflow-hidden rounded-lg">
+              <div className="relative w-full aspect-square overflow-hidden rounded-lg">
                 <Image
                   src="/images/pavers.jpg"
-                  alt="Paver driveway"
+                  alt="Paver pathway"
                   fill
+                  sizes="(max-width: 640px) 100vw, 
+                         (max-width: 1024px) 50vw,
+                         25vw"
                   className="rounded-lg object-cover transition-transform duration-300 hover:scale-110"
                 />
               </div>
@@ -144,19 +158,34 @@ export default function Home() {
             <Card className="bg-gray-700 border-gray-600">
               <CardHeader>
                 <DollarSignIcon className="w-12 h-12 text-blue-400 mb-2 mx-auto" />
-                <CardTitle className="text-xl text-center text-blue-200">Cost Breakdown</CardTitle>
+                <CardTitle className="text-xl text-center text-blue-200">Cost Planning</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-center">See detailed breakdowns of material costs, labor expenses, and additional fees for your project.</p>
+                <p className="text-gray-300 text-center">Compare material costs easily and make informed descisions.</p>
               </CardContent>
             </Card>
             <Card className="bg-gray-700 border-gray-600">
               <CardHeader>
-                <TruckIcon className="w-12 h-12 text-blue-400 mb-2 mx-auto" />
-                <CardTitle className="text-xl text-center text-blue-200">Material Calculator</CardTitle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  className="w-12 h-12 text-blue-400 mb-2 mx-auto"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M2 12h20" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+                <CardTitle className="text-xl text-center text-blue-200">Convenient Access</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-300 text-center">Calculate exact quantities of materials needed, helping you avoid over-ordering or shortages.</p>
+                <p className="text-gray-300 text-center">Access our calculator 24/7 from any device.</p>
               </CardContent>
             </Card>
           </div>
@@ -164,27 +193,54 @@ export default function Home() {
       </section>
 
       {/* Benefits Section */}
-      <section className="bg-gray-900 py-16">
-        <div className="container mx-auto px-4">
-          <Card className="bg-gray-700 border-gray-600">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-blue-400 text-center">
-                Benefits of Our Driveway Cost Calculator
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="list-disc list-inside space-y-2 text-gray-300">
-                <li>Precise estimates for gravel, concrete, asphalt, and paver driveways</li>
-                <li>Calculate costs for various driveway types, including stamped concrete</li>
-                <li>Get accurate material quantities to avoid over-ordering</li>
-                <li>Compare costs between different driveway options</li>
-                <li>Customizable options for your specific project needs</li>
-                <li>Up-to-date pricing based on current market rates</li>
-              </ul>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+      <div className="container mx-auto py-12 px-4">
+        <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">
+          Benefits of our Driveway Cost Calculator
+        </h2>
+        <ul className="space-y-4 text-gray-300 max-w-3xl mx-auto">
+          <li className="flex items-start">
+            <svg className="w-6 h-6 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Instant, Accurate Estimates:</strong> Get a reliable cost estimate for your driveway project in seconds, tailored to your specific needs.</span>
+          </li>
+
+          <li className="flex items-start">
+            <svg className="w-6 h-6 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Easy-to-Use Interface:</strong> Simple, intuitive design that anyone can navigate, no tech expertise required.</span>
+          </li>
+
+          <li className="flex items-start">
+            <svg className="w-6 h-6 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Cost Breakdown:</strong> See a detailed breakdown of material, labor, and other costs, so you know exactly where your money is going.</span>
+          </li>
+
+          <li className="flex items-start">
+            <svg className="w-6 h-6 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Compare Material Options:</strong> Explore various driveway materials (asphalt, concrete, gravel, etc.) and see how each affects your budget.</span>
+          </li>
+
+          <li className="flex items-start">
+            <svg className="w-6 h-6 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Customizable Inputs:</strong> Adjust key details like size, shape, and materials to get a personalized estimate that fits your exact project.</span>
+          </li>
+
+          <li className="flex items-start">
+            <svg className="w-6 h-6 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span><strong>Quick and Convenient:</strong> Access your estimates anytime, from any device—no need for meetings or waiting for quotes.</span>
+          </li>
+        </ul>
+      </div>
 
       {/* CTA Section */}
       <section className="bg-gray-800 py-16">
