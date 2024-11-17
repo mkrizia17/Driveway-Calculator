@@ -248,4 +248,33 @@ li {
     line-height: 1.6;
     color: #D1D5DB;  /* gray-300 */
 }
+
+.info-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;  /* maintains a consistent aspect ratio */
+    margin: 2rem auto;     /* equal spacing top and bottom */
+}
+
+.info-image {
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+/* Add spacing after the image container */
+.info-image-container + * {
+    margin-top: 2rem;  /* adds space after the image container */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .info-image-container {
+        aspect-ratio: 4 / 3;  /* slightly taller ratio for mobile */
+        margin: 1.5rem auto;  /* slightly less margin on mobile */
+    }
+    
+    .info-image-container + * {
+        margin-top: 1.5rem;
+    }
+}
   

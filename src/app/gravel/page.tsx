@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import './GravelPage.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function GravelPage() {
     const [width, setWidth] = useState<number>(0);
@@ -12,16 +13,13 @@ export default function GravelPage() {
     const [totalCost, setTotalCost] = useState<number | null>(null);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
     const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
-    const [showRequired, setShowRequired] = useState(false);
 
     const calculateGravel = () => {
         if (width <= 0 || length <= 0 || depth <= 0) {
-            setShowRequired(true);
             return;
         }
         
         // If all fields are filled, proceed with calculation
-        setShowRequired(false);
         const widthYards = Math.round(width / 3);
         const lengthYards = Math.round(length / 3);
         const depthYards = depth / 36;
@@ -67,7 +65,7 @@ export default function GravelPage() {
                                 value={width} 
                                 onChange={(e) => setWidth(parseFloat(e.target.value))} 
                                 required 
-                                placeholder={showRequired && width <= 0 ? "This field is required" : "Please fill in this field"}
+                                placeholder={width <= 0 ? "This field is required" : "Please fill in this field"}
                             />
                         </label>
                     </div>
@@ -79,7 +77,7 @@ export default function GravelPage() {
                                 value={length} 
                                 onChange={(e) => setLength(parseFloat(e.target.value))} 
                                 required 
-                                placeholder={showRequired && length <= 0 ? "This field is required" : "Please fill in this field"}
+                                placeholder={length <= 0 ? "This field is required" : "Please fill in this field"}
                             />
                         </label>
                     </div>
@@ -91,7 +89,7 @@ export default function GravelPage() {
                                 value={depth} 
                                 onChange={(e) => setDepth(parseFloat(e.target.value))} 
                                 required 
-                                placeholder={showRequired && depth <= 0 ? "This field is required" : "Please fill in this field"}
+                                placeholder={depth <= 0 ? "This field is required" : "Please fill in this field"}
                             />
                         </label>
                     </div>
@@ -114,7 +112,7 @@ export default function GravelPage() {
                         <h2>Cost Breakdown</h2>
                         <p>Price per Cubic Yard: ${(pricePerCubicYard ?? 0).toFixed(2)}</p>
                         <p>Price per Cubic Foot: ${((pricePerCubicYard ?? 0) / 27).toFixed(2)}</p>
-                        <p>Price per Square Foot: ${(length && width && (length * width) !== 0) ? 
+                        <p>Price per Square Foot: {(length && width && (length * width) !== 0) ? 
                             ((totalCost ?? 0) / (length * width)).toFixed(2) : 
                             (0).toFixed(2)}
                         </p>
@@ -140,9 +138,14 @@ export default function GravelPage() {
                     </p>
 
                     <div className="info-image-container">
-                        <img 
+                        <Image 
                             src="/images/gravel.jpg" 
                             alt="Gravel driveway with clean edges" 
+                            fill
+                            sizes="(max-width: 768px) 100vw,
+                                   (max-width: 1200px) 80vw,
+                                   70vw"
+                            priority
                             className="info-image"
                         />
                     </div>

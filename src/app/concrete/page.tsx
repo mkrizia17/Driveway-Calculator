@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import '../gravel/GravelPage.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ConcretePage() {
     const [width, setWidth] = useState<number>(0);
@@ -12,9 +13,12 @@ export default function ConcretePage() {
     const [totalCost, setTotalCost] = useState<number | null>(null);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
     const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
-    const [showRequired, setShowRequired] = useState(false);
 
     const calculateConcrete = () => {
+        if (width <= 0 || length <= 0 || depth <= 0) {
+            return;
+        }
+        
         // Convert feet to yards for length and width
         const widthYards = Math.round(width / 3);
         const lengthYards = Math.round(length / 3);
@@ -140,9 +144,11 @@ export default function ConcretePage() {
                     </p>
 
                     <div className="info-image-container">
-                        <img 
+                        <Image 
                             src="/images/concrete.jpg" 
                             alt="Concrete driveway with a professional finish" 
+                            width={800}
+                            height={600}
                             className="info-image"
                         />
                     </div>
