@@ -38,10 +38,10 @@ export default function GravelPage() {
     };
 
     return (
-        <div className="gravel-page-container">
+        <div className="gravel-page-container font-roboto">
             <div className="content-wrapper">
                 <div className="calculator-section">
-                    <h1 className="page-title">Gravel Driveway Calculator</h1>
+                    <h1 className="page-title font-roboto">Gravel Driveway Calculator</h1>
                     <div className="input-group">
                         <label>
                             Width (feet): <span className="required">*</span>
@@ -108,7 +108,10 @@ export default function GravelPage() {
                         {(!pricePerCubicYard || pricePerCubicYard <= 0) ? (
                             <p className="warning-text">Please enter Price per Cubic Yard to calculate total cost</p>
                         ) : (
-                            <h4 className="total-cost">${(totalCost ?? 0).toFixed(2)}</h4>
+                            <>
+                                <h4 className="total-cost">${(totalCost ?? 0).toFixed(2)}</h4>
+                                <p className="estimate-note">Estimate only – weight varies by material</p>
+                            </>
                         )}
                     </div>
                 </div>
