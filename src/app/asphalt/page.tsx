@@ -5,6 +5,8 @@ import '../gravel/GravelPage.css';
 import Link from 'next/link';
 import Image from 'next/image';
 
+type Unit = 'in' | 'ft' | 'cm' | 'm' | 'yd';
+
 export default function AsphaltPage() {
     const [width, setWidth] = useState<number>(0);
     const [length, setLength] = useState<number>(0);
@@ -13,27 +15,128 @@ export default function AsphaltPage() {
     const [totalCost, setTotalCost] = useState<number | null>(null);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
     const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
+    const [widthUnit, setWidthUnit] = useState<Unit>('ft');
+    const [lengthUnit, setLengthUnit] = useState<Unit>('ft');
+    const [depthUnit, setDepthUnit] = useState<Unit>('in');
+
+    const formatNumber = (num: number): string => {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(num);
+    };
+
+    const formatNumberOneDecimal = (num: number): string => {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 1,
+        }).format(num);
+    };
+
+    const convertToFeet = (value: number, unit: Unit): number => {
+        let result: number;
+        switch (unit) {
+            case 'in':
+                result = value / 12;          // 1 ft = 12 in
+                break;
+            case 'ft':
+                result = value;
+                break;
+            case 'cm':
+                result = value / 30.48;       // 1 ft = 30.48 cm
+                break;
+            case 'm':
+                result = value * 3.28084;     // 1 m = 3.28084 ft
+                break;
+            case 'yd':
+                result = value * 3;           // 1 yd = 3 ft
+                break;
+            default:
+                result = value;
+        }
+        return Math.round(result * 100) / 100;
+    };
+
+    const convertToInches = (value: number, unit: Unit): number => {
+        let result: number;
+        switch (unit) {
+            case 'in':
+                result = value;
+                break;
+            case 'ft':
+                result = value * 12;          // 1 ft = 12 in
+                break;
+            case 'cm':
+                result = value / 2.54;        // 1 in = 2.54 cm
+                break;
+            case 'm':
+                result = value * 39.3701;     // 1 m = 39.3701 in
+                break;
+            case 'yd':
+                result = value * 36;          // 1 yd = 36 in
+                break;
+            default:
+                result = value;
+        }
+        return Math.round(result * 100) / 100;
+    };
+
+    const calculateArea = (): number => {
+        if (!length || !width) return 0;
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const widthInFeet = convertToFeet(width, widthUnit);
+        return lengthInFeet * widthInFeet;
+    };
+
+    const calculatePricePerCubicFoot = (): number => {
+        if (!pricePerCubicYard) return 0;
+        return pricePerCubicYard / 27;
+    };
+
+    const calculatePricePerCubicInch = (): number => {
+        if (!pricePerCubicYard) return 0;
+        return pricePerCubicYard / 46656;
+    };
+
+    const calculatePricePerCubicCentimeter = (): number => {
+        if (!pricePerCubicYard) return 0;
+        return pricePerCubicYard / 764554.858;
+    };
+
+    const calculatePricePerCubicMeter = (): number => {
+        if (!pricePerCubicYard) return 0;
+        return pricePerCubicYard / 0.764555;
+    };
 
     const calculateAsphalt = () => {
         if (width <= 0 || length <= 0 || depth <= 0) {
             return;
         }
         
-        // Convert feet to yards for length and width
-        const widthYards = Math.round(width / 3);
-        const lengthYards = Math.round(length / 3);
-        // Convert inches to yards for depth
-        const depthYards = depth / 36;
+        // Ensure pricePerCubicYard is 0 if empty or invalid
+        const price = pricePerCubicYard || 0;
+        setPricePerCubicYard(price);
+        
+        // Convert all measurements to standard units
+        const widthInFeet = convertToFeet(width, widthUnit);
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const depthInInches = convertToInches(depth, depthUnit);
+        
+        // Convert to yards
+        const widthYards = widthInFeet / 3;
+        const lengthYards = lengthInFeet / 3;
+        const depthYards = depthInInches / 36;
         
         // Calculate volume in cubic yards and round to 1 decimal place
         const calculatedVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
         setVolumeInCubicYards(calculatedVolume);
         
-        // Calculate tons based on rounded volume
-        setTonsNeeded(calculatedVolume * 1.35);
+        // Calculate tons based on rounded volume and round to 1 decimal place
+        const calculatedTons = Math.round(calculatedVolume * 1.35 * 10) / 10;
+        setTonsNeeded(calculatedTons);
         
-        // Calculate cost
-        const cost = pricePerCubicYard > 0 ? calculatedVolume * pricePerCubicYard : 0;
+        // Calculate cost and round to 2 decimal places
+        const cost = price > 0 ? Math.round(calculatedVolume * price * 100) / 100 : 0;
         setTotalCost(cost);
     };
 
@@ -60,67 +163,114 @@ export default function AsphaltPage() {
                     <h1 className="page-title font-roboto">Asphalt Driveway Calculator</h1>
                     <div className="input-group">
                         <label>
-                            Width (feet): <span className="required">*</span>
-                            <input 
-                                type="number" 
-                                value={width} 
-                                onChange={(e) => setWidth(parseFloat(e.target.value))} 
-                                required 
-                                placeholder="Please fill in this field"
-                            />
+                            Width: <span className="required">*</span>
+                            <div className="input-with-unit">
+                                <input 
+                                    type="number" 
+                                    value={width} 
+                                    onChange={(e) => setWidth(parseFloat(e.target.value))} 
+                                    required 
+                                    placeholder={width <= 0 ? "This field is required" : "Please fill in this field"}
+                                />
+                                <select 
+                                    value={widthUnit} 
+                                    onChange={(e) => setWidthUnit(e.target.value as Unit)}
+                                    className="unit-select"
+                                >
+                                    <option value="in">in</option>
+                                    <option value="ft">ft</option>
+                                    <option value="cm">cm</option>
+                                    <option value="m">m</option>
+                                    <option value="yd">yd</option>
+                                </select>
+                            </div>
                         </label>
                     </div>
                     <div className="input-group">
                         <label>
-                            Length (feet): <span className="required">*</span>
-                            <input 
-                                type="number" 
-                                value={length} 
-                                onChange={(e) => setLength(parseFloat(e.target.value))} 
-                                required 
-                                placeholder="Please fill in this field"
-                            />
+                            Length: <span className="required">*</span>
+                            <div className="input-with-unit">
+                                <input 
+                                    type="number" 
+                                    value={length} 
+                                    onChange={(e) => setLength(parseFloat(e.target.value))} 
+                                    required 
+                                    placeholder={length <= 0 ? "This field is required" : "Please fill in this field"}
+                                />
+                                <select 
+                                    value={lengthUnit} 
+                                    onChange={(e) => setLengthUnit(e.target.value as Unit)}
+                                    className="unit-select"
+                                >
+                                    <option value="in">in</option>
+                                    <option value="ft">ft</option>
+                                    <option value="cm">cm</option>
+                                    <option value="m">m</option>
+                                    <option value="yd">yd</option>
+                                </select>
+                            </div>
                         </label>
                     </div>
                     <div className="input-group">
                         <label>
-                            Depth (inches): <span className="required">*</span>
-                            <input 
-                                type="number" 
-                                value={depth} 
-                                onChange={(e) => setDepth(parseFloat(e.target.value))} 
-                                required 
-                                placeholder="Please fill in this field"
-                            />
+                            Depth: <span className="required">*</span>
+                            <div className="input-with-unit">
+                                <input 
+                                    type="number" 
+                                    value={depth} 
+                                    onChange={(e) => setDepth(parseFloat(e.target.value))} 
+                                    required 
+                                    placeholder={depth <= 0 ? "This field is required" : "Please fill in this field"}
+                                />
+                                <select 
+                                    value={depthUnit} 
+                                    onChange={(e) => setDepthUnit(e.target.value as Unit)}
+                                    className="unit-select"
+                                >
+                                    <option value="in">in</option>
+                                    <option value="ft">ft</option>
+                                    <option value="cm">cm</option>
+                                    <option value="m">m</option>
+                                    <option value="yd">yd</option>
+                                </select>
+                            </div>
                         </label>
                     </div>
                     <div className="input-group">
                         <label>
                             Price per Cubic Yard (Optional):
-                            <input 
-                                type="number" 
-                                value={pricePerCubicYard} 
-                                onChange={(e) => setPricePerCubicYard(parseFloat(e.target.value))} 
-                            />
+                            <div className="price-input-container">
+                                <input 
+                                    type="number" 
+                                    value={pricePerCubicYard || ''} 
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setPricePerCubicYard(value === '' ? 0 : parseFloat(value));
+                                    }} 
+                                    placeholder="0.00"
+                                    className="price-input"
+                                />
+                                <span className="price-prefix">$</span>
+                            </div>
                         </label>
                     </div>
                     <button className="calculate-button" onClick={calculateAsphalt}>Calculate</button>
 
                     <div className="result">
                         <h2>Dimensions</h2>
-                        <p>Area: {(length && width ? length * width : 0).toFixed(2)} sq ft</p>
-                        <p>Volume: {(volumeInCubicYards ?? 0).toFixed(1)} cubic yards</p>
-                        <p>Weight: {(tonsNeeded ?? 0).toFixed(1)} tons</p>
+                        <p>Area: {formatNumber(calculateArea())} sq ft</p>
+                        <p>Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
+                        <p>Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
+                        <p>Weight: {formatNumberOneDecimal(tonsNeeded ?? 0)} tons</p>
                     </div>
 
                     <div className="result">
                         <h2>Cost Breakdown</h2>
-                        <p>Price per Cubic Yard: ${(pricePerCubicYard ?? 0).toFixed(2)}</p>
-                        <p>Price per Cubic Foot: ${((pricePerCubicYard ?? 0) / 27).toFixed(2)}</p>
-                        <p>Price per Square Foot: ${(length && width && (length * width) !== 0) ? 
-                            ((totalCost ?? 0) / (length * width)).toFixed(2) : 
-                            (0).toFixed(2)}
-                        </p>
+                        <p>Price per Cubic Yard: ${formatNumber(pricePerCubicYard ?? 0)}</p>
+                        <p>Price per Cubic Foot: ${formatNumber(calculatePricePerCubicFoot())}</p>
+                        <p>Price per Cubic Inch: ${formatNumber(calculatePricePerCubicInch())}</p>
+                        <p>Price per Cubic Centimeter: ${formatNumber(calculatePricePerCubicCentimeter())}</p>
+                        <p>Price per Cubic Meter: ${formatNumber(calculatePricePerCubicMeter())}</p>
                     </div>
 
                     <div className="result">
@@ -129,7 +279,7 @@ export default function AsphaltPage() {
                             <p className="warning-text">Please enter Price per Cubic Yard to calculate total cost</p>
                         ) : (
                             <>
-                                <h4 className="total-cost">${(totalCost ?? 0).toFixed(2)}</h4>
+                                <h4 className="total-cost">${formatNumber(totalCost ?? 0)}</h4>
                                 <p className="estimate-note">Estimate only – weight varies by material</p>
                             </>
                         )}
