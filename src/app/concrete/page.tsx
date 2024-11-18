@@ -113,21 +113,24 @@ export default function ConcretePage() {
             return;
         }
         
-        // Convert feet to yards for length and width
-        const widthYards = Math.round(width / 3);
-        const lengthYards = Math.round(length / 3);
-        // Convert inches to yards for depth
-        const depthYards = depth / 36;
+        const price = pricePerCubicYard || 0;
+        setPricePerCubicYard(price);
         
-        // Calculate volume in cubic yards and round to 1 decimal place
+        const widthInFeet = convertToFeet(width, widthUnit);
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const depthInInches = convertToInches(depth, depthUnit);
+        
+        const widthYards = widthInFeet / 3;
+        const lengthYards = lengthInFeet / 3;
+        const depthYards = depthInInches / 36;
+        
         const calculatedVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
         setVolumeInCubicYards(calculatedVolume);
         
-        // Calculate tons based on rounded volume
-        setTonsNeeded(calculatedVolume * 1.35);
+        const calculatedTons = Math.round(calculatedVolume * 1.5 * 10) / 10;
+        setTonsNeeded(calculatedTons);
         
-        // Calculate cost
-        const cost = pricePerCubicYard > 0 ? calculatedVolume * pricePerCubicYard : 0;
+        const cost = price > 0 ? Math.round(calculatedVolume * price * 100) / 100 : 0;
         setTotalCost(cost);
     };
 
@@ -252,6 +255,7 @@ export default function ConcretePage() {
                         <p>Area: {formatNumber(calculateArea())} sq ft</p>
                         <p>Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
                         <p>Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
+                        <p>Weight: {formatNumberOneDecimal(tonsNeeded ?? 0)} tons</p>
                     </div>
 
                     <div className="result">
