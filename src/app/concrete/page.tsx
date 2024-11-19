@@ -17,10 +17,8 @@ export default function ConcretePage() {
     const [width, setWidth] = useState<number>(0);
     const [length, setLength] = useState<number>(0);
     const [depth, setDepth] = useState<number>(0);
-    const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
     const [totalCost, setTotalCost] = useState<number | null>(null);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
-    const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
     const [widthUnit, setWidthUnit] = useState<Unit>('ft');
     const [lengthUnit, setLengthUnit] = useState<Unit>('ft');
     const [depthUnit, setDepthUnit] = useState<Unit>('in');
@@ -30,6 +28,15 @@ export default function ConcretePage() {
     const [customFormCost, setCustomFormCost] = useState<number>(0);
     const [customStakeCost, setCustomStakeCost] = useState<number>(0);
     const [showOptionalCosts, setShowOptionalCosts] = useState<boolean>(false);
+    const [errors, setErrors] = useState<{
+        width: string;
+        length: string;
+        depth: string;
+    }>({
+        width: '',
+        length: '',
+        depth: ''
+    });
 
     const formatNumber = (num: number): string => {
         return new Intl.NumberFormat('en-US', {
@@ -100,26 +107,6 @@ export default function ConcretePage() {
         return lengthInFeet * widthInFeet;
     };
 
-    const calculatePricePerCubicFoot = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 27;
-    };
-
-    const calculatePricePerCubicInch = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 46656;
-    };
-
-    const calculatePricePerCubicCentimeter = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 764554.858;
-    };
-
-    const calculatePricePerCubicMeter = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 0.764555;
-    };
-
     const calculateConcretePrice = (): number => {
         const pricePerYard = customConcreteCost > 0 ? customConcreteCost : PRICE_PER_CUBIC_YARD_CONCRETE;
         return (volumeInCubicYards ?? 0) * pricePerYard;
@@ -139,46 +126,6 @@ export default function ConcretePage() {
     const calculateGravelPrice = (): number => {
         const pricePerYard = customGravelCost > 0 ? customGravelCost : PRICE_PER_CUBIC_YARD_GRAVEL;
         return calculateGravelVolume() * pricePerYard;
-    };
-
-    const calculateMaterialEstimations = () => {
-        // Convert all measurements to feet first
-        const widthInFeet = convertToFeet(width, widthUnit);
-        const lengthInFeet = convertToFeet(length, lengthUnit);
-        const depthInInches = convertToInches(depth, depthUnit);
-        
-        // Convert to yards
-        const widthYards = widthInFeet / 3;
-        const lengthYards = lengthInFeet / 3;
-        const depthYards = depthInInches / 36;  // 36 inches = 1 yard
-        
-        // Calculate perimeter
-        const perimeterInFeet = 2 * (widthInFeet + lengthInFeet);
-        
-        // Concrete volume (length * width * depth)
-        const concreteVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
-        
-        // Rebar calculation (13 bars in each direction for 12x12)
-        const rebarLength = perimeterInFeet * 13;  // Adjusted for proper coverage
-        const rebarPieces = Math.ceil(rebarLength / 20);  // 20' standard length
-        
-        // Crushed stone base (twice the depth of concrete)
-        const baseVolume = concreteVolume * 2;
-        
-        // Forms (same as perimeter)
-        const formLength = perimeterInFeet;
-        
-        // Stakes (one every 4 inches)
-        const stakesNeeded = Math.ceil(perimeterInFeet * 3);  // 3 stakes per foot
-        
-        return {
-            concreteVolume,
-            rebarLength,
-            rebarPieces,
-            baseVolume,
-            formLength,
-            stakesNeeded
-        };
     };
 
     const calculateRebarLength = (): number => {
@@ -228,13 +175,42 @@ export default function ConcretePage() {
     };
 
     const calculateConcrete = () => {
-        if (width <= 0 || length <= 0 || depth <= 0) {
+        // Reset errors
+        setErrors({
+            width: '',
+            length: '',
+            depth: ''
+        });
+
+        // Validate inputs
+        let hasErrors = false;
+        const newErrors = {
+            width: '',
+            length: '',
+            depth: ''
+        };
+
+        if (!width || width <= 0) {
+            newErrors.width = 'Width is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!length || length <= 0) {
+            newErrors.length = 'Length is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!depth || depth <= 0) {
+            newErrors.depth = 'Depth is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            setErrors(newErrors);
             return;
         }
-        
-        const price = pricePerCubicYard || 0;
-        setPricePerCubicYard(price);
-        
+
+        // Calculate all values first before updating state
         const widthInFeet = convertToFeet(width, widthUnit);
         const lengthInFeet = convertToFeet(length, lengthUnit);
         const depthInInches = convertToInches(depth, depthUnit);
@@ -244,18 +220,18 @@ export default function ConcretePage() {
         const depthYards = depthInInches / 36;
         
         const calculatedVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
+        
+        // Calculate total cost using the calculated volume directly
+        const concreteCost = calculatedVolume * (customConcreteCost > 0 ? customConcreteCost : PRICE_PER_CUBIC_YARD_CONCRETE);
+        const gravelCost = calculateGravelPrice();
+        const rebarCost = calculateRebarPrice();
+        const formCost = calculateFormPrice();
+        const stakeCost = calculateFormStakePrice();
+        
+        const totalMaterialCost = concreteCost + gravelCost + rebarCost + formCost + stakeCost;
+        
+        // Update all states at once
         setVolumeInCubicYards(calculatedVolume);
-        
-        const calculatedTons = Math.round(calculatedVolume * 1.5 * 10) / 10;
-        setTonsNeeded(calculatedTons);
-        
-        const totalMaterialCost = 
-            calculateConcretePrice() +
-            calculateGravelPrice() +
-            calculateRebarPrice() +
-            calculateFormPrice() +
-            calculateFormStakePrice();
-        
         setTotalCost(Math.round(totalMaterialCost * 100) / 100);
     };
 
@@ -294,10 +270,15 @@ export default function ConcretePage() {
                             <div className="input-with-unit">
                                 <input 
                                     type="number" 
-                                    value={width} 
-                                    onChange={(e) => setWidth(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={width <= 0 ? "This field is required" : "Please fill in this field"}
+                                    value={width || ''} 
+                                    onChange={(e) => {
+                                        setWidth(e.target.value ? parseFloat(e.target.value) : 0);
+                                        if (errors.width) {
+                                            setErrors({...errors, width: ''});
+                                        }
+                                    }} 
+                                    className={errors.width ? 'error' : ''}
+                                    placeholder="Enter width"
                                 />
                                 <select 
                                     value={widthUnit} 
@@ -311,6 +292,7 @@ export default function ConcretePage() {
                                     <option value="yd">yd</option>
                                 </select>
                             </div>
+                            {errors.width && <span className="error-message">{errors.width}</span>}
                         </label>
                     </div>
                     <div className="input-group">
@@ -319,10 +301,15 @@ export default function ConcretePage() {
                             <div className="input-with-unit">
                                 <input 
                                     type="number" 
-                                    value={length} 
-                                    onChange={(e) => setLength(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={length <= 0 ? "This field is required" : "Please fill in this field"}
+                                    value={length || ''} 
+                                    onChange={(e) => {
+                                        setLength(e.target.value ? parseFloat(e.target.value) : 0);
+                                        if (errors.length) {
+                                            setErrors({...errors, length: ''});
+                                        }
+                                    }} 
+                                    className={errors.length ? 'error' : ''}
+                                    placeholder="Enter length"
                                 />
                                 <select 
                                     value={lengthUnit} 
@@ -336,6 +323,7 @@ export default function ConcretePage() {
                                     <option value="yd">yd</option>
                                 </select>
                             </div>
+                            {errors.length && <span className="error-message">{errors.length}</span>}
                         </label>
                     </div>
                     <div className="input-group">
@@ -344,10 +332,15 @@ export default function ConcretePage() {
                             <div className="input-with-unit">
                                 <input 
                                     type="number" 
-                                    value={depth} 
-                                    onChange={(e) => setDepth(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={depth <= 0 ? "This field is required" : "Please fill in this field"}
+                                    value={depth || ''} 
+                                    onChange={(e) => {
+                                        setDepth(e.target.value ? parseFloat(e.target.value) : 0);
+                                        if (errors.depth) {
+                                            setErrors({...errors, depth: ''});
+                                        }
+                                    }} 
+                                    className={errors.depth ? 'error' : ''}
+                                    placeholder="Enter depth"
                                 />
                                 <select 
                                     value={depthUnit} 
@@ -361,24 +354,7 @@ export default function ConcretePage() {
                                     <option value="yd">yd</option>
                                 </select>
                             </div>
-                        </label>
-                    </div>
-                    <div className="input-group">
-                        <label>
-                            Price per Cubic Yard (Optional):
-                            <div className="price-input-container">
-                                <input 
-                                    type="number" 
-                                    value={pricePerCubicYard || ''} 
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        setPricePerCubicYard(value === '' ? 0 : parseFloat(value));
-                                    }} 
-                                    placeholder="0.00"
-                                    className="price-input"
-                                />
-                                <span className="price-prefix">$</span>
-                            </div>
+                            {errors.depth && <span className="error-message">{errors.depth}</span>}
                         </label>
                     </div>
                     <div className="result">
@@ -541,6 +517,7 @@ export default function ConcretePage() {
                             width={800}
                             height={600}
                             className="info-image"
+                            priority
                         />
                     </div>
 
@@ -579,7 +556,7 @@ export default function ConcretePage() {
                             <p>Depth: 8" ÷ 12 = 0.67 ft</p>
                             <p>Volume: 1,000 × 0.67 = 666.67 ft³</p>
                             <p>Cubic Yards: 666.67 ÷ 27 = 24.69 yd³</p>
-                             </div>
+                        </div>
                     </div>
 
                     <h4>Our calculator uses standard industry prices for materials:</h4>
@@ -637,9 +614,7 @@ export default function ConcretePage() {
                         <p>Choose steel concrete pins for reusability or wooden stakes for a cost-effective, single-use option.</p>
                     </div>
 
-                    <p className="info-paragraph">
-                        Summary
-                    </p>
+                    <h3>Summary</h3>
 
                     <p className="info-paragraph">
                         Concrete driveways typically cost $4,000–$8,500 and require precise material planning. Use our calculators to estimate concrete, rebar, gravel, and forms easily, ensuring your project stays on track and within budget.
