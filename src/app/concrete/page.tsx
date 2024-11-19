@@ -7,6 +7,12 @@ import Image from 'next/image';
 
 type Unit = 'in' | 'ft' | 'cm' | 'm' | 'yd';
 
+const PRICE_PER_CUBIC_YARD_CONCRETE = 125;
+const PRICE_PER_CUBIC_YARD_GRAVEL = 16;
+const PRICE_PER_LINEAR_FOOT_REBAR = 0.75;
+const PRICE_PER_LINEAR_FOOT_FORM = 0.50;
+const PRICE_PER_STAKE = 0.50;
+
 export default function ConcretePage() {
     const [width, setWidth] = useState<number>(0);
     const [length, setLength] = useState<number>(0);
@@ -18,6 +24,12 @@ export default function ConcretePage() {
     const [widthUnit, setWidthUnit] = useState<Unit>('ft');
     const [lengthUnit, setLengthUnit] = useState<Unit>('ft');
     const [depthUnit, setDepthUnit] = useState<Unit>('in');
+    const [customConcreteCost, setCustomConcreteCost] = useState<number>(0);
+    const [customGravelCost, setCustomGravelCost] = useState<number>(0);
+    const [customRebarCost, setCustomRebarCost] = useState<number>(0);
+    const [customFormCost, setCustomFormCost] = useState<number>(0);
+    const [customStakeCost, setCustomStakeCost] = useState<number>(0);
+    const [showOptionalCosts, setShowOptionalCosts] = useState<boolean>(false);
 
     const formatNumber = (num: number): string => {
         return new Intl.NumberFormat('en-US', {
@@ -108,6 +120,113 @@ export default function ConcretePage() {
         return pricePerCubicYard / 0.764555;
     };
 
+    const calculateConcretePrice = (): number => {
+        const pricePerYard = customConcreteCost > 0 ? customConcreteCost : PRICE_PER_CUBIC_YARD_CONCRETE;
+        return (volumeInCubicYards ?? 0) * pricePerYard;
+    };
+
+    const calculateGravelVolume = (): number => {
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const widthInFeet = convertToFeet(width, widthUnit);
+        
+        // Calculate volume in cubic feet (using 4" = 1/3 ft thickness)
+        const volumeInCubicFeet = lengthInFeet * widthInFeet * (4/12);
+        
+        // Convert to cubic yards (27 cubic feet = 1 cubic yard)
+        return Math.round((volumeInCubicFeet / 27) * 10) / 10;
+    };
+
+    const calculateGravelPrice = (): number => {
+        const pricePerYard = customGravelCost > 0 ? customGravelCost : PRICE_PER_CUBIC_YARD_GRAVEL;
+        return calculateGravelVolume() * pricePerYard;
+    };
+
+    const calculateMaterialEstimations = () => {
+        // Convert all measurements to feet first
+        const widthInFeet = convertToFeet(width, widthUnit);
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const depthInInches = convertToInches(depth, depthUnit);
+        
+        // Convert to yards
+        const widthYards = widthInFeet / 3;
+        const lengthYards = lengthInFeet / 3;
+        const depthYards = depthInInches / 36;  // 36 inches = 1 yard
+        
+        // Calculate perimeter
+        const perimeterInFeet = 2 * (widthInFeet + lengthInFeet);
+        
+        // Concrete volume (length * width * depth)
+        const concreteVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
+        
+        // Rebar calculation (13 bars in each direction for 12x12)
+        const rebarLength = perimeterInFeet * 13;  // Adjusted for proper coverage
+        const rebarPieces = Math.ceil(rebarLength / 20);  // 20' standard length
+        
+        // Crushed stone base (twice the depth of concrete)
+        const baseVolume = concreteVolume * 2;
+        
+        // Forms (same as perimeter)
+        const formLength = perimeterInFeet;
+        
+        // Stakes (one every 4 inches)
+        const stakesNeeded = Math.ceil(perimeterInFeet * 3);  // 3 stakes per foot
+        
+        return {
+            concreteVolume,
+            rebarLength,
+            rebarPieces,
+            baseVolume,
+            formLength,
+            stakesNeeded
+        };
+    };
+
+    const calculateRebarLength = (): number => {
+        // Convert measurements to feet
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const widthInFeet = convertToFeet(width, widthUnit);
+        
+        // Calculate number of rows and columns (one every 12")
+        const numberOfRows = Math.ceil(widthInFeet) + 1;  // Add 1 for extra row
+        const numberOfColumns = Math.ceil(lengthInFeet) + 1;  // Add 1 for extra column
+        
+        // Calculate total rebar length
+        // Rows: number of rows × length
+        const rowLength = numberOfRows * lengthInFeet;
+        // Columns: number of columns × width
+        const columnLength = numberOfColumns * widthInFeet;
+        
+        // Total length is sum of rows and columns
+        return Math.ceil(rowLength + columnLength);
+    };
+
+    const calculateRebarPrice = (): number => {
+        const pricePerFoot = customRebarCost > 0 ? customRebarCost : PRICE_PER_LINEAR_FOOT_REBAR;
+        return calculateRebarLength() * pricePerFoot;
+    };
+
+    const calculateFormPrice = (): number => {
+        const pricePerFoot = customFormCost > 0 ? customFormCost : PRICE_PER_LINEAR_FOOT_FORM;
+        const perimeterInFeet = 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit));
+        return perimeterInFeet * pricePerFoot;
+    };
+
+    const calculateFormStakes = (): number => {
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const widthInFeet = convertToFeet(width, widthUnit);
+        
+        // Calculate perimeter
+        const perimeter = 2 * (lengthInFeet + widthInFeet);
+        
+        // Place stakes every 3 inches (4 stakes per foot)
+        return Math.ceil(perimeter * 3);
+    };
+
+    const calculateFormStakePrice = (): number => {
+        const pricePerStake = customStakeCost > 0 ? customStakeCost : PRICE_PER_STAKE;
+        return calculateFormStakes() * pricePerStake;
+    };
+
     const calculateConcrete = () => {
         if (width <= 0 || length <= 0 || depth <= 0) {
             return;
@@ -130,8 +249,22 @@ export default function ConcretePage() {
         const calculatedTons = Math.round(calculatedVolume * 1.5 * 10) / 10;
         setTonsNeeded(calculatedTons);
         
-        const cost = price > 0 ? Math.round(calculatedVolume * price * 100) / 100 : 0;
-        setTotalCost(cost);
+        const totalMaterialCost = 
+            calculateConcretePrice() +
+            calculateGravelPrice() +
+            calculateRebarPrice() +
+            calculateFormPrice() +
+            calculateFormStakePrice();
+        
+        setTotalCost(Math.round(totalMaterialCost * 100) / 100);
+    };
+
+    // Add a function to round to whole numbers
+    const formatWholeNumber = (num: number): string => {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(Math.round(num));
     };
 
     return (
@@ -248,35 +381,126 @@ export default function ConcretePage() {
                             </div>
                         </label>
                     </div>
+                    <div className="result">
+                        <button 
+                            className="toggle-button" 
+                            onClick={() => setShowOptionalCosts(!showOptionalCosts)}
+                        >
+                            <h3 className="toggle-header">
+                                Optional Material Costs <span className="toggle-arrow">{showOptionalCosts ? '▼' : '▶'}</span>
+                            </h3>
+                        </button>
+                        
+                        {showOptionalCosts && (
+                            <div className="optional-costs">
+                                <div className="input-group">
+                                    <label>
+                                        Concrete (per yd³):
+                                        <div className="price-input-container">
+                                            <input 
+                                                type="number" 
+                                                value={customConcreteCost || ''} 
+                                                onChange={(e) => setCustomConcreteCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                placeholder={PRICE_PER_CUBIC_YARD_CONCRETE.toString()}
+                                                className="price-input"
+                                            />
+                                            <span className="price-prefix">$</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className="input-group">
+                                    <label>
+                                        Gravel (per yd³):
+                                        <div className="price-input-container">
+                                            <input 
+                                                type="number" 
+                                                value={customGravelCost || ''} 
+                                                onChange={(e) => setCustomGravelCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                placeholder={PRICE_PER_CUBIC_YARD_GRAVEL.toString()}
+                                                className="price-input"
+                                            />
+                                            <span className="price-prefix">$</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className="input-group">
+                                    <label>
+                                        Rebar (per ft):
+                                        <div className="price-input-container">
+                                            <input 
+                                                type="number" 
+                                                value={customRebarCost || ''} 
+                                                onChange={(e) => setCustomRebarCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                placeholder={PRICE_PER_LINEAR_FOOT_REBAR.toString()}
+                                                className="price-input"
+                                            />
+                                            <span className="price-prefix">$</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className="input-group">
+                                    <label>
+                                        Form (per ft):
+                                        <div className="price-input-container">
+                                            <input 
+                                                type="number" 
+                                                value={customFormCost || ''} 
+                                                onChange={(e) => setCustomFormCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                placeholder={PRICE_PER_LINEAR_FOOT_FORM.toString()}
+                                                className="price-input"
+                                            />
+                                            <span className="price-prefix">$</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className="input-group">
+                                    <label>
+                                        Form Stake (per piece):
+                                        <div className="price-input-container">
+                                            <input 
+                                                type="number" 
+                                                value={customStakeCost || ''} 
+                                                onChange={(e) => setCustomStakeCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                placeholder={PRICE_PER_STAKE.toString()}
+                                                className="price-input"
+                                            />
+                                            <span className="price-prefix">$</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <button className="calculate-button" onClick={calculateConcrete}>Calculate</button>
 
                     <div className="result">
                         <h2>Dimensions</h2>
-                        <p>Area: {formatNumber(calculateArea())} sq ft</p>
-                        <p>Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
-                        <p>Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
-                        <p>Weight: {formatNumberOneDecimal(tonsNeeded ?? 0)} tons</p>
+                        <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
+                        <p>Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
+                    </div>
+
+                    <div className="result">
+                        <h2>Material Estimations</h2>
+                        <p>Concrete Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
+                        <p>Gravel Volume: {formatNumberOneDecimal(calculateGravelVolume())} cubic yards</p>
+                        <p>Rebar Length: {formatNumber(calculateRebarLength())} ft ({Math.ceil(calculateRebarLength() / 20)} pieces of 20' #4 rebar)</p>
+                        <p>Forms: {formatNumber(2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)))} ft</p>
+                        <p>Form Stakes: {calculateFormStakes()} pieces</p>
                     </div>
 
                     <div className="result">
                         <h2>Cost Breakdown</h2>
-                        <p>Price per Cubic Yard: ${formatNumber(pricePerCubicYard ?? 0)}</p>
-                        <p>Price per Cubic Foot: ${formatNumber(calculatePricePerCubicFoot())}</p>
-                        <p>Price per Cubic Inch: ${formatNumber(calculatePricePerCubicInch())}</p>
-                        <p>Price per Cubic Centimeter: ${formatNumber(calculatePricePerCubicCentimeter())}</p>
-                        <p>Price per Cubic Meter: ${formatNumber(calculatePricePerCubicMeter())}</p>
+                        <p>Concrete: ${formatWholeNumber(calculateConcretePrice())}</p>
+                        <p>Gravel: ${formatWholeNumber(calculateGravelPrice())}</p>
+                        <p>Rebar: ${formatWholeNumber(calculateRebarPrice())}</p>
+                        <p>Form: ${formatWholeNumber(calculateFormPrice())}</p>
+                        <p>Form Stake: ${formatWholeNumber(calculateFormStakePrice())}</p>
                     </div>
 
                     <div className="result">
                         <h2>Estimated Total Cost</h2>
-                        {(!pricePerCubicYard || pricePerCubicYard <= 0) ? (
-                            <p className="warning-text">Please enter Price per Cubic Yard to calculate total cost</p>
-                        ) : (
-                            <>
-                                <h4 className="total-cost">${formatNumber(totalCost ?? 0)}</h4>
-                                <p className="estimate-note">Estimate only – weight varies by material</p>
-                            </>
-                        )}
+                        <h4 className="total-cost">${formatWholeNumber(totalCost ?? 0)}</h4>
+                        <p className="estimate-note">Estimate only – weight varies by material</p>
                     </div>
 
                     <div className="compare-section">
@@ -306,8 +530,8 @@ export default function ConcretePage() {
                 <div className="info-section">
                     <h2>How the Concrete Driveway Calculator Works</h2>
 
-                    <p>
-                        The Concrete Driveway Calculator is a simple, yet powerful tool designed to help you estimate the amount of concrete needed for your driveway project. Whether you're planning a new driveway or replacing an existing one, this calculator provides an accurate estimate based on the specific dimensions of your project.
+                    <p className="info-paragraph">
+                        A concrete driveway is a durable, low-maintenance, and visually appealing choice for your home. Proper planning and accurate material estimation are essential to ensure a successful project. Use this guide to calculate the materials needed for your driveway, or let our concrete calculator do the heavy lifting for you.
                     </p>
 
                     <div className="info-image-container">
@@ -331,12 +555,98 @@ export default function ConcretePage() {
                         Concrete Depth: Choose the depth or thickness of the concrete layer. This is often measured in inches and typically ranges from 4 to 6 inches for residential driveways.
                     </p>
 
-                    <h3>How the Calculator Works:</h3>
+                    <div className="info-paragraph">
+                        <h3>How to Calculate Concrete for Your Driveway</h3>
+                        <p>Concrete is measured and sold in cubic yards, a unit of volume. To determine the amount of concrete required, follow these steps:</p>
+                        
+                        <div className="calculation-steps">
+                            <h4>Calculate the Area:</h4>
+                            <p>Multiply the driveway's length and width in feet to find the square footage.</p>
+
+                            <h4>Determine Depth:</h4>
+                            <p>Convert the driveway's depth from inches to feet by dividing the inch measurement by 12.</p>
+
+                            <h4>Find the Volume in Cubic Feet:</h4>
+                            <p>Multiply the area (in square feet) by the depth (in feet).</p>
+
+                            <h4>Convert to Cubic Yards:</h4>
+                            <p>Divide the cubic footage by 27 to calculate the required volume in cubic yards.</p>
+                        </div>
+
+                        <div className="example-box">
+                            <h4>Example: For a 20' x 50' driveway with a depth of 8″:</h4>
+                            <p>Area: 20 × 50 = 1,000 ft²</p>
+                            <p>Depth: 8" ÷ 12 = 0.67 ft</p>
+                            <p>Volume: 1,000 × 0.67 = 666.67 ft³</p>
+                            <p>Cubic Yards: 666.67 ÷ 27 = 24.69 yd³</p>
+                             </div>
+                    </div>
+
+                    <h4>Our calculator uses standard industry prices for materials:</h4>
+                    
+                    <div className="info-paragraph">
+                        <h4>Default Material Prices:</h4>
+                        <ul className="price-list">
+                            <li style={{ fontWeight: 400 }}>Concrete: $125 per cubic yard</li>
+                            <li style={{ fontWeight: 400 }}>Gravel: $16 per cubic yard</li>
+                            <li style={{ fontWeight: 400 }}>Rebar: $0.75 per linear foot</li>
+                            <li style={{ fontWeight: 400 }}>Forms: $0.50 per linear foot</li>
+                            <li style={{ fontWeight: 400 }}>Form Stakes: $0.50 per stake</li>
+                        </ul>
+                    </div>
+
+                    <div className="info-paragraph">
+                        <h4>Advanced Mode Available</h4>
+                        <p>
+                            For more precise estimates, our calculator includes an advanced mode accessible through the "Optional Material Costs" section. This feature allows you to input your local material prices for more accurate cost calculations. You can customize the price of each material independently while keeping default prices for others, ensuring your total cost estimate matches your specific market prices and requirements.
+                        </p>
+                    </div>
+
+                    <div className="info-paragraph">
+                        <h3>Rebar Requirements</h3>
+                        <p>Adding reinforcement like rebar or wire mesh helps prevent cracking due to shifting.</p>
+
+                        <h4>Rebar vs. Mesh:</h4>
+                        <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12″ grid for driveways thicker than 5″.</p>
+
+                        <h4>Estimating Rebar for Rectangular Driveways:</h4>
+                        <p>Measure the length and width of the driveway. Subtract 6–12″ from each to account for the grid's edge spacing. Calculate rows and columns of rebar spaced every 12″.</p>
+
+                        <h4>Estimating Rebar for Irregular Driveways:</h4>
+                        <p>Use the formula: (square footage × 2) + (perimeter ÷ 2) = total rebar length (ft).</p>
+                    </div>
+
+                    <div className="info-paragraph">
+                        <h3>Base Gravel Requirements</h3>
+                        <p>A compacted gravel base, 4–12″ deep, is crucial for stability, drainage, and preventing erosion. Most driveways require around 6″ of gravel.</p>
+
+                        <h4>Calculating Gravel Volume:</h4>
+                        <p>Gravel is measured in cubic yards. Use the same method as for concrete to estimate the amount.</p>
+
+                        <p className="pro-tip"><strong>Pro Tip:</strong> Compact gravel takes up less space. Order about 20% more than your loose gravel estimate.</p>
+                    </div>
+
+                    <div className="info-paragraph">
+                        <h3>Formwork for Concrete Driveways</h3>
+                        <p>Forms hold the concrete in place while it cures. Use 2×4 or 2×6 boards for straight sections and flexible hardboard siding for curves.</p>
+
+                        <h4>Calculating Form Material:</h4>
+                        <p>Measure the driveway's perimeter in feet and round up to the nearest whole number. This equals the linear feet of lumber required.</p>
+
+                        <h4>Stakes for Securing Forms:</h4>
+                        <p>Choose steel concrete pins for reusability or wooden stakes for a cost-effective, single-use option.</p>
+                    </div>
+
                     <p className="info-paragraph">
-                        Volume Calculation: The calculator first multiplies the length, width, and depth of your driveway to determine the total volume of concrete required in cubic feet. This gives you the overall amount of concrete necessary for the project.
+                        Summary
                     </p>
+
                     <p className="info-paragraph">
-                        Conversion to Cubic Yards: Concrete is typically sold in cubic yards, so the calculator then converts the total volume from cubic feet to cubic yards. Since there are 27 cubic feet in a cubic yard, the calculator divides the cubic feet value by 27 to provide an estimate in cubic yards.
+                        Concrete driveways typically cost $4,000–$8,500 and require precise material planning. Use our calculators to estimate concrete, rebar, gravel, and forms easily, ensuring your project stays on track and within budget.
+                    </p>
+
+                    <p className="info-paragraph">
+                        Let’s get started! Use our concrete calculator now to plan your project effortlessly.
                     </p>
 
                     <h3>Why Use the Concrete Calculator?</h3>
