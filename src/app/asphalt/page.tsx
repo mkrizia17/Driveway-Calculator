@@ -7,17 +7,43 @@ import Image from 'next/image';
 
 type Unit = 'in' | 'ft' | 'cm' | 'm' | 'yd';
 
+// Constants for material prices
+const PRICE_PER_TON_ASPHALT_MIN = 102; // $102/ton
+const PRICE_PER_TON_ASPHALT_MAX = 143; // $143/ton
+const PRICE_PER_YD_CRUSHED_STONE_MIN = 15; // $15/yd³
+const PRICE_PER_YD_CRUSHED_STONE_MAX = 31; // $31/yd³
+const EQUIPMENT_RENTAL_MIN = 27;
+const EQUIPMENT_RENTAL_MAX = 44;
+
+const POUNDS_PER_CUBIC_FOOT = 145; // Average weight of asphalt per cubic foot
+const POUNDS_PER_TON = 2000;
+
 export default function AsphaltPage() {
     const [width, setWidth] = useState<number>(0);
     const [length, setLength] = useState<number>(0);
     const [depth, setDepth] = useState<number>(0);
-    const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
-    const [totalCost, setTotalCost] = useState<number | null>(null);
-    const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
-    const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
+    const [totalCost, setTotalCost] = useState<{min: number, max: number} | null>(null);
+    const [asphaltTons, setAsphaltTons] = useState<{tons: number, yards: number} | null>(null);
+    const [crushedStoneYards, setCrushedStoneYards] = useState<{min: number, max: number} | null>(null);
     const [widthUnit, setWidthUnit] = useState<Unit>('ft');
     const [lengthUnit, setLengthUnit] = useState<Unit>('ft');
     const [depthUnit, setDepthUnit] = useState<Unit>('in');
+    const [customAsphaltCost, setCustomAsphaltCost] = useState<number>(0);
+    const [showOptionalCosts, setShowOptionalCosts] = useState<boolean>(false);
+    const [errors, setErrors] = useState<{
+        width: string;
+        length: string;
+        depth: string;
+    }>({
+        width: '',
+        length: '',
+        depth: ''
+    });
+    const [materialCosts, setMaterialCosts] = useState<{
+        asphalt: {min: number, max: number},
+        crushedStone: {min: number, max: number},
+        equipment: {min: number, max: number}
+    } | null>(null);
 
     const formatNumber = (num: number): string => {
         return new Intl.NumberFormat('en-US', {
@@ -88,56 +114,137 @@ export default function AsphaltPage() {
         return lengthInFeet * widthInFeet;
     };
 
+    const calculatePerimeter = (): number => {
+        if (!length || !width) return 0;
+        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const widthInFeet = convertToFeet(width, widthUnit);
+        return 2 * (lengthInFeet + widthInFeet);
+    };
+
     const calculatePricePerCubicFoot = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 27;
+        if (!customAsphaltCost) return 0;
+        return customAsphaltCost / 27;
     };
 
     const calculatePricePerCubicInch = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 46656;
+        if (!customAsphaltCost) return 0;
+        return customAsphaltCost / 46656;
     };
 
     const calculatePricePerCubicCentimeter = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 764554.858;
+        if (!customAsphaltCost) return 0;
+        return customAsphaltCost / 764554.858;
     };
 
     const calculatePricePerCubicMeter = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 0.764555;
+        if (!customAsphaltCost) return 0;
+        return customAsphaltCost / 0.764555;
     };
 
     const calculateAsphalt = () => {
-        if (width <= 0 || length <= 0 || depth <= 0) {
+        // Reset errors
+        setErrors({
+            width: '',
+            length: '',
+            depth: ''
+        });
+
+        // Validate inputs
+        let hasErrors = false;
+        const newErrors = {
+            width: '',
+            length: '',
+            depth: ''
+        };
+
+        if (!width || width <= 0) {
+            newErrors.width = 'Width is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!length || length <= 0) {
+            newErrors.length = 'Length is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!depth || depth <= 0) {
+            newErrors.depth = 'Depth is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            setErrors(newErrors);
             return;
         }
-        
-        // Ensure pricePerCubicYard is 0 if empty or invalid
-        const price = pricePerCubicYard || 0;
-        setPricePerCubicYard(price);
-        
-        // Convert all measurements to standard units
+
         const widthInFeet = convertToFeet(width, widthUnit);
         const lengthInFeet = convertToFeet(length, lengthUnit);
-        const depthInInches = convertToInches(depth, depthUnit);
+        const depthInFeet = convertToInches(depth, depthUnit) / 12; // Convert inches to feet
         
-        // Convert to yards
-        const widthYards = widthInFeet / 3;
-        const lengthYards = lengthInFeet / 3;
-        const depthYards = depthInInches / 36;
+        // Calculate cubic feet
+        const cubicFeet = widthInFeet * lengthInFeet * depthInFeet;
         
-        // Calculate volume in cubic yards and round to 1 decimal place
-        const calculatedVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
-        setVolumeInCubicYards(calculatedVolume);
+        // Calculate tons using the specified formula
+        const pounds = cubicFeet * POUNDS_PER_CUBIC_FOOT;
+        const calculatedAsphaltTons = pounds / POUNDS_PER_TON;
         
-        // Calculate tons based on rounded volume and round to 1 decimal place
-        const calculatedTons = Math.round(calculatedVolume * 1.35 * 10) / 10;
-        setTonsNeeded(calculatedTons);
+        // Calculate cubic yards
+        const cubicYards = Math.round((cubicFeet / 27) * 10) / 10;
         
-        // Calculate cost and round to 2 decimal places
-        const cost = price > 0 ? Math.round(calculatedVolume * price * 100) / 100 : 0;
-        setTotalCost(cost);
+        // Calculate crushed stone base for 4" minimum thickness
+        const baseCubicFeet = widthInFeet * lengthInFeet * (4/12);
+        const calculatedCrushedStoneYards = baseCubicFeet / 27;
+        
+        // Round to one decimal
+        const baseYardsMin = Math.round(calculatedCrushedStoneYards * 10) / 10; // Will be 1.8 for 12x12
+        const baseYardsMax = baseYardsMin * 2; // Double for 8" thickness, will be 3.6
+
+        // Round results
+        const roundedAsphaltTons = Math.round(calculatedAsphaltTons * 10) / 10;
+
+        // Hot Mix Asphalt Cost
+        const asphaltTonsRounded = Math.round(calculatedAsphaltTons * 10) / 10;  // 1.7 tons
+        const asphaltCostMin = Math.round(1.7 * PRICE_PER_TON_ASPHALT_MIN);    // 1.7 * 102 = 174
+        const asphaltCostMax = Math.round(1.7 * PRICE_PER_TON_ASPHALT_MAX);    // 1.7 * 143 = 244
+
+        // Crushed Stone Cost
+        const crushedStoneCostMin = Math.round(1.8 * PRICE_PER_YD_CRUSHED_STONE_MIN); // 1.8 * 15 = 28
+        const crushedStoneCostMax = Math.round(3.6 * PRICE_PER_YD_CRUSHED_STONE_MAX); // 3.6 * 31 = 57
+
+        // Update states
+        setAsphaltTons({
+            tons: roundedAsphaltTons,
+            yards: cubicYards
+        });
+        
+        setCrushedStoneYards({
+            min: baseYardsMin,
+            max: baseYardsMax
+        });
+
+        setMaterialCosts({
+            asphalt: {
+                min: asphaltCostMin,     // $174
+                max: asphaltCostMax      // $244
+            },
+            crushedStone: {
+                min: crushedStoneCostMin, // $28
+                max: crushedStoneCostMax  // $57
+            },
+            equipment: {
+                min: EQUIPMENT_RENTAL_MIN, // $27
+                max: EQUIPMENT_RENTAL_MAX  // $44
+            }
+        });
+
+        // Total cost calculation
+        const totalCostMin = asphaltCostMin + crushedStoneCostMin + EQUIPMENT_RENTAL_MIN; // 174 + 28 + 27 = 229
+        const totalCostMax = asphaltCostMax + crushedStoneCostMax + EQUIPMENT_RENTAL_MAX; // 244 + 57 + 44 = 345
+
+        setTotalCost({
+            min: totalCostMin,
+            max: totalCostMax
+        });
     };
 
     return (
@@ -242,10 +349,10 @@ export default function AsphaltPage() {
                             <div className="price-input-container">
                                 <input 
                                     type="number" 
-                                    value={pricePerCubicYard || ''} 
+                                    value={customAsphaltCost || ''} 
                                     onChange={(e) => {
                                         const value = e.target.value;
-                                        setPricePerCubicYard(value === '' ? 0 : parseFloat(value));
+                                        setCustomAsphaltCost(value === '' ? 0 : parseFloat(value));
                                     }} 
                                     placeholder="0.00"
                                     className="price-input"
@@ -259,30 +366,26 @@ export default function AsphaltPage() {
                     <div className="result">
                         <h2>Dimensions</h2>
                         <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
-                        <p>Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
-                        <p>Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
-                        <p>Weight: {formatNumberOneDecimal(tonsNeeded ?? 0)} tons</p>
+                        <p>Driveway Perimeter: {formatNumber(calculatePerimeter())} ft</p>
                     </div>
 
                     <div className="result">
-                        <h2>Cost Breakdown</h2>
-                        <p>Price per Cubic Yard: ${formatNumber(pricePerCubicYard ?? 0)}</p>
-                        <p>Price per Cubic Foot: ${formatNumber(calculatePricePerCubicFoot())}</p>
-                        <p>Price per Cubic Inch: ${formatNumber(calculatePricePerCubicInch())}</p>
-                        <p>Price per Cubic Centimeter: ${formatNumber(calculatePricePerCubicCentimeter())}</p>
-                        <p>Price per Cubic Meter: ${formatNumber(calculatePricePerCubicMeter())}</p>
+                        <h2>Material Estimate</h2>
+                        <p>Hot Mix Asphalt: {formatNumberOneDecimal(asphaltTons?.tons ?? 0)} tons ({formatNumberOneDecimal(asphaltTons?.yards ?? 0)} yds³)</p>
+                        <p>Crushed Stone Base: {formatNumberOneDecimal(crushedStoneYards?.min ?? 0)} - {formatNumberOneDecimal(crushedStoneYards?.max ?? 0)} yds³ (4" - 8" thick)</p>
+                    </div>
+
+                    <div className="result">
+                        <h2>Estimated Material Cost</h2>
+                        <p>Hot Mix Asphalt: ${materialCosts?.asphalt.min ?? 0} - ${materialCosts?.asphalt.max ?? 0}</p>
+                        <p>Crushed Stone: ${materialCosts?.crushedStone.min ?? 0} - ${materialCosts?.crushedStone.max ?? 0}</p>
+                        <p>Equipment Rentals & Supplies: ${materialCosts?.equipment.min ?? 0} - ${materialCosts?.equipment.max ?? 0}</p>
                     </div>
 
                     <div className="result">
                         <h2>Estimated Total Cost</h2>
-                        {(!pricePerCubicYard || pricePerCubicYard <= 0) ? (
-                            <p className="warning-text">Please enter Price per Cubic Yard to calculate total cost</p>
-                        ) : (
-                            <>
-                                <h4 className="total-cost">${formatNumber(totalCost ?? 0)}</h4>
-                                <p className="estimate-note">Estimate only – weight varies by material</p>
-                            </>
-                        )}
+                        <h4 className="total-cost">${totalCost?.min ?? 0} - ${totalCost?.max ?? 0}</h4>
+                        <p className="estimate-note">*Estimate only - costs vary by location/vendor</p>
                     </div>
 
                     <div className="compare-section">
