@@ -397,4 +397,10 @@ li {
 .price-input::placeholder {
     color: #6B7280;
 }
+
+.error-message {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
   
