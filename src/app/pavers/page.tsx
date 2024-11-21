@@ -8,47 +8,75 @@ import Image from 'next/image';
 type Unit = 'in' | 'ft' | 'cm' | 'm' | 'yd';
 
 export default function PaversPage() {
-    const [width, setWidth] = useState<number>(0);
-    const [length, setLength] = useState<number>(0);
-    const [depth, setDepth] = useState<number>(0);
+    const [projectDimensions, setProjectDimensions] = useState({
+        width: 0,
+        length: 0,
+        widthUnit: 'ft' as Unit,
+        lengthUnit: 'ft' as Unit
+    });
+
+    const [paverDimensions, setPaverDimensions] = useState({
+        width: 4,
+        length: 8,
+        widthUnit: 'in' as Unit,
+        lengthUnit: 'in' as Unit
+    });
+
     const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
     const [totalCost, setTotalCost] = useState<number | null>(null);
-    const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
-    const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
-    const [widthUnit, setWidthUnit] = useState<Unit>('ft');
-    const [lengthUnit, setLengthUnit] = useState<Unit>('ft');
-    const [depthUnit, setDepthUnit] = useState<Unit>('in');
+    const [volumeInCubicYards, setVolumeInCubicYards] = useState<{
+        gravel: number;
+        sand: number;
+        polymericSand: number;
+    } | null>(null);
+    const [tonsNeeded, setTonsNeeded] = useState<{
+        gravel: number;
+        sand: number;
+    } | null>(null);
+    const [customGravelCost, setCustomGravelCost] = useState<number>(16);
+    const [customSandCost, setCustomSandCost] = useState<number>(20);
+    const [customPolymericSandCost, setCustomPolymericSandCost] = useState<number>(30);
 
     const calculatePavers = () => {
-        if (width <= 0 || length <= 0 || depth <= 0) {
+        if (projectDimensions.width <= 0 || projectDimensions.length <= 0) {
             return;
         }
         
-        // Ensure pricePerCubicYard is 0 if empty or invalid
-        const price = pricePerCubicYard || 0;
-        setPricePerCubicYard(price);
-        
         // Convert all measurements to standard units
-        const widthInFeet = convertToFeet(width, widthUnit);
-        const lengthInFeet = convertToFeet(length, lengthUnit);
-        const depthInInches = convertToInches(depth, depthUnit);
+        const widthInFeet = convertToFeet(projectDimensions.width, projectDimensions.widthUnit);
+        const lengthInFeet = convertToFeet(projectDimensions.length, projectDimensions.lengthUnit);
         
-        // Convert to yards
-        const widthYards = widthInFeet / 3;
-        const lengthYards = lengthInFeet / 3;
-        const depthYards = depthInInches / 36;
+        // Calculate area
+        const areaInSquareFeet = widthInFeet * lengthInFeet;
         
-        // Calculate volume in cubic yards and round to 1 decimal place
-        const calculatedVolume = Math.round((widthYards * lengthYards * depthYards) * 10) / 10;
-        setVolumeInCubicYards(calculatedVolume);
+        // Convert paver dimensions to feet
+        const paverWidthInFeet = convertToFeet(paverDimensions.width, paverDimensions.widthUnit);
+        const paverLengthInFeet = convertToFeet(paverDimensions.length, paverDimensions.lengthUnit);
         
-        // Calculate tons based on rounded volume and round to 1 decimal place
-        const calculatedTons = Math.round(calculatedVolume * 1.35 * 10) / 10;
-        setTonsNeeded(calculatedTons);
+        // Calculate number of pavers needed
+        const paverArea = paverWidthInFeet * paverLengthInFeet;
+        const numberOfPavers = Math.ceil(areaInSquareFeet / paverArea);
         
-        // Calculate cost and round to 2 decimal places
-        const cost = price > 0 ? Math.round(calculatedVolume * price * 100) / 100 : 0;
-        setTotalCost(cost);
+        // Calculate cost if price is provided
+        let totalCost = 0;
+        if (pricePerCubicYard > 0) {
+            const gravelCost = numberOfPavers * (customGravelCost || 16);
+            const sandCost = numberOfPavers * (customSandCost || 20);
+            const polymericSandCost = numberOfPavers * (customPolymericSandCost || 30);
+            const paverCost = areaInSquareFeet * (pricePerCubicYard);
+            
+            totalCost = gravelCost + sandCost + polymericSandCost + paverCost;
+        }
+        
+        setTotalCost(totalCost);
+        
+        // Calculate tons for material delivery
+        const gravelTons = numberOfPavers * 1.4; // Approximate weight conversion
+        const sandTons = numberOfPavers * 1.35; // Approximate weight conversion
+        setTonsNeeded({
+            gravel: Math.round(gravelTons * 10) / 10,
+            sand: Math.round(sandTons * 10) / 10
+        });
     };
 
     const formatNumber = (num: number): string => {
@@ -114,9 +142,9 @@ export default function PaversPage() {
     };
 
     const calculateArea = (): number => {
-        if (!length || !width) return 0;
-        const lengthInFeet = convertToFeet(length, lengthUnit);
-        const widthInFeet = convertToFeet(width, widthUnit);
+        if (!projectDimensions.length || !projectDimensions.width) return 0;
+        const lengthInFeet = convertToFeet(projectDimensions.length, projectDimensions.lengthUnit);
+        const widthInFeet = convertToFeet(projectDimensions.width, projectDimensions.widthUnit);
         return lengthInFeet * widthInFeet;
     };
 
@@ -161,80 +189,139 @@ export default function PaversPage() {
             <div className="content-wrapper">
                 <div className="calculator-section">
                     <h1 className="page-title font-roboto">Paver Driveway Calculator</h1>
-                    <div className="input-group">
-                        <label>
-                            Width: <span className="required">*</span>
-                            <div className="input-with-unit">
-                                <input 
-                                    type="number" 
-                                    value={width} 
-                                    onChange={(e) => setWidth(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={width <= 0 ? "This field is required" : "Please fill in this field"}
-                                />
-                                <select 
-                                    value={widthUnit} 
-                                    onChange={(e) => setWidthUnit(e.target.value as Unit)}
-                                    className="unit-select"
-                                >
-                                    <option value="in">in</option>
-                                    <option value="ft">ft</option>
-                                    <option value="cm">cm</option>
-                                    <option value="m">m</option>
-                                    <option value="yd">yd</option>
-                                </select>
-                            </div>
-                        </label>
+                    <div className="calculator-section1">
+                        <h3>Project Dimensions</h3>
+                        
+                        <div className="input-group">
+                            <label>
+                                Width: <span className="required">*</span>
+                                <div className="input-with-unit">
+                                    <input
+                                        type="number"
+                                        value={projectDimensions.width || 0}
+                                        onChange={(e) => setProjectDimensions({
+                                            ...projectDimensions,
+                                            width: parseFloat(e.target.value) || 0
+                                        })}
+                                        required
+                                        placeholder="This field is required"
+                                    />
+                                    <select 
+                                        className="unit-select"
+                                        value={projectDimensions.widthUnit}
+                                        onChange={(e) => setProjectDimensions({
+                                            ...projectDimensions,
+                                            widthUnit: e.target.value as Unit
+                                        })}
+                                    >
+                                        <option value="in">in</option>
+                                        <option value="ft">ft</option>
+                                        <option value="cm">cm</option>
+                                        <option value="m">m</option>
+                                        <option value="yd">yd</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div className="input-group">
+                            <label>
+                                Length: <span className="required">*</span>
+                                <div className="input-with-unit">
+                                    <input
+                                        type="number"
+                                        value={projectDimensions.length || 0}
+                                        onChange={(e) => setProjectDimensions({
+                                            ...projectDimensions,
+                                            length: parseFloat(e.target.value) || 0
+                                        })}
+                                        required
+                                        placeholder="This field is required"
+                                    />
+                                    <select 
+                                        className="unit-select"
+                                        value={projectDimensions.lengthUnit}
+                                        onChange={(e) => setProjectDimensions({
+                                            ...projectDimensions,
+                                            lengthUnit: e.target.value as Unit
+                                        })}
+                                    >
+                                        <option value="in">in</option>
+                                        <option value="ft">ft</option>
+                                        <option value="cm">cm</option>
+                                        <option value="m">m</option>
+                                        <option value="yd">yd</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
                     </div>
-                    <div className="input-group">
-                        <label>
-                            Length: <span className="required">*</span>
-                            <div className="input-with-unit">
-                                <input 
-                                    type="number" 
-                                    value={length} 
-                                    onChange={(e) => setLength(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={length <= 0 ? "This field is required" : "Please fill in this field"}
-                                />
-                                <select 
-                                    value={lengthUnit} 
-                                    onChange={(e) => setLengthUnit(e.target.value as Unit)}
-                                    className="unit-select"
-                                >
-                                    <option value="in">in</option>
-                                    <option value="ft">ft</option>
-                                    <option value="cm">cm</option>
-                                    <option value="m">m</option>
-                                    <option value="yd">yd</option>
-                                </select>
-                            </div>
-                        </label>
-                    </div>
-                    <div className="input-group">
-                        <label>
-                            Depth: <span className="required">*</span>
-                            <div className="input-with-unit">
-                                <input 
-                                    type="number" 
-                                    value={depth} 
-                                    onChange={(e) => setDepth(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={depth <= 0 ? "This field is required" : "Please fill in this field"}
-                                />
-                                <select 
-                                    value={depthUnit} 
-                                    onChange={(e) => setDepthUnit(e.target.value as Unit)}
-                                    className="unit-select"
-                                >
-                                    <option value="in">in</option>
-                                    <option value="ft">ft</option>
-                                    <option value="cm">cm</option>
-                                    <option value="m">m</option>
-                                    <option value="yd">yd</option>
-                                </select>
-                            </div>
-                        </label>
+                    <div className="calculator-section1">
+                        <h3>Paver's Dimensions</h3>
+                        
+                        <div className="input-group">
+                            <label>
+                                Width: <span className="required">*</span>
+                                <div className="input-with-unit">
+                                    <input
+                                        type="number"
+                                        value={paverDimensions.width || 0}
+                                        onChange={(e) => setPaverDimensions({
+                                            ...paverDimensions,
+                                            width: parseFloat(e.target.value) || 0
+                                        })}
+                                        required
+                                        placeholder="This field is required"
+                                    />
+                                    <select 
+                                        className="unit-select"
+                                        value={paverDimensions.widthUnit}
+                                        onChange={(e) => setPaverDimensions({
+                                            ...paverDimensions,
+                                            widthUnit: e.target.value as Unit
+                                        })}
+                                    >
+                                        <option value="in">in</option>
+                                        <option value="ft">ft</option>
+                                        <option value="cm">cm</option>
+                                        <option value="m">m</option>
+                                        <option value="yd">yd</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div className="input-group">
+                            <label>
+                                Length: <span className="required">*</span>
+                                <div className="input-with-unit">
+                                    <input
+                                        type="number"
+                                        value={paverDimensions.length || 0}
+                                        onChange={(e) => setPaverDimensions({
+                                            ...paverDimensions,
+                                            length: parseFloat(e.target.value) || 0
+                                        })}
+                                        required
+                                        placeholder="This field is required"
+                                    />
+                                    <select 
+                                        className="unit-select"
+                                        value={paverDimensions.lengthUnit}
+                                        onChange={(e) => setPaverDimensions({
+                                            ...paverDimensions,
+                                            lengthUnit: e.target.value as Unit
+                                        })}
+                                    >
+                                        <option value="in">in</option>
+                                        <option value="ft">ft</option>
+                                        <option value="cm">cm</option>
+                                        <option value="m">m</option>
+                                        <option value="yd">yd</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                     <div className="input-group">
                         <label>
@@ -259,9 +346,9 @@ export default function PaversPage() {
                     <div className="result">
                         <h2>Dimensions</h2>
                         <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
-                        <p>Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
-                        <p>Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
-                        <p>Weight: {formatNumberOneDecimal(tonsNeeded ?? 0)} tons</p>
+                        <p>Driveway Perimeter: {formatNumber(projectDimensions.length && projectDimensions.width ? 2 * (convertToFeet(projectDimensions.length, projectDimensions.lengthUnit) + convertToFeet(projectDimensions.width, projectDimensions.widthUnit)) : 0)} ft</p>
+                        <p>Volume: {formatNumberOneDecimal(volumeInCubicYards?.gravel ?? 0)} cubic yards</p>
+                        <p>Weight: {formatNumberOneDecimal(tonsNeeded?.gravel ?? 0)} tons</p>
                     </div>
 
                     <div className="result">
