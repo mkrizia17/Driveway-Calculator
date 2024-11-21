@@ -310,7 +310,7 @@ export default function GravelPage() {
                 <div className="info-section">
                     <h2>How the Gravel Driveway Calculator Works</h2>
 
-                    <p>
+                    <p className="info-paragraph">
                         The Gravel Driveway Calculator is a simple, yet powerful tool designed to help you estimate the amount of gravel needed for your driveway project. Whether you're planning a new driveway or refreshing an existing one, this calculator provides an accurate estimate based on the specific dimensions of your project.
                     </p>
 

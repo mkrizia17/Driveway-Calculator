@@ -420,7 +420,7 @@ export default function AsphaltPage() {
                 <div className="info-section">
                     <h2>How the Asphalt Driveway Calculator Works</h2>
 
-                    <p>
+                    <p className="info-paragraph">
                         The Asphalt Driveway Calculator is a simple, yet powerful tool designed to help you estimate the amount of asphalt needed for your driveway project. Whether you're planning a new driveway or resurfacing an existing one, this calculator provides an accurate estimate based on the specific dimensions of your project.
                     </p>
 
@@ -445,12 +445,50 @@ export default function AsphaltPage() {
                         Asphalt Depth: Choose the depth or thickness of the asphalt layer. This is often measured in inches and typically ranges from 2 to 4 inches for residential driveways.
                     </p>
 
-                    <h3>How the Calculator Works:</h3>
+                    <h3>How to Calculate Asphalt for Your Driveway</h3>
                     <p className="info-paragraph">
-                        Volume Calculation: The calculator first multiplies the length, width, and depth of your driveway to determine the total volume of asphalt required in cubic feet. This gives you the overall amount of asphalt necessary for the project.
+                        Asphalt is a fantastic choice for driveways and parking lots, offering a combination of affordability, durability, and low maintenance. Unlike concrete, asphalt is better at withstanding freeze-thaw cycles, making it a go-to material in colder climates. Its deep, dark finish also provides a sleek look while camouflaging imperfections. Made from a mix of aggregates like sand, crushed stone, or gravel, held together with a bitumen binder, asphalt is available in various grades to suit different projects and budgets.
                     </p>
+
                     <p className="info-paragraph">
-                        Conversion to Cubic Yards: Asphalt is typically sold in cubic yards, so the calculator then converts the total volume from cubic feet to cubic yards. Since there are 27 cubic feet in a cubic yard, the calculator divides the cubic feet value by 27 to provide an estimate in cubic yards.
+                        When planning a new driveway or parking lot, estimating the amount of asphalt needed is crucial. Having a clear understanding of the required materials and labor costs ensures that you get the best value for your investment. Here's a step-by-step guide to help you estimate accurately.
+                    </p>
+
+                    <h4>Calculating How Much Asphalt You Need</h4>
+                    <p className="info-paragraph">
+                        Asphalt is typically sold by the ton, and the coverage it provides depends on its density. Most mixes for driveways and parking lots weigh between 142-148 pounds per cubic foot, with 145 pounds being a reliable average. To calculate the amount needed, start by finding the cubic footage of your project. Multiply the length, width, and depth (in feet) of the area. Keep in mind that 3 inches of asphalt equals 0.25 feet.
+                    </p>
+
+                    <div className="info-paragraph">
+                        <p>For example, a 10-foot by 20-foot driveway with a depth of 3 inches would require:</p>
+                        <p>10′×20′×0.25′=50ft³</p>
+                        <p>Next, multiply the cubic footage by 145 to get the total weight in pounds, then divide by 2,000 to convert to tons:</p>
+                        <p>50ft³×145=7,250lbs</p>
+                        <p>7,250lbs÷2,000=3.63tons</p>
+                        <p>In this case, you'd need approximately 3.63 tons of asphalt for the project.</p>
+                    </div>
+
+                    <h4>Choosing the Right Thickness</h4>
+                    <p className="info-paragraph">
+                        The thickness of your asphalt layer plays a significant role in its performance and longevity. For residential driveways, a minimum thickness of 3 inches is recommended. This typically consists of 2 inches of base layer asphalt topped with 1 inch of surface asphalt.
+                    </p>
+
+                    <p className="info-paragraph">
+                        In regions with harsh winters, it's wise to increase the thickness to 4-6 inches of full-depth asphalt to prevent cracking and frost heaves. Parking lots also have specific requirements: light-duty lots should have 4-5 inches of asphalt, while heavy-duty lots used by trucks should be at least 7-8 inches thick.
+                    </p>
+
+                    <h4>Building a Strong Base</h4>
+                    <p className="info-paragraph">
+                        A solid base is essential for ensuring your asphalt surface remains durable over time. Most professionals recommend a compacted crushed rock base to provide stability, particularly for areas with loose or clay-rich soil. For driveways on sandy soil, a 4-inch gravel base is sufficient. However, for clay soil, an 8-inch gravel base is ideal to support the asphalt and prevent shifting.
+                    </p>
+
+                    <p className="info-paragraph">
+                        Parking lots, regardless of soil type, typically require an 8-inch crushed gravel base. Using a gravel base not only adds strength but can also reduce the amount of asphalt required. For example, a driveway with a 4-6 inch gravel base and 3 inches of asphalt can be a cost-effective and durable solution.
+                    </p>
+
+                    <h4>Planning for Success</h4>
+                    <p className="info-paragraph">
+                        Estimating asphalt correctly involves more than just calculations—it requires thoughtful planning and consideration of factors like climate, soil type, and expected usage. A well-prepared project with the right thickness and a sturdy base will ensure your driveway or parking lot remains smooth and resilient for years to come. With careful planning, you'll not only save money but also enjoy a finished surface that can handle whatever comes its way.
                     </p>
 
                     <h3>Why Use the Asphalt Calculator?</h3>
