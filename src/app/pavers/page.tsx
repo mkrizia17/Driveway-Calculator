@@ -52,7 +52,7 @@ export default function PaversPage() {
     } | null>(null);
     const [installationCost, setInstallationCost] = useState<number>(0);
     const [totalInstallationCost, setTotalInstallationCost] = useState<number>(0);
-    const [paverPriceUnit, setPaverPriceUnit] = useState<'per paver' | 'per sq ft' | 'per sq m'>('per paver');
+    const paverPriceUnit = 'per paver' as const;
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
 
     const calculatePavers = () => {
