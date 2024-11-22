@@ -7,6 +7,14 @@ import Image from 'next/image';
 
 type Unit = 'in' | 'ft' | 'cm' | 'm' | 'yd';
 
+interface VolumeInCubicYards {
+    gravel: number;
+    sand: number;
+    polymericSand: string;
+    paversPerSqFt: number;
+    pavers: number;
+}
+
 export default function PaversPage() {
     const [projectDimensions, setProjectDimensions] = useState({
         width: 0,
@@ -22,61 +30,177 @@ export default function PaversPage() {
         lengthUnit: 'in' as Unit
     });
 
+    const [errors, setErrors] = useState<{
+        width: string;
+        length: string;
+        paverWidth: string;
+        paverLength: string;
+    }>({
+        width: '',
+        length: '',
+        paverWidth: '',
+        paverLength: ''
+    });
+
     const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
     const [totalCost, setTotalCost] = useState<number | null>(null);
-    const [volumeInCubicYards, setVolumeInCubicYards] = useState<{
-        gravel: number;
-        sand: number;
-        polymericSand: number;
-    } | null>(null);
+    const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
     const [tonsNeeded, setTonsNeeded] = useState<{
         gravel: number;
         sand: number;
     } | null>(null);
-    const [customGravelCost, setCustomGravelCost] = useState<number>(16);
-    const [customSandCost, setCustomSandCost] = useState<number>(20);
-    const [customPolymericSandCost, setCustomPolymericSandCost] = useState<number>(30);
+    const [materialCosts, setMaterialCosts] = useState<{
+        pavers: {min: number, max: number, custom?: number},
+        gravel: {min: number, max: number},
+        sand: {min: number, max: number},
+        polymericSand: {min: number, max: number}
+    } | null>(null);
+    const [installationCost, setInstallationCost] = useState<number>(0);
+    const [totalInstallationCost, setTotalInstallationCost] = useState<number>(0);
+    const [paverPriceUnit, setPaverPriceUnit] = useState<'per paver' | 'per sq ft' | 'per sq m'>('per paver');
 
     const calculatePavers = () => {
-        if (projectDimensions.width <= 0 || projectDimensions.length <= 0) {
+        // Reset errors
+        setErrors({
+            width: '',
+            length: '',
+            paverWidth: '',
+            paverLength: ''
+        });
+
+        // Validate inputs
+        let hasErrors = false;
+        const newErrors = {
+            width: '',
+            length: '',
+            paverWidth: '',
+            paverLength: ''
+        };
+
+        if (!projectDimensions.width || projectDimensions.width <= 0) {
+            newErrors.width = 'Width is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!projectDimensions.length || projectDimensions.length <= 0) {
+            newErrors.length = 'Length is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!paverDimensions.width || paverDimensions.width <= 0) {
+            newErrors.paverWidth = 'Paver width is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!paverDimensions.length || paverDimensions.length <= 0) {
+            newErrors.paverLength = 'Paver length is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            setErrors(newErrors);
             return;
         }
         
-        // Convert all measurements to standard units
+        // Step 1: Calculate Patio Size in Square Feet
         const widthInFeet = convertToFeet(projectDimensions.width, projectDimensions.widthUnit);
         const lengthInFeet = convertToFeet(projectDimensions.length, projectDimensions.lengthUnit);
+        const patioSquareFootage = widthInFeet * lengthInFeet;
+
+        // Step 2: Calculate Paver Size in Square Feet
+        const paverWidthInFeet = convertToInches(paverDimensions.width, paverDimensions.widthUnit) / 12;
+        const paverLengthInFeet = convertToInches(paverDimensions.length, paverDimensions.lengthUnit) / 12;
+        const paverSquareFootage = paverWidthInFeet * paverLengthInFeet;
+
+        // Step 3: Calculate Number of Pavers Needed
+        const totalPaversNeeded = Math.ceil(patioSquareFootage / paverSquareFootage);
+
+        // Calculate Base Materials for Material Estimate
+        const area = widthInFeet * lengthInFeet;
+        const depth = 0.4;
+        const gravelCubicYards = (area * depth) / 27;
+        const roundedGravelCubicYards = Number(gravelCubicYards.toFixed(2));
+
+        // Calculate Base Sand Volume
+        const sandDepth = 1/12;                         // 1 inch = 1/12 foot
+        const sandCubicYards = (area * sandDepth) / 27; // (144 * 1/12) / 27 = 0.44
         
-        // Calculate area
-        const areaInSquareFeet = widthInFeet * lengthInFeet;
+        // Format to always show 2 decimal places
+        const roundedSandCubicYards = Number(sandCubicYards.toFixed(2));
+
+        // Calculate Polymeric Sand Bags Range
+        const minCoveragePerBag = 50;                   // Maximum coverage: 75 sq ft per bag
+        const maxCoveragePerBag = 100;                   // Minimum coverage: 50 sq ft per bag
         
-        // Convert paver dimensions to feet
-        const paverWidthInFeet = convertToFeet(paverDimensions.width, paverDimensions.widthUnit);
-        const paverLengthInFeet = convertToFeet(paverDimensions.length, paverDimensions.lengthUnit);
+        const minBags = Math.ceil(area / maxCoveragePerBag);  // Note: switched to maxCoverage for minBags
+        const maxBags = Math.ceil(area / minCoveragePerBag);  // Note: switched to minCoverage for maxBags
         
-        // Calculate number of pavers needed
-        const paverArea = paverWidthInFeet * paverLengthInFeet;
-        const numberOfPavers = Math.ceil(areaInSquareFeet / paverArea);
-        
-        // Calculate cost if price is provided
-        let totalCost = 0;
-        if (pricePerCubicYard > 0) {
-            const gravelCost = numberOfPavers * (customGravelCost || 16);
-            const sandCost = numberOfPavers * (customSandCost || 20);
-            const polymericSandCost = numberOfPavers * (customPolymericSandCost || 30);
-            const paverCost = areaInSquareFeet * (pricePerCubicYard);
-            
-            totalCost = gravelCost + sandCost + polymericSandCost + paverCost;
-        }
-        
-        setTotalCost(totalCost);
-        
-        // Calculate tons for material delivery
-        const gravelTons = numberOfPavers * 1.4; // Approximate weight conversion
-        const sandTons = numberOfPavers * 1.35; // Approximate weight conversion
-        setTonsNeeded({
-            gravel: Math.round(gravelTons * 10) / 10,
-            sand: Math.round(sandTons * 10) / 10
+        setVolumeInCubicYards({
+            gravel: roundedGravelCubicYards,
+            sand: roundedSandCubicYards,
+            polymericSand: `${minBags}-${maxBags}`,  // Will show "3-3" bags in Material Estimate
+            paversPerSqFt: totalPaversNeeded / patioSquareFootage,
+            pavers: totalPaversNeeded
         });
+
+        // Update state with calculations
+        setTonsNeeded({
+            gravel: totalPaversNeeded,
+            sand: Math.ceil(sandCubicYards * 10) / 10
+        });
+
+        // Calculate material costs using maximum bags for worst case scenario
+        const polymericSandCost = maxBags * 25;  // $25 per bag
+
+        // Calculate paver cost based on selected unit
+        let paverCost = 0;
+        switch (paverPriceUnit) {
+            case 'per paver':
+                paverCost = totalPaversNeeded * (pricePerCubicYard || 0);
+                break;
+            case 'per sq ft':
+                paverCost = area * (pricePerCubicYard || 0);
+                break;
+            case 'per sq m':
+                paverCost = (area * 0.092903) * (pricePerCubicYard || 0); // Convert sq ft to sq m
+                break;
+        }
+
+        const gravelCost = Math.round(roundedGravelCubicYards * 45); // $45 per cubic yard
+        const sandCost = sandCubicYards * 15;      // $15 per cubic yard
+
+        const calculatedInstallationCost = installationCost * area;
+        setTotalInstallationCost(calculatedInstallationCost);
+        setTotalCost(paverCost + calculatedInstallationCost);
+
+        setMaterialCosts({
+            pavers: { min: paverCost, max: paverCost, custom: paverCost },
+            gravel: { min: gravelCost, max: gravelCost },
+            sand: { min: sandCost, max: sandCost },
+            polymericSand: { min: polymericSandCost, max: polymericSandCost }
+        });
+
+        console.log('Width in feet:', widthInFeet);
+        console.log('Length in feet:', lengthInFeet);
+
+        // Update the display in the Estimated Material Cost section:
+        <div className="result">
+            <h2 className="text-xl font-semibold mb-4">Estimated Material Cost</h2>
+            <div className="space-y-2">
+                <p>
+                    Pavers Cost: {pricePerCubicYard === 0 ? 
+                        <span className="warning-text">Please enter Paver Price to calculate Pavers Cost</span> : 
+                        `$${formatNumber(materialCosts?.pavers.custom ?? 0)}`
+                    }
+                </p>
+                <p>
+                    Total installation cost: {installationCost === 0 ? 
+                        <span className="warning-text">Please enter Cost of Installation to calculate Total Installation Cost</span> : 
+                        `$${formatNumber(totalInstallationCost)}`
+                    }
+                </p>
+            </div>
+        </div>
     };
 
     const formatNumber = (num: number): string => {
@@ -148,26 +272,6 @@ export default function PaversPage() {
         return lengthInFeet * widthInFeet;
     };
 
-    const calculatePricePerCubicFoot = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 27;
-    };
-
-    const calculatePricePerCubicInch = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 46656;
-    };
-
-    const calculatePricePerCubicCentimeter = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 764554.858;
-    };
-
-    const calculatePricePerCubicMeter = (): number => {
-        if (!pricePerCubicYard) return 0;
-        return pricePerCubicYard / 0.764555;
-    };
-
     return (
         <div className="gravel-page-container font-roboto">
             <Link href="/" className="back-button">
@@ -180,7 +284,7 @@ export default function PaversPage() {
                     <path 
                         strokeLinecap="round" 
                         strokeLinejoin="round" 
-                        strokeWidth={2} 
+                        strokeWidth="2" 
                         d="M10 19l-7-7m0 0l7-7m-7 7h18"
                     />
                 </svg>
@@ -198,13 +302,18 @@ export default function PaversPage() {
                                 <div className="input-with-unit">
                                     <input
                                         type="number"
-                                        value={projectDimensions.width || 0}
-                                        onChange={(e) => setProjectDimensions({
-                                            ...projectDimensions,
-                                            width: parseFloat(e.target.value) || 0
-                                        })}
-                                        required
-                                        placeholder="This field is required"
+                                        value={projectDimensions.width || ''}
+                                        onChange={(e) => {
+                                            setProjectDimensions({
+                                                ...projectDimensions,
+                                                width: e.target.value ? parseFloat(e.target.value) : 0
+                                            });
+                                            if (errors.width) {
+                                                setErrors({...errors, width: ''});
+                                            }
+                                        }}
+                                        className={errors.width ? 'error' : ''}
+                                        placeholder="Enter width"
                                     />
                                     <select 
                                         className="unit-select"
@@ -221,6 +330,7 @@ export default function PaversPage() {
                                         <option value="yd">yd</option>
                                     </select>
                                 </div>
+                                {errors.width && <span className="error-message">{errors.width}</span>}
                             </label>
                         </div>
 
@@ -230,13 +340,18 @@ export default function PaversPage() {
                                 <div className="input-with-unit">
                                     <input
                                         type="number"
-                                        value={projectDimensions.length || 0}
-                                        onChange={(e) => setProjectDimensions({
-                                            ...projectDimensions,
-                                            length: parseFloat(e.target.value) || 0
-                                        })}
-                                        required
-                                        placeholder="This field is required"
+                                        value={projectDimensions.length || ''}
+                                        onChange={(e) => {
+                                            setProjectDimensions({
+                                                ...projectDimensions,
+                                                length: e.target.value ? parseFloat(e.target.value) : 0
+                                            });
+                                            if (errors.length) {
+                                                setErrors({...errors, length: ''});
+                                            }
+                                        }}
+                                        className={errors.length ? 'error' : ''}
+                                        placeholder="Enter length"
                                     />
                                     <select 
                                         className="unit-select"
@@ -253,33 +368,41 @@ export default function PaversPage() {
                                         <option value="yd">yd</option>
                                     </select>
                                 </div>
+                                {errors.length && <span className="error-message">{errors.length}</span>}
                             </label>
                         </div>
                     </div>
-                    <div className="calculator-section1">
+                    
+                    <div className="calculator-paver">
+                        <br/>
                         <h3>Paver's Dimensions</h3>
                         
                         <div className="input-group">
                             <label>
                                 Width: <span className="required">*</span>
                                 <div className="input-with-unit">
-                                    <input
-                                        type="number"
-                                        value={paverDimensions.width || 0}
-                                        onChange={(e) => setPaverDimensions({
-                                            ...paverDimensions,
-                                            width: parseFloat(e.target.value) || 0
-                                        })}
-                                        required
-                                        placeholder="This field is required"
+                                    <input 
+                                        type="number" 
+                                        value={paverDimensions.width || ''} 
+                                        onChange={(e) => {
+                                            setPaverDimensions({
+                                                ...paverDimensions,
+                                                width: e.target.value ? parseFloat(e.target.value) : 0
+                                            });
+                                            if (errors.paverWidth) {
+                                                setErrors({...errors, paverWidth: ''});
+                                            }
+                                        }} 
+                                        className={errors.paverWidth ? 'error' : ''}
+                                        placeholder="Enter paver width"
                                     />
                                     <select 
-                                        className="unit-select"
-                                        value={paverDimensions.widthUnit}
+                                        value={paverDimensions.widthUnit} 
                                         onChange={(e) => setPaverDimensions({
                                             ...paverDimensions,
                                             widthUnit: e.target.value as Unit
                                         })}
+                                        className="unit-select"
                                     >
                                         <option value="in">in</option>
                                         <option value="ft">ft</option>
@@ -288,6 +411,7 @@ export default function PaversPage() {
                                         <option value="yd">yd</option>
                                     </select>
                                 </div>
+                                {errors.paverWidth && <span className="error-message">{errors.paverWidth}</span>}
                             </label>
                         </div>
 
@@ -295,23 +419,28 @@ export default function PaversPage() {
                             <label>
                                 Length: <span className="required">*</span>
                                 <div className="input-with-unit">
-                                    <input
-                                        type="number"
-                                        value={paverDimensions.length || 0}
-                                        onChange={(e) => setPaverDimensions({
-                                            ...paverDimensions,
-                                            length: parseFloat(e.target.value) || 0
-                                        })}
-                                        required
-                                        placeholder="This field is required"
+                                    <input 
+                                        type="number" 
+                                        value={paverDimensions.length || ''} 
+                                        onChange={(e) => {
+                                            setPaverDimensions({
+                                                ...paverDimensions,
+                                                length: e.target.value ? parseFloat(e.target.value) : 0
+                                            });
+                                            if (errors.paverLength) {
+                                                setErrors({...errors, paverLength: ''});
+                                            }
+                                        }} 
+                                        className={errors.paverLength ? 'error' : ''}
+                                        placeholder="Enter paver length"
                                     />
                                     <select 
-                                        className="unit-select"
-                                        value={paverDimensions.lengthUnit}
+                                        value={paverDimensions.lengthUnit} 
                                         onChange={(e) => setPaverDimensions({
                                             ...paverDimensions,
                                             lengthUnit: e.target.value as Unit
                                         })}
+                                        className="unit-select"
                                     >
                                         <option value="in">in</option>
                                         <option value="ft">ft</option>
@@ -320,12 +449,14 @@ export default function PaversPage() {
                                         <option value="yd">yd</option>
                                     </select>
                                 </div>
+                                {errors.paverLength && <span className="error-message">{errors.paverLength}</span>}
                             </label>
                         </div>
                     </div>
+
                     <div className="input-group">
                         <label>
-                            Price per Cubic Yard (Optional):
+                            <h4>Paver Price per piece (Optional):</h4>
                             <div className="price-input-container">
                                 <input 
                                     type="number" 
@@ -341,35 +472,64 @@ export default function PaversPage() {
                             </div>
                         </label>
                     </div>
+
+                    <div className="input-group">
+                        <label>
+                            <h4>Cost of installation per sq ft (Optional):</h4>
+                            <div className="price-input-container">
+                                <input 
+                                    type="number" 
+                                    value={installationCost || ''} 
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setInstallationCost(value === '' ? 0 : parseFloat(value));
+                                    }} 
+                                    placeholder="0.00"
+                                    className="price-input"
+                                />
+                                <span className="price-prefix">$</span>
+                            </div>
+                        </label>
+                    </div>
+
                     <button className="calculate-button" onClick={calculatePavers}>Calculate</button>
 
                     <div className="result">
                         <h2>Dimensions</h2>
                         <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
                         <p>Driveway Perimeter: {formatNumber(projectDimensions.length && projectDimensions.width ? 2 * (convertToFeet(projectDimensions.length, projectDimensions.lengthUnit) + convertToFeet(projectDimensions.width, projectDimensions.widthUnit)) : 0)} ft</p>
-                        <p>Volume: {formatNumberOneDecimal(volumeInCubicYards?.gravel ?? 0)} cubic yards</p>
-                        <p>Weight: {formatNumberOneDecimal(tonsNeeded?.gravel ?? 0)} tons</p>
                     </div>
 
                     <div className="result">
-                        <h2>Cost Breakdown</h2>
-                        <p>Price per Cubic Yard: ${formatNumber(pricePerCubicYard ?? 0)}</p>
-                        <p>Price per Cubic Foot: ${formatNumber(calculatePricePerCubicFoot())}</p>
-                        <p>Price per Cubic Inch: ${formatNumber(calculatePricePerCubicInch())}</p>
-                        <p>Price per Cubic Centimeter: ${formatNumber(calculatePricePerCubicCentimeter())}</p>
-                        <p>Price per Cubic Meter: ${formatNumber(calculatePricePerCubicMeter())}</p>
+                        <h2 className="text-xl font-semibold mb-4">Paver Estimate</h2>
+                        <div className="space-y-2">
+                            <p>Pavers per sq ft: {formatNumberOneDecimal(volumeInCubicYards?.paversPerSqFt ?? 0)}</p>
+                            <p>Pavers: {formatNumberOneDecimal(volumeInCubicYards?.pavers ?? 0)} pieces</p>
+                        </div>
+                    </div>
+
+                    <div className="result">
+                        <h2 className="text-xl font-semibold mb-4">Estimated Material Cost</h2>
+                        <div className="space-y-2">
+                            <p>
+                                Pavers Cost: {pricePerCubicYard === 0 ? 
+                                    <span className="warning-text">Please enter Paver Price to calculate Pavers cost</span> : 
+                                    `$${formatNumber(materialCosts?.pavers.custom ?? 0)}`
+                                }
+                            </p>
+                            <p>
+                                Total installation cost: {installationCost === 0 ? 
+                                    <span className="warning-text">Please enter Cost of Installation to calculate installation cost</span> : 
+                                    `$${formatNumber(totalInstallationCost)}`
+                                }
+                            </p>
+                        </div>
                     </div>
 
                     <div className="result">
                         <h2>Estimated Total Cost</h2>
-                        {(!pricePerCubicYard || pricePerCubicYard <= 0) ? (
-                            <p className="warning-text">Please enter Price per Cubic Yard to calculate total cost</p>
-                        ) : (
-                            <>
-                                <h4 className="total-cost">${formatNumber(totalCost ?? 0)}</h4>
-                                <p className="estimate-note">Estimate only – weight varies by material</p>
-                            </>
-                        )}
+                        <h4 className="total-cost">${formatNumber(totalCost ?? 0)}</h4>
+                        <p className="estimate-note">*Estimate only - costs vary by location/vendor</p>
                     </div>
 
                     <div className="compare-section">

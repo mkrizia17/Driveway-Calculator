@@ -18,6 +18,15 @@ export default function GravelPage() {
     const [widthUnit, setWidthUnit] = useState<Unit>('ft');
     const [lengthUnit, setLengthUnit] = useState<Unit>('ft');
     const [depthUnit, setDepthUnit] = useState<Unit>('in');
+    const [errors, setErrors] = useState<{
+        width: string;
+        length: string;
+        depth: string;
+    }>({
+        width: '',
+        length: '',
+        depth: ''
+    });
 
     const convertToFeet = (value: number, unit: Unit): number => {
         let result: number;
@@ -68,10 +77,41 @@ export default function GravelPage() {
     };
 
     const calculateGravel = () => {
-        if (width <= 0 || length <= 0 || depth <= 0) {
+        // Reset errors
+        setErrors({
+            width: '',
+            length: '',
+            depth: ''
+        });
+
+        // Validate inputs
+        let hasErrors = false;
+        const newErrors = {
+            width: '',
+            length: '',
+            depth: ''
+        };
+
+        if (!width || width <= 0) {
+            newErrors.width = 'Width is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!length || length <= 0) {
+            newErrors.length = 'Length is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (!depth || depth <= 0) {
+            newErrors.depth = 'Depth is required and must be greater than 0';
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            setErrors(newErrors);
             return;
         }
-        
+
         // Convert all measurements to standard units (feet for length/width, inches for depth)
         const widthInFeet = convertToFeet(width, widthUnit);
         const lengthInFeet = convertToFeet(length, lengthUnit);
@@ -169,10 +209,15 @@ export default function GravelPage() {
                             <div className="input-with-unit">
                                 <input 
                                     type="number" 
-                                    value={width} 
-                                    onChange={(e) => setWidth(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={width <= 0 ? "This field is required" : "Please fill in this field"}
+                                    value={width || ''} 
+                                    onChange={(e) => {
+                                        setWidth(e.target.value ? parseFloat(e.target.value) : 0);
+                                        if (errors.width) {
+                                            setErrors({...errors, width: ''});
+                                        }
+                                    }} 
+                                    className={errors.width ? 'error' : ''}
+                                    placeholder="Enter width"
                                 />
                                 <select 
                                     value={widthUnit} 
@@ -186,6 +231,7 @@ export default function GravelPage() {
                                     <option value="yd">yd</option>
                                 </select>
                             </div>
+                            {errors.width && <span className="error-message">{errors.width}</span>}
                         </label>
                     </div>
                     <div className="input-group">
@@ -194,10 +240,15 @@ export default function GravelPage() {
                             <div className="input-with-unit">
                                 <input 
                                     type="number" 
-                                    value={length} 
-                                    onChange={(e) => setLength(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={length <= 0 ? "This field is required" : "Please fill in this field"}
+                                    value={length || ''} 
+                                    onChange={(e) => {
+                                        setLength(e.target.value ? parseFloat(e.target.value) : 0);
+                                        if (errors.length) {
+                                            setErrors({...errors, length: ''});
+                                        }
+                                    }} 
+                                    className={errors.length ? 'error' : ''}
+                                    placeholder="Enter length"
                                 />
                                 <select 
                                     value={lengthUnit} 
@@ -211,6 +262,7 @@ export default function GravelPage() {
                                     <option value="yd">yd</option>
                                 </select>
                             </div>
+                            {errors.length && <span className="error-message">{errors.length}</span>}
                         </label>
                     </div>
                     <div className="input-group">
@@ -219,10 +271,15 @@ export default function GravelPage() {
                             <div className="input-with-unit">
                                 <input 
                                     type="number" 
-                                    value={depth} 
-                                    onChange={(e) => setDepth(parseFloat(e.target.value))} 
-                                    required 
-                                    placeholder={depth <= 0 ? "This field is required" : "Please fill in this field"}
+                                    value={depth || ''} 
+                                    onChange={(e) => {
+                                        setDepth(e.target.value ? parseFloat(e.target.value) : 0);
+                                        if (errors.depth) {
+                                            setErrors({...errors, depth: ''});
+                                        }
+                                    }} 
+                                    className={errors.depth ? 'error' : ''}
+                                    placeholder="Enter depth"
                                 />
                                 <select 
                                     value={depthUnit} 
@@ -236,6 +293,7 @@ export default function GravelPage() {
                                     <option value="yd">yd</option>
                                 </select>
                             </div>
+                            {errors.depth && <span className="error-message">{errors.depth}</span>}
                         </label>
                     </div>
                     <div className="input-group">
