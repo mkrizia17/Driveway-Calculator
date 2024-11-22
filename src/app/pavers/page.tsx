@@ -52,7 +52,6 @@ export default function PaversPage() {
     } | null>(null);
     const [installationCost, setInstallationCost] = useState<number>(0);
     const [totalInstallationCost, setTotalInstallationCost] = useState<number>(0);
-    const paverPriceUnit = 'per paver' as const;
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
 
     const calculatePavers = () => {
@@ -134,19 +133,7 @@ export default function PaversPage() {
         // Calculate material costs using maximum bags for worst case scenario
         const polymericSandCost = maxBags * 25;  // $25 per bag
 
-        // Calculate paver cost based on selected unit
-        let paverCost = 0;
-        switch (paverPriceUnit) {
-            case 'per paver':
-                paverCost = totalPaversNeeded * (pricePerCubicYard || 0);
-                break;
-            case 'per sq ft':
-                paverCost = area * (pricePerCubicYard || 0);
-                break;
-            case 'per sq m':
-                paverCost = (area * 0.092903) * (pricePerCubicYard || 0); // Convert sq ft to sq m
-                break;
-        }
+        const paverCost = totalPaversNeeded * (pricePerCubicYard || 0);
 
         const gravelCost = Math.round(roundedGravelCubicYards * 45); // $45 per cubic yard
         const sandCost = sandCubicYards * 15;      // $15 per cubic yard
