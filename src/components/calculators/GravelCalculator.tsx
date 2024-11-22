@@ -10,6 +10,12 @@ interface Dimensions {
   depth: string;
 }
 
+interface CalculationResults {
+  cubicYards: number;
+  tons: number;
+  totalCost: number;
+}
+
 const GravelCalculator: React.FC = () => {
   const [dimensions, setDimensions] = useState<Dimensions>({
     length: '',
@@ -17,10 +23,7 @@ const GravelCalculator: React.FC = () => {
     depth: ''
   });
   const [customPrice, setCustomPrice] = useState<string>('');
-  const [results, setResults] = useState<{
-    cubicYards: number;
-    totalCost: number;
-  } | null>(null);
+  const [results, setResults] = useState<CalculationResults | null>(null);
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,18 +34,25 @@ const GravelCalculator: React.FC = () => {
     
     if (isNaN(length) || isNaN(width) || isNaN(depth)) return;
 
-    // Convert inches to feet for depth and calculate cubic feet
+    // Convert inches to feet for depth
     const depthInFeet = depth / 12;
+    
+    // Calculate cubic feet
     const cubicFeet = length * width * depthInFeet;
     
     // Convert to cubic yards (27 cubic feet = 1 cubic yard)
     const cubicYards = cubicFeet / 27;
     
+    // Calculate tons (1 cubic yard of gravel ≈ 1.4 tons)
+    const tons = cubicYards * 1.4;
+    
+    // Calculate total cost if price is provided
     const price = parseFloat(customPrice) || 0;
     const totalCost = cubicYards * price;
 
     setResults({
       cubicYards,
+      tons,
       totalCost
     });
   };
@@ -62,7 +72,7 @@ const GravelCalculator: React.FC = () => {
                   type="number"
                   placeholder="Enter length"
                   value={dimensions.length}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDimensions(prev => ({ ...prev, length: e.target.value }))}
+                  onChange={(e) => setDimensions(prev => ({ ...prev, length: e.target.value }))}
                   required
                   className="h-14 text-3xl px-4 [&::-webkit-inner-spin-button]:appearance-none text-[#1a2039]"
                   style={{ fontSize: '1.75rem' }}
@@ -130,6 +140,9 @@ const GravelCalculator: React.FC = () => {
               </div>
               <div className="text-xl text-[#1a2039]">
                 Cubic Yards Needed: {results.cubicYards.toFixed(2)}
+              </div>
+              <div className="text-xl text-[#1a2039]">
+                Approximate Weight: {results.tons.toFixed(2)} tons
               </div>
               {results.totalCost > 0 && (
                 <div className="text-xl text-[#1a2039]">

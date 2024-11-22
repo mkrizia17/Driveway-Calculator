@@ -44,11 +44,6 @@ export default function PaversPage() {
 
     const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
     const [totalCost, setTotalCost] = useState<number | null>(null);
-    const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
-    const [tonsNeeded, setTonsNeeded] = useState<{
-        gravel: number;
-        sand: number;
-    } | null>(null);
     const [materialCosts, setMaterialCosts] = useState<{
         pavers: {min: number, max: number, custom?: number},
         gravel: {min: number, max: number},
@@ -58,6 +53,7 @@ export default function PaversPage() {
     const [installationCost, setInstallationCost] = useState<number>(0);
     const [totalInstallationCost, setTotalInstallationCost] = useState<number>(0);
     const [paverPriceUnit, setPaverPriceUnit] = useState<'per paver' | 'per sq ft' | 'per sq m'>('per paver');
+    const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
 
     const calculatePavers = () => {
         // Reset errors
@@ -135,20 +131,6 @@ export default function PaversPage() {
         const minBags = Math.ceil(area / maxCoveragePerBag);  // Note: switched to maxCoverage for minBags
         const maxBags = Math.ceil(area / minCoveragePerBag);  // Note: switched to minCoverage for maxBags
         
-        setVolumeInCubicYards({
-            gravel: roundedGravelCubicYards,
-            sand: roundedSandCubicYards,
-            polymericSand: `${minBags}-${maxBags}`,  // Will show "3-3" bags in Material Estimate
-            paversPerSqFt: totalPaversNeeded / patioSquareFootage,
-            pavers: totalPaversNeeded
-        });
-
-        // Update state with calculations
-        setTonsNeeded({
-            gravel: totalPaversNeeded,
-            sand: Math.ceil(sandCubicYards * 10) / 10
-        });
-
         // Calculate material costs using maximum bags for worst case scenario
         const polymericSandCost = maxBags * 25;  // $25 per bag
 
@@ -201,6 +183,14 @@ export default function PaversPage() {
                 </p>
             </div>
         </div>
+
+        setVolumeInCubicYards({
+            gravel: roundedGravelCubicYards,
+            sand: roundedSandCubicYards,
+            polymericSand: `${minBags}-${maxBags} bags`,
+            paversPerSqFt: patioSquareFootage / totalPaversNeeded,
+            pavers: totalPaversNeeded
+        });
     };
 
     const formatNumber = (num: number): string => {
@@ -241,6 +231,7 @@ export default function PaversPage() {
         return Math.round(result * 100) / 100;
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const convertToInches = (value: number, unit: Unit): number => {
         let result: number;
         switch (unit) {
