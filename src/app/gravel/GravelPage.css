@@ -403,4 +403,37 @@ li {
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
+
+.info-list {
+    list-style-type: disc;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.paver-sizes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+}
+
+.paver-sizes-table th,
+.paver-sizes-table td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.paver-sizes-table th {
+    background-color: #f5f5f5;
+}
+
+h4 {
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+h5 {
+    font-weight: bold;
+}
   

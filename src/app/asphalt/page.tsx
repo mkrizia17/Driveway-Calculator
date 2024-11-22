@@ -461,10 +461,10 @@ export default function AsphaltPage() {
 
                     <div className="info-paragraph">
                         <p>For example, a 10-foot by 20-foot driveway with a depth of 3 inches would require:</p>
-                        <p>10′×20′×0.25′=50ft³</p>
+                        <p>10′ × 20′ × 0.25′ = 50ft³</p>
                         <p>Next, multiply the cubic footage by 145 to get the total weight in pounds, then divide by 2,000 to convert to tons:</p>
-                        <p>50ft³×145=7,250lbs</p>
-                        <p>7,250lbs÷2,000=3.63tons</p>
+                        <p>50ft³ × 145 = 7,250lbs</p>
+                        <p>7,250lbs ÷ 2,000 = 3.63tons</p>
                         <p>In this case, you'd need approximately 3.63 tons of asphalt for the project.</p>
                     </div>
 

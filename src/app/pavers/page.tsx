@@ -564,10 +564,71 @@ export default function PaversPage() {
 
                     <h3>How the Calculator Works:</h3>
                     <p className="info-paragraph">
-                        Volume Calculation: The calculator first multiplies the length, width, and depth of your driveway to determine the total volume of base materials required in cubic feet. This gives you the overall amount of materials necessary for the project.
+                        Using our paver calculator is quick and straightforward. Follow these steps to plan your project efficiently:
                     </p>
+
+                    <h4>Step 1: Calculate the Patio Area</h4>
+                    <ul className="info-list">
+                        <li>Single Rectangle: If your patio is rectangular, simply input its length and width to calculate the total area.</li>
+                        <li>Irregular Shape: For irregular patios, divide the area into smaller rectangles and calculate each separately. Then, sum the areas to get the total. Use our Square Footage Calculator for a quick estimate.</li>
+                        <li>Tip: If the subareas vary in size, calculate them individually and sum up the results.</li>
+                    </ul>
+
+                    <h4>Step 2: Enter Paver Brick Dimensions</h4>
                     <p className="info-paragraph">
-                        Conversion to Cubic Yards: Base materials are typically sold in cubic yards, so the calculator then converts the total volume from cubic feet to cubic yards. Since there are 27 cubic feet in a cubic yard, the calculator divides the cubic feet value by 27 to provide an estimate in cubic yards.
+                        Input the dimensions of a single paver brick—its width and length. This will help calculate the area each paver covers. Refer to the Common Paver Sizes table below for typical dimensions.
+                    </p>
+
+                    <h4>Step 3: Get the Paver Requirements</h4>
+                    <p className="info-paragraph">
+                        The calculator will determine:
+                    </p>
+                    <ul className="info-list">
+                        <li>Number of pavers per square foot: Based on the size of a single brick.</li>
+                        <li>Total pavers needed: The total number of pavers required to cover your patio area.</li>
+                    </ul>
+
+                    <h4>Step 4: Estimate Costs</h4>
+                    <ul className="info-list">
+                        <li>Paver Cost: Enter the price of a single paver to calculate the total material cost.</li>
+                        <li>Installation Cost: Add the professional installation cost per square foot. Typical rates range between $8 and $20, depending on your location.</li>
+                    </ul>
+
+                    <h4>Common Paver Sizes</h4>
+                    <table className="paver-sizes-table">
+                        <thead>
+                            <tr>
+                                <th style={{ color: '#333333', textAlign: 'center' }}>Size (in)</th>
+                                <th style={{ color: '#333333', textAlign: 'center' }}>Size (cm)</th>
+                                <th style={{ color: '#333333', textAlign: 'center' }}>Area (ft²)</th>
+                                <th style={{ color: '#333333', textAlign: 'center' }}>Area (cm²)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>4 × 8</td><td>10 × 20</td><td>0.22</td><td>200</td></tr>
+                            <tr><td>6 × 6</td><td>15 × 15</td><td>0.25</td><td>225</td></tr>
+                            <tr><td>6 × 9</td><td>15 × 23</td><td>0.38</td><td>245</td></tr>
+                            <tr><td>8 × 8</td><td>20 × 20</td><td>0.44</td><td>400</td></tr>
+                            <tr><td>12 × 12</td><td>30 × 30</td><td>1.00</td><td>900</td></tr>
+                            <tr><td>14 × 14</td><td>36 × 36</td><td>1.36</td><td>1296</td></tr>
+                            <tr><td>12 × 18</td><td>30 × 46</td><td>1.50</td><td>1380</td></tr>
+                        </tbody>
+                    </table>
+
+                    <h4>Additional Costs to Consider</h4>
+                    <h5>1. Base Materials for Paver Installation</h5>
+                    <p className="info-paragraph">
+                        A solid base is critical for long-term durability. Most installations require:
+                    </p>
+                    <ul className="info-list">
+                        <li>4" to 6" of compacted gravel</li>
+                        <li>1" layer of sand</li>
+                    </ul>
+
+                    <h5>2. Polymeric Sand</h5>
+                    <p className="info-paragraph">
+                        Used to lock pavers together and prevent weed growth between joints.
+                        A 50 lb bag typically covers 25–50 square feet.
                     </p>
 
                     <h3>Why Use the Paver Calculator?</h3>

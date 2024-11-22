@@ -580,41 +580,41 @@ export default function ConcretePage() {
                     </div>
 
                     <div className="info-paragraph">
-                        <h3>Rebar Requirements</h3>
+                        <h4>Rebar Requirements</h4>
                         <p>Adding reinforcement like rebar or wire mesh helps prevent cracking due to shifting.</p>
 
-                        <h4>Rebar vs. Mesh:</h4>
+                        <h5 style={{ fontWeight: 'bold' }}>Rebar vs. Mesh:</h5>
                         <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12″ grid for driveways thicker than 5″.</p>
 
-                        <h4>Estimating Rebar for Rectangular Driveways:</h4>
+                        <h5>Estimating Rebar for Rectangular Driveways:</h5>
                         <p>Measure the length and width of the driveway. Subtract 6–12″ from each to account for the grid's edge spacing. Calculate rows and columns of rebar spaced every 12″.</p>
 
-                        <h4>Estimating Rebar for Irregular Driveways:</h4>
+                        <h5>Estimating Rebar for Irregular Driveways:</h5>
                         <p>Use the formula: (square footage × 2) + (perimeter ÷ 2) = total rebar length (ft).</p>
                     </div>
 
                     <div className="info-paragraph">
-                        <h3>Base Gravel Requirements</h3>
+                        <h4>Base Gravel Requirements</h4>
                         <p>A compacted gravel base, 4–12″ deep, is crucial for stability, drainage, and preventing erosion. Most driveways require around 6″ of gravel.</p>
 
-                        <h4>Calculating Gravel Volume:</h4>
+                        <h5>Calculating Gravel Volume:</h5>
                         <p>Gravel is measured in cubic yards. Use the same method as for concrete to estimate the amount.</p>
 
                         <p className="pro-tip"><strong>Pro Tip:</strong> Compact gravel takes up less space. Order about 20% more than your loose gravel estimate.</p>
                     </div>
 
                     <div className="info-paragraph">
-                        <h3>Formwork for Concrete Driveways</h3>
+                        <h4>Formwork for Concrete Driveways</h4>
                         <p>Forms hold the concrete in place while it cures. Use 2×4 or 2×6 boards for straight sections and flexible hardboard siding for curves.</p>
 
-                        <h4>Calculating Form Material:</h4>
+                        <h5>Calculating Form Material:</h5>
                         <p>Measure the driveway's perimeter in feet and round up to the nearest whole number. This equals the linear feet of lumber required.</p>
 
-                        <h4>Stakes for Securing Forms:</h4>
+                        <h5>Stakes for Securing Forms:</h5>
                         <p>Choose steel concrete pins for reusability or wooden stakes for a cost-effective, single-use option.</p>
                     </div>
 
-                    <h3>Summary</h3>
+                    <h4>Summary</h4>
 
                     <p className="info-paragraph">
                         Concrete driveways typically cost $4,000–$8,500 and require precise material planning. Use our calculators to estimate concrete, rebar, gravel, and forms easily, ensuring your project stays on track and within budget.
