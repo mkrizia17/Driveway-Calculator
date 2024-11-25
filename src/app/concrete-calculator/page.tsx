@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import '../gravel-calculator/GravelPage.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
 type Unit = 'in' | 'ft' | 'cm' | 'm' | 'yd';
 
@@ -244,398 +246,388 @@ export default function ConcretePage() {
     };
 
     return (
-        <div className="gravel-page-container font-roboto">
-            <Link href="/" className="back-button">
-                <svg 
-                    className="w-5 h-5 mr-2" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                >
-                    <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                    />
-                </svg>
-                Back to Home
-            </Link>
-            <div className="content-wrapper">
-                <div className="calculator-section">
-                    <h1 className="page-title font-roboto">Concrete Driveway Calculator</h1>
-                    <div className="input-group">
-                        <label>
-                            Width: <span className="required">*</span>
-                            <div className="input-with-unit">
-                                <input 
-                                    type="number" 
-                                    value={width || ''} 
-                                    onChange={(e) => {
-                                        setWidth(e.target.value ? parseFloat(e.target.value) : 0);
-                                        if (errors.width) {
-                                            setErrors({...errors, width: ''});
-                                        }
-                                    }} 
-                                    className={errors.width ? 'error' : ''}
-                                    placeholder="Enter width"
-                                />
-                                <select 
-                                    value={widthUnit} 
-                                    onChange={(e) => setWidthUnit(e.target.value as Unit)}
-                                    className="unit-select"
+        <div className="min-h-screen bg-gray-800 flex flex-col">
+            <Header />
+            <main className="flex-1">
+                <div className="gravel-page-container font-roboto">
+                    <div className="content-wrapper">
+                        <div className="calculator-section">
+                            <h1 className="page-title font-roboto">Concrete Driveway Calculator</h1>
+                            <div className="input-group">
+                                <label>
+                                    Width: <span className="required">*</span>
+                                    <div className="input-with-unit">
+                                        <input 
+                                            type="number" 
+                                            value={width || ''} 
+                                            onChange={(e) => {
+                                                setWidth(e.target.value ? parseFloat(e.target.value) : 0);
+                                                if (errors.width) {
+                                                    setErrors({...errors, width: ''});
+                                                }
+                                            }} 
+                                            className={errors.width ? 'error' : ''}
+                                            placeholder="Enter width"
+                                        />
+                                        <select 
+                                            value={widthUnit} 
+                                            onChange={(e) => setWidthUnit(e.target.value as Unit)}
+                                            className="unit-select"
+                                        >
+                                            <option value="in">in</option>
+                                            <option value="ft">ft</option>
+                                            <option value="cm">cm</option>
+                                            <option value="m">m</option>
+                                            <option value="yd">yd</option>
+                                        </select>
+                                    </div>
+                                    {errors.width && <span className="error-message">{errors.width}</span>}
+                                </label>
+                            </div>
+                            <div className="input-group">
+                                <label>
+                                    Length: <span className="required">*</span>
+                                    <div className="input-with-unit">
+                                        <input 
+                                            type="number" 
+                                            value={length || ''} 
+                                            onChange={(e) => {
+                                                setLength(e.target.value ? parseFloat(e.target.value) : 0);
+                                                if (errors.length) {
+                                                    setErrors({...errors, length: ''});
+                                                }
+                                            }} 
+                                            className={errors.length ? 'error' : ''}
+                                            placeholder="Enter length"
+                                        />
+                                        <select 
+                                            value={lengthUnit} 
+                                            onChange={(e) => setLengthUnit(e.target.value as Unit)}
+                                            className="unit-select"
+                                        >
+                                            <option value="in">in</option>
+                                            <option value="ft">ft</option>
+                                            <option value="cm">cm</option>
+                                            <option value="m">m</option>
+                                            <option value="yd">yd</option>
+                                        </select>
+                                    </div>
+                                    {errors.length && <span className="error-message">{errors.length}</span>}
+                                </label>
+                            </div>
+                            <div className="input-group">
+                                <label>
+                                    Depth: <span className="required">*</span>
+                                    <div className="input-with-unit">
+                                        <input 
+                                            type="number" 
+                                            value={depth || ''} 
+                                            onChange={(e) => {
+                                                setDepth(e.target.value ? parseFloat(e.target.value) : 0);
+                                                if (errors.depth) {
+                                                    setErrors({...errors, depth: ''});
+                                                }
+                                            }} 
+                                            className={errors.depth ? 'error' : ''}
+                                            placeholder="Enter depth"
+                                        />
+                                        <select 
+                                            value={depthUnit} 
+                                            onChange={(e) => setDepthUnit(e.target.value as Unit)}
+                                            className="unit-select"
+                                        >
+                                            <option value="in">in</option>
+                                            <option value="ft">ft</option>
+                                            <option value="cm">cm</option>
+                                            <option value="m">m</option>
+                                            <option value="yd">yd</option>
+                                        </select>
+                                    </div>
+                                    {errors.depth && <span className="error-message">{errors.depth}</span>}
+                                </label>
+                            </div>
+                            <div className="result">
+                                <button 
+                                    className="toggle-button" 
+                                    onClick={() => setShowOptionalCosts(!showOptionalCosts)}
                                 >
-                                    <option value="in">in</option>
-                                    <option value="ft">ft</option>
-                                    <option value="cm">cm</option>
-                                    <option value="m">m</option>
-                                    <option value="yd">yd</option>
-                                </select>
+                                    <h3 className="toggle-header">
+                                        Optional Material Costs <span className="toggle-arrow">{showOptionalCosts ? '▼' : '▶'}</span>
+                                    </h3>
+                                </button>
+                                
+                                {showOptionalCosts && (
+                                    <div className="optional-costs">
+                                        <div className="input-group">
+                                            <label>
+                                                Concrete (per yd³):
+                                                <div className="price-input-container">
+                                                    <input 
+                                                        type="number" 
+                                                        value={customConcreteCost || ''} 
+                                                        onChange={(e) => setCustomConcreteCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                        placeholder={PRICE_PER_CUBIC_YARD_CONCRETE.toString()}
+                                                        className="price-input"
+                                                    />
+                                                    <span className="price-prefix">$</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div className="input-group">
+                                            <label>
+                                                Gravel (per yd³):
+                                                <div className="price-input-container">
+                                                    <input 
+                                                        type="number" 
+                                                        value={customGravelCost || ''} 
+                                                        onChange={(e) => setCustomGravelCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                        placeholder={PRICE_PER_CUBIC_YARD_GRAVEL.toString()}
+                                                        className="price-input"
+                                                    />
+                                                    <span className="price-prefix">$</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div className="input-group">
+                                            <label>
+                                                Rebar (per ft):
+                                                <div className="price-input-container">
+                                                    <input 
+                                                        type="number" 
+                                                        value={customRebarCost || ''} 
+                                                        onChange={(e) => setCustomRebarCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                        placeholder={PRICE_PER_LINEAR_FOOT_REBAR.toString()}
+                                                        className="price-input"
+                                                    />
+                                                    <span className="price-prefix">$</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div className="input-group">
+                                            <label>
+                                                Form (per ft):
+                                                <div className="price-input-container">
+                                                    <input 
+                                                        type="number" 
+                                                        value={customFormCost || ''} 
+                                                        onChange={(e) => setCustomFormCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                        placeholder={PRICE_PER_LINEAR_FOOT_FORM.toString()}
+                                                        className="price-input"
+                                                    />
+                                                    <span className="price-prefix">$</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div className="input-group">
+                                            <label>
+                                                Form Stake (per piece):
+                                                <div className="price-input-container">
+                                                    <input 
+                                                        type="number" 
+                                                        value={customStakeCost || ''} 
+                                                        onChange={(e) => setCustomStakeCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
+                                                        placeholder={PRICE_PER_STAKE.toString()}
+                                                        className="price-input"
+                                                    />
+                                                    <span className="price-prefix">$</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                            {errors.width && <span className="error-message">{errors.width}</span>}
-                        </label>
-                    </div>
-                    <div className="input-group">
-                        <label>
-                            Length: <span className="required">*</span>
-                            <div className="input-with-unit">
-                                <input 
-                                    type="number" 
-                                    value={length || ''} 
-                                    onChange={(e) => {
-                                        setLength(e.target.value ? parseFloat(e.target.value) : 0);
-                                        if (errors.length) {
-                                            setErrors({...errors, length: ''});
-                                        }
-                                    }} 
-                                    className={errors.length ? 'error' : ''}
-                                    placeholder="Enter length"
+                            <button className="calculate-button" onClick={calculateConcrete}>Calculate</button>
+
+                            <div className="result">
+                                <h2>Dimensions</h2>
+                                <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
+                                <p>Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
+                            </div>
+
+                            <div className="result">
+                                <h2>Material Estimations</h2>
+                                <p>Concrete Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
+                                <p>Gravel Volume: {formatNumberOneDecimal(calculateGravelVolume())} cubic yards</p>
+                                <p>Rebar Length: {formatNumber(calculateRebarLength())} ft ({Math.ceil(calculateRebarLength() / 20)} pieces of 20' #4 rebar)</p>
+                                <p>Forms: {formatNumber(2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)))} ft</p>
+                                <p>Form Stakes: {calculateFormStakes()} pieces</p>
+                            </div>
+
+                            <div className="result">
+                                <h2>Cost Breakdown</h2>
+                                <p>Concrete: ${formatWholeNumber(calculateConcretePrice())}</p>
+                                <p>Gravel: ${formatWholeNumber(calculateGravelPrice())}</p>
+                                <p>Rebar: ${formatWholeNumber(calculateRebarPrice())}</p>
+                                <p>Form: ${formatWholeNumber(calculateFormPrice())}</p>
+                                <p>Form Stake: ${formatWholeNumber(calculateFormStakePrice())}</p>
+                            </div>
+
+                            <div className="result">
+                                <h2>Estimated Total Cost</h2>
+                                <h4 className="total-cost">${formatWholeNumber(totalCost ?? 0)}</h4>
+                                <p className="estimate-note">Estimate only – weight varies by material</p>
+                            </div>
+
+                            <div className="compare-section">
+                                <div className="compare-buttons">
+                                    <Link href="/gravel-calculator" className="compare-button-clear">
+                                        <span>Compare to Gravel</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M5 12h14m-7-7l7 7-7 7"/>
+                                        </svg>
+                                    </Link>
+                                    <Link href="/asphalt-calculator" className="compare-button-clear">
+                                        <span>Compare to Asphalt</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M5 12h14m-7-7l7 7-7 7"/>
+                                        </svg>
+                                    </Link>
+                                    <Link href="/paver-calculator" className="compare-button-clear">
+                                        <span>Compare to Paver</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M5 12h14m-7-7l7 7-7 7"/>
+                                        </svg>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="info-section">
+                            <h2>How the Concrete Driveway Calculator Works</h2>
+
+                            <p className="info-paragraph">
+                                A concrete driveway is a durable, low-maintenance, and visually appealing choice for your home. Proper planning and accurate material estimation are essential to ensure a successful project. Use this guide to calculate the materials needed for your driveway, or let our concrete calculator do the heavy lifting for you.
+                            </p>
+
+                            <div className="info-image-container">
+                                <Image 
+                                    src="/images/concrete.jpg" 
+                                    alt="Concrete driveway with a professional finish" 
+                                    width={800}
+                                    height={600}
+                                    className="info-image"
+                                    priority
                                 />
-                                <select 
-                                    value={lengthUnit} 
-                                    onChange={(e) => setLengthUnit(e.target.value as Unit)}
-                                    className="unit-select"
-                                >
-                                    <option value="in">in</option>
-                                    <option value="ft">ft</option>
-                                    <option value="cm">cm</option>
-                                    <option value="m">m</option>
-                                    <option value="yd">yd</option>
-                                </select>
                             </div>
-                            {errors.length && <span className="error-message">{errors.length}</span>}
-                        </label>
-                    </div>
-                    <div className="input-group">
-                        <label>
-                            Depth: <span className="required">*</span>
-                            <div className="input-with-unit">
-                                <input 
-                                    type="number" 
-                                    value={depth || ''} 
-                                    onChange={(e) => {
-                                        setDepth(e.target.value ? parseFloat(e.target.value) : 0);
-                                        if (errors.depth) {
-                                            setErrors({...errors, depth: ''});
-                                        }
-                                    }} 
-                                    className={errors.depth ? 'error' : ''}
-                                    placeholder="Enter depth"
-                                />
-                                <select 
-                                    value={depthUnit} 
-                                    onChange={(e) => setDepthUnit(e.target.value as Unit)}
-                                    className="unit-select"
-                                >
-                                    <option value="in">in</option>
-                                    <option value="ft">ft</option>
-                                    <option value="cm">cm</option>
-                                    <option value="m">m</option>
-                                    <option value="yd">yd</option>
-                                </select>
-                            </div>
-                            {errors.depth && <span className="error-message">{errors.depth}</span>}
-                        </label>
-                    </div>
-                    <div className="result">
-                        <button 
-                            className="toggle-button" 
-                            onClick={() => setShowOptionalCosts(!showOptionalCosts)}
-                        >
-                            <h3 className="toggle-header">
-                                Optional Material Costs <span className="toggle-arrow">{showOptionalCosts ? '▼' : '▶'}</span>
-                            </h3>
-                        </button>
-                        
-                        {showOptionalCosts && (
-                            <div className="optional-costs">
-                                <div className="input-group">
-                                    <label>
-                                        Concrete (per yd³):
-                                        <div className="price-input-container">
-                                            <input 
-                                                type="number" 
-                                                value={customConcreteCost || ''} 
-                                                onChange={(e) => setCustomConcreteCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
-                                                placeholder={PRICE_PER_CUBIC_YARD_CONCRETE.toString()}
-                                                className="price-input"
-                                            />
-                                            <span className="price-prefix">$</span>
-                                        </div>
-                                    </label>
+
+                            <h3>Key Inputs Required:</h3>
+                            <p className="info-paragraph">
+                                Length of the Driveway: This is the total distance you want to cover with concrete. Measure the driveway's length in feet.
+                            </p>
+                            <p className="info-paragraph">
+                                Width of the Driveway: Measure how wide your driveway will be in feet. This is typically the most variable measurement, as driveways can vary in size depending on your needs.
+                            </p>
+                            <p className="info-paragraph">
+                                Concrete Depth: Choose the depth or thickness of the concrete layer. This is often measured in inches and typically ranges from 4 to 6 inches for residential driveways.
+                            </p>
+
+                            <div className="info-paragraph">
+                                <h3>How to Calculate Concrete for Your Driveway</h3>
+                                <p>Concrete is measured and sold in cubic yards, a unit of volume. To determine the amount of concrete required, follow these steps:</p>
+                                
+                                <div className="calculation-steps">
+                                    <h4>Calculate the Area:</h4>
+                                    <p>Multiply the driveway's length and width in feet to find the square footage.</p>
+
+                                    <h4>Determine Depth:</h4>
+                                    <p>Convert the driveway's depth from inches to feet by dividing the inch measurement by 12.</p>
+
+                                    <h4>Find the Volume in Cubic Feet:</h4>
+                                    <p>Multiply the area (in square feet) by the depth (in feet).</p>
+
+                                    <h4>Convert to Cubic Yards:</h4>
+                                    <p>Divide the cubic footage by 27 to calculate the required volume in cubic yards.</p>
                                 </div>
-                                <div className="input-group">
-                                    <label>
-                                        Gravel (per yd³):
-                                        <div className="price-input-container">
-                                            <input 
-                                                type="number" 
-                                                value={customGravelCost || ''} 
-                                                onChange={(e) => setCustomGravelCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
-                                                placeholder={PRICE_PER_CUBIC_YARD_GRAVEL.toString()}
-                                                className="price-input"
-                                            />
-                                            <span className="price-prefix">$</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div className="input-group">
-                                    <label>
-                                        Rebar (per ft):
-                                        <div className="price-input-container">
-                                            <input 
-                                                type="number" 
-                                                value={customRebarCost || ''} 
-                                                onChange={(e) => setCustomRebarCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
-                                                placeholder={PRICE_PER_LINEAR_FOOT_REBAR.toString()}
-                                                className="price-input"
-                                            />
-                                            <span className="price-prefix">$</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div className="input-group">
-                                    <label>
-                                        Form (per ft):
-                                        <div className="price-input-container">
-                                            <input 
-                                                type="number" 
-                                                value={customFormCost || ''} 
-                                                onChange={(e) => setCustomFormCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
-                                                placeholder={PRICE_PER_LINEAR_FOOT_FORM.toString()}
-                                                className="price-input"
-                                            />
-                                            <span className="price-prefix">$</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div className="input-group">
-                                    <label>
-                                        Form Stake (per piece):
-                                        <div className="price-input-container">
-                                            <input 
-                                                type="number" 
-                                                value={customStakeCost || ''} 
-                                                onChange={(e) => setCustomStakeCost(e.target.value === '' ? 0 : parseFloat(e.target.value))} 
-                                                placeholder={PRICE_PER_STAKE.toString()}
-                                                className="price-input"
-                                            />
-                                            <span className="price-prefix">$</span>
-                                        </div>
-                                    </label>
+
+                                <div className="example-box">
+                                    <h4>Example: For a 20' x 50' driveway with a depth of 8″:</h4>
+                                    <p>Area: 20 × 50 = 1,000 ft²</p>
+                                    <p>Depth: 8" ÷ 12 = 0.67 ft</p>
+                                    <p>Volume: 1,000 × 0.67 = 666.67 ft³</p>
+                                    <p>Cubic Yards: 666.67 ÷ 27 = 24.69 yd³</p>
                                 </div>
                             </div>
-                        )}
-                    </div>
-                    <button className="calculate-button" onClick={calculateConcrete}>Calculate</button>
 
-                    <div className="result">
-                        <h2>Dimensions</h2>
-                        <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
-                        <p>Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
-                    </div>
+                            <h4>Our calculator uses standard industry prices for materials:</h4>
+                            
+                            <div className="info-paragraph">
+                                <h4>Default Material Prices:</h4>
+                                <ul className="price-list">
+                                    <li style={{ fontWeight: 400 }}>Concrete: $125 per cubic yard</li>
+                                    <li style={{ fontWeight: 400 }}>Gravel: $16 per cubic yard</li>
+                                    <li style={{ fontWeight: 400 }}>Rebar: $0.75 per linear foot</li>
+                                    <li style={{ fontWeight: 400 }}>Forms: $0.50 per linear foot</li>
+                                    <li style={{ fontWeight: 400 }}>Form Stakes: $0.50 per stake</li>
+                                </ul>
+                            </div>
 
-                    <div className="result">
-                        <h2>Material Estimations</h2>
-                        <p>Concrete Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
-                        <p>Gravel Volume: {formatNumberOneDecimal(calculateGravelVolume())} cubic yards</p>
-                        <p>Rebar Length: {formatNumber(calculateRebarLength())} ft ({Math.ceil(calculateRebarLength() / 20)} pieces of 20' #4 rebar)</p>
-                        <p>Forms: {formatNumber(2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)))} ft</p>
-                        <p>Form Stakes: {calculateFormStakes()} pieces</p>
-                    </div>
+                            <div className="info-paragraph">
+                                <h4>Advanced Mode Available</h4>
+                                <p>
+                                    For more precise estimates, our calculator includes an advanced mode accessible through the "Optional Material Costs" section. This feature allows you to input your local material prices for more accurate cost calculations. You can customize the price of each material independently while keeping default prices for others, ensuring your total cost estimate matches your specific market prices and requirements.
+                                </p>
+                            </div>
 
-                    <div className="result">
-                        <h2>Cost Breakdown</h2>
-                        <p>Concrete: ${formatWholeNumber(calculateConcretePrice())}</p>
-                        <p>Gravel: ${formatWholeNumber(calculateGravelPrice())}</p>
-                        <p>Rebar: ${formatWholeNumber(calculateRebarPrice())}</p>
-                        <p>Form: ${formatWholeNumber(calculateFormPrice())}</p>
-                        <p>Form Stake: ${formatWholeNumber(calculateFormStakePrice())}</p>
-                    </div>
+                            <div className="info-paragraph">
+                                <h4>Rebar Requirements</h4>
+                                <p>Adding reinforcement like rebar or wire mesh helps prevent cracking due to shifting.</p>
 
-                    <div className="result">
-                        <h2>Estimated Total Cost</h2>
-                        <h4 className="total-cost">${formatWholeNumber(totalCost ?? 0)}</h4>
-                        <p className="estimate-note">Estimate only – weight varies by material</p>
-                    </div>
+                                <h5 style={{ fontWeight: 'bold' }}>Rebar vs. Mesh:</h5>
+                                <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12″ grid for driveways thicker than 5″.</p>
 
-                    <div className="compare-section">
-                        <div className="compare-buttons">
-                            <Link href="/gravel-calculator" className="compare-button-clear">
-                                <span>Compare to Gravel</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 12h14m-7-7l7 7-7 7"/>
-                                </svg>
-                            </Link>
-                            <Link href="/asphalt-calculator" className="compare-button-clear">
-                                <span>Compare to Asphalt</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 12h14m-7-7l7 7-7 7"/>
-                                </svg>
-                            </Link>
-                            <Link href="/paver-calculator" className="compare-button-clear">
-                                <span>Compare to Pavers</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 12h14m-7-7l7 7-7 7"/>
-                                </svg>
-                            </Link>
+                                <h5>Estimating Rebar for Rectangular Driveways:</h5>
+                                <p>Measure the length and width of the driveway. Subtract 6–12″ from each to account for the grid's edge spacing. Calculate rows and columns of rebar spaced every 12″.</p>
+
+                                <h5>Estimating Rebar for Irregular Driveways:</h5>
+                                <p>Use the formula: (square footage × 2) + (perimeter ÷ 2) = total rebar length (ft).</p>
+                            </div>
+
+                            <div className="info-paragraph">
+                                <h4>Base Gravel Requirements</h4>
+                                <p>A compacted gravel base, 4–12″ deep, is crucial for stability, drainage, and preventing erosion. Most driveways require around 6″ of gravel.</p>
+
+                                <h5>Calculating Gravel Volume:</h5>
+                                <p>Gravel is measured in cubic yards. Use the same method as for concrete to estimate the amount.</p>
+
+                                <p className="pro-tip"><strong>Pro Tip:</strong> Compact gravel takes up less space. Order about 20% more than your loose gravel estimate.</p>
+                            </div>
+
+                            <div className="info-paragraph">
+                                <h4>Formwork for Concrete Driveways</h4>
+                                <p>Forms hold the concrete in place while it cures. Use 2×4 or 2×6 boards for straight sections and flexible hardboard siding for curves.</p>
+
+                                <h5>Calculating Form Material:</h5>
+                                <p>Measure the driveway's perimeter in feet and round up to the nearest whole number. This equals the linear feet of lumber required.</p>
+
+                                <h5>Stakes for Securing Forms:</h5>
+                                <p>Choose steel concrete pins for reusability or wooden stakes for a cost-effective, single-use option.</p>
+                            </div>
+
+                            <h4>Summary</h4>
+
+                            <p className="info-paragraph">
+                                Concrete driveways typically cost $4,000–$8,500 and require precise material planning. Use our calculators to estimate concrete, rebar, gravel, and forms easily, ensuring your project stays on track and within budget.
+                            </p>
+
+                            <p className="info-paragraph">
+                                Let’s get started! Use our concrete calculator now to plan your project effortlessly.
+                            </p>
+
+                            <h3>Why Use the Concrete Calculator?</h3>
+                            <p className="info-paragraph">
+                                Accurate Estimates: This tool helps ensure that you order the right amount of concrete, reducing the risk of over- or under-ordering.
+                            </p>
+                            <p className="info-paragraph">
+                                Cost Efficiency: With accurate volume calculations, you can more efficiently estimate the costs for materials, labor, and any additional requirements for your project.
+                            </p>
+                            <p className="info-paragraph">
+                                Convenience: By inputting simple measurements, you get an immediate estimate of the concrete needed, saving you time and effort in planning your driveway project.
+                            </p>
                         </div>
                     </div>
                 </div>
-
-                <div className="info-section">
-                    <h2>How the Concrete Driveway Calculator Works</h2>
-
-                    <p className="info-paragraph">
-                        A concrete driveway is a durable, low-maintenance, and visually appealing choice for your home. Proper planning and accurate material estimation are essential to ensure a successful project. Use this guide to calculate the materials needed for your driveway, or let our concrete calculator do the heavy lifting for you.
-                    </p>
-
-                    <div className="info-image-container">
-                        <Image 
-                            src="/images/concrete.jpg" 
-                            alt="Concrete driveway with a professional finish" 
-                            width={800}
-                            height={600}
-                            className="info-image"
-                            priority
-                        />
-                    </div>
-
-                    <h3>Key Inputs Required:</h3>
-                    <p className="info-paragraph">
-                        Length of the Driveway: This is the total distance you want to cover with concrete. Measure the driveway's length in feet.
-                    </p>
-                    <p className="info-paragraph">
-                        Width of the Driveway: Measure how wide your driveway will be in feet. This is typically the most variable measurement, as driveways can vary in size depending on your needs.
-                    </p>
-                    <p className="info-paragraph">
-                        Concrete Depth: Choose the depth or thickness of the concrete layer. This is often measured in inches and typically ranges from 4 to 6 inches for residential driveways.
-                    </p>
-
-                    <div className="info-paragraph">
-                        <h3>How to Calculate Concrete for Your Driveway</h3>
-                        <p>Concrete is measured and sold in cubic yards, a unit of volume. To determine the amount of concrete required, follow these steps:</p>
-                        
-                        <div className="calculation-steps">
-                            <h4>Calculate the Area:</h4>
-                            <p>Multiply the driveway's length and width in feet to find the square footage.</p>
-
-                            <h4>Determine Depth:</h4>
-                            <p>Convert the driveway's depth from inches to feet by dividing the inch measurement by 12.</p>
-
-                            <h4>Find the Volume in Cubic Feet:</h4>
-                            <p>Multiply the area (in square feet) by the depth (in feet).</p>
-
-                            <h4>Convert to Cubic Yards:</h4>
-                            <p>Divide the cubic footage by 27 to calculate the required volume in cubic yards.</p>
-                        </div>
-
-                        <div className="example-box">
-                            <h4>Example: For a 20' x 50' driveway with a depth of 8″:</h4>
-                            <p>Area: 20 × 50 = 1,000 ft²</p>
-                            <p>Depth: 8" ÷ 12 = 0.67 ft</p>
-                            <p>Volume: 1,000 × 0.67 = 666.67 ft³</p>
-                            <p>Cubic Yards: 666.67 ÷ 27 = 24.69 yd³</p>
-                        </div>
-                    </div>
-
-                    <h4>Our calculator uses standard industry prices for materials:</h4>
-                    
-                    <div className="info-paragraph">
-                        <h4>Default Material Prices:</h4>
-                        <ul className="price-list">
-                            <li style={{ fontWeight: 400 }}>Concrete: $125 per cubic yard</li>
-                            <li style={{ fontWeight: 400 }}>Gravel: $16 per cubic yard</li>
-                            <li style={{ fontWeight: 400 }}>Rebar: $0.75 per linear foot</li>
-                            <li style={{ fontWeight: 400 }}>Forms: $0.50 per linear foot</li>
-                            <li style={{ fontWeight: 400 }}>Form Stakes: $0.50 per stake</li>
-                        </ul>
-                    </div>
-
-                    <div className="info-paragraph">
-                        <h4>Advanced Mode Available</h4>
-                        <p>
-                            For more precise estimates, our calculator includes an advanced mode accessible through the "Optional Material Costs" section. This feature allows you to input your local material prices for more accurate cost calculations. You can customize the price of each material independently while keeping default prices for others, ensuring your total cost estimate matches your specific market prices and requirements.
-                        </p>
-                    </div>
-
-                    <div className="info-paragraph">
-                        <h4>Rebar Requirements</h4>
-                        <p>Adding reinforcement like rebar or wire mesh helps prevent cracking due to shifting.</p>
-
-                        <h5 style={{ fontWeight: 'bold' }}>Rebar vs. Mesh:</h5>
-                        <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12″ grid for driveways thicker than 5″.</p>
-
-                        <h5>Estimating Rebar for Rectangular Driveways:</h5>
-                        <p>Measure the length and width of the driveway. Subtract 6–12″ from each to account for the grid's edge spacing. Calculate rows and columns of rebar spaced every 12″.</p>
-
-                        <h5>Estimating Rebar for Irregular Driveways:</h5>
-                        <p>Use the formula: (square footage × 2) + (perimeter ÷ 2) = total rebar length (ft).</p>
-                    </div>
-
-                    <div className="info-paragraph">
-                        <h4>Base Gravel Requirements</h4>
-                        <p>A compacted gravel base, 4–12″ deep, is crucial for stability, drainage, and preventing erosion. Most driveways require around 6″ of gravel.</p>
-
-                        <h5>Calculating Gravel Volume:</h5>
-                        <p>Gravel is measured in cubic yards. Use the same method as for concrete to estimate the amount.</p>
-
-                        <p className="pro-tip"><strong>Pro Tip:</strong> Compact gravel takes up less space. Order about 20% more than your loose gravel estimate.</p>
-                    </div>
-
-                    <div className="info-paragraph">
-                        <h4>Formwork for Concrete Driveways</h4>
-                        <p>Forms hold the concrete in place while it cures. Use 2×4 or 2×6 boards for straight sections and flexible hardboard siding for curves.</p>
-
-                        <h5>Calculating Form Material:</h5>
-                        <p>Measure the driveway's perimeter in feet and round up to the nearest whole number. This equals the linear feet of lumber required.</p>
-
-                        <h5>Stakes for Securing Forms:</h5>
-                        <p>Choose steel concrete pins for reusability or wooden stakes for a cost-effective, single-use option.</p>
-                    </div>
-
-                    <h4>Summary</h4>
-
-                    <p className="info-paragraph">
-                        Concrete driveways typically cost $4,000–$8,500 and require precise material planning. Use our calculators to estimate concrete, rebar, gravel, and forms easily, ensuring your project stays on track and within budget.
-                    </p>
-
-                    <p className="info-paragraph">
-                        Let’s get started! Use our concrete calculator now to plan your project effortlessly.
-                    </p>
-
-                    <h3>Why Use the Concrete Calculator?</h3>
-                    <p className="info-paragraph">
-                        Accurate Estimates: This tool helps ensure that you order the right amount of concrete, reducing the risk of over- or under-ordering.
-                    </p>
-                    <p className="info-paragraph">
-                        Cost Efficiency: With accurate volume calculations, you can more efficiently estimate the costs for materials, labor, and any additional requirements for your project.
-                    </p>
-                    <p className="info-paragraph">
-                        Convenience: By inputting simple measurements, you get an immediate estimate of the concrete needed, saving you time and effort in planning your driveway project.
-                    </p>
-                </div>
-            </div>
+            </main>
+            <Footer />
         </div>
     );
 } 

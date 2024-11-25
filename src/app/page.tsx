@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CalculatorIcon, DollarSignIcon, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import { Header } from '@/components/Header';
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-gray-900 text-gray-100">
+      <Header />
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[400px] w-full overflow-hidden">
+      <section className="relative h-[55vh] min-h-[350px] w-full overflow-hidden">
         <Image
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hero-driveway.jpg-JEa1BKUj9Gsp8ZxiApTdyULbn6sDU5.jpeg"
           alt="Beautiful residential property with a curved concrete driveway surrounded by manicured lawn and landscaping"
@@ -305,8 +307,8 @@ export default function Home() {
               <h4 className="text-lg font-semibold mb-4 text-blue-400">Resources</h4>
               <ul className="space-y-2">
                 <li><Link href="/blog" className="hover:text-blue-400 transition-colors">Blog</Link></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors">FAQs</a></li>
-                <li><a href="#" className="hover:text-blue-400 transition-colors">Contact Us</a></li>
+                <li><Link href="/FAQs" className="hover:text-blue-400 transition-colors">FAQs</Link></li>
+                <li><Link href="/contact" className="hover:text-blue-400 transition-colors">Contact Us</Link></li>
                 <li><a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a></li>
               </ul>
             </div>
