@@ -1,8 +1,6 @@
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from '@/components/Header';
-import Link from 'next/link';
-import { CalculatorIcon, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { Footer } from '@/components/Footer';
 
 interface BlogPost {
