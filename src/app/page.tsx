@@ -191,9 +191,9 @@ export default function Home() {
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   className="w-12 h-12 text-blue-400 mb-2 mx-auto"
                 >
                   <circle cx="12" cy="12" r="10" />
@@ -304,7 +304,7 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4 text-blue-400">Resources</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:text-blue-400 transition-colors">Blog</a></li>
+                <li><Link href="/blog" className="hover:text-blue-400 transition-colors">Blog</Link></li>
                 <li><a href="#" className="hover:text-blue-400 transition-colors">FAQs</a></li>
                 <li><a href="#" className="hover:text-blue-400 transition-colors">Contact Us</a></li>
                 <li><a href="#" className="hover:text-blue-400 transition-colors">Privacy Policy</a></li>
