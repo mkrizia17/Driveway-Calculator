@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import '../gravel/GravelPage.css';
+import '../gravel-calculator/GravelPage.css';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -512,19 +512,19 @@ export default function PaversPage() {
 
                     <div className="compare-section">
                         <div className="compare-buttons">
-                            <Link href="/gravel" className="compare-button-clear">
+                            <Link href="/gravel-calculator" className="compare-button-clear">
                                 <span>Compare to Gravel</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M5 12h14m-7-7l7 7-7 7"/>
                                 </svg>
                             </Link>
-                            <Link href="/concrete" className="compare-button-clear">
+                            <Link href="/concrete-calculator" className="compare-button-clear">
                                 <span>Compare to Concrete</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M5 12h14m-7-7l7 7-7 7"/>
                                 </svg>
                             </Link>
-                            <Link href="/asphalt" className="compare-button-clear">
+                            <Link href="/asphalt-calculator" className="compare-button-clear">
                                 <span>Compare to Asphalt</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M5 12h14m-7-7l7 7-7 7"/>

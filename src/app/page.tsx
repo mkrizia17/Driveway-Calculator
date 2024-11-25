@@ -39,7 +39,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <Link href="/gravel" className="block">
+              <Link href="/gravel-calculator" className="block">
                 <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
                   <Image
                     src="/images/gravel.jpg"
@@ -55,7 +55,7 @@ export default function Home() {
               
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
-                  href="/gravel" 
+                  href="/gravel-calculator" 
                   className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
                 >
                   Gravel Calculator
@@ -69,7 +69,7 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <Link href="/concrete" className="block">
+              <Link href="/concrete-calculator" className="block">
                 <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
                   <Image
                     src="/images/concrete.jpg"
@@ -85,7 +85,7 @@ export default function Home() {
               
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
-                  href="/concrete" 
+                  href="/concrete-calculator" 
                   className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
                 >
                   Concrete Calculator
@@ -99,7 +99,7 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <Link href="/asphalt" className="block">
+              <Link href="/asphalt-calculator" className="block">
                 <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
                   <Image
                     src="/images/asphalt.jpg"
@@ -115,7 +115,7 @@ export default function Home() {
               
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
-                  href="/asphalt" 
+                  href="/asphalt-calculator" 
                   className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
                 >
                   Asphalt Calculator
@@ -129,7 +129,7 @@ export default function Home() {
 
           <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
-              <Link href="/pavers" className="block">
+              <Link href="/paver-calculator" className="block">
                 <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
                   <Image
                     src="/images/pavers.jpg"
@@ -145,7 +145,7 @@ export default function Home() {
               
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
-                  href="/pavers" 
+                  href="/paver-calculator" 
                   className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
                 >
                   Paver Calculator
@@ -268,16 +268,16 @@ export default function Home() {
           </h2>
           <p className="text-xl mb-8 text-gray-300">Choose your driveway material and get started with your free estimate now.</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
-            <Link href="/gravel">
+            <Link href="/gravel-calculator">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Gravel Calculator</Button>
             </Link>
-            <Link href="/concrete">
+            <Link href="/concrete-calculator">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Concrete Calculator</Button>
             </Link>
-            <Link href="/asphalt">
+            <Link href="/asphalt-calculator">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Asphalt Calculator</Button>
             </Link>
-            <Link href="/pavers">
+            <Link href="/paver-calculator">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white w-full">Paver Calculator</Button>
             </Link>
           </div>
@@ -295,10 +295,10 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4 text-blue-400">Quick Links</h4>
               <ul className="space-y-2">
-                <li><Link href="/gravel" className="hover:text-blue-400 transition-colors">Gravel Calculator</Link></li>
-                <li><Link href="/concrete" className="hover:text-blue-400 transition-colors">Concrete Calculator</Link></li>
-                <li><Link href="/asphalt" className="hover:text-blue-400 transition-colors">Asphalt Calculator</Link></li>
-                <li><Link href="/pavers" className="hover:text-blue-400 transition-colors">Paver Calculator</Link></li>
+                <li><Link href="/gravel-calculator" className="hover:text-blue-400 transition-colors">Gravel Calculator</Link></li>
+                <li><Link href="/concrete-calculator" className="hover:text-blue-400 transition-colors">Concrete Calculator</Link></li>
+                <li><Link href="/asphalt-calculator" className="hover:text-blue-400 transition-colors">Asphalt Calculator</Link></li>
+                <li><Link href="/paver-calculator" className="hover:text-blue-400 transition-colors">Paver Calculator</Link></li>
               </ul>
             </div>
             <div>

@@ -344,19 +344,19 @@ export default function GravelPage() {
 
                     <div className="compare-section">
                         <div className="compare-buttons">
-                            <Link href="/concrete" className="compare-button-clear">
+                            <Link href="/concrete-calculator" className="compare-button-clear">
                                 <span>Compare to Concrete</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M5 12h14m-7-7l7 7-7 7"/>
                                 </svg>
                             </Link>
-                            <Link href="/asphalt" className="compare-button-clear">
+                            <Link href="/asphalt-calculator" className="compare-button-clear">
                                 <span>Compare to Asphalt</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M5 12h14m-7-7l7 7-7 7"/>
                                 </svg>
                             </Link>
-                            <Link href="/pavers" className="compare-button-clear">
+                            <Link href="/paver-calculator" className="compare-button-clear">
                                 <span>Compare to Pavers</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M5 12h14m-7-7l7 7-7 7"/>
