@@ -44,7 +44,7 @@ const blogPosts: BlogPost[] = [
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen bg-gray-800">
+    <div className="min-h-screen bg-gray-800" style={{ fontFamily: '__Inter_d65c78, __Inter_Fallback_d65c78, sans-serif' }}>
       <Header />
       
       <div className="container mx-auto px-4 py-16">

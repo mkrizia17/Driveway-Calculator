@@ -23,8 +23,8 @@ export default function Home() {
           priority
         />
         <div className="absolute inset-0 bg-black bg-opacity-65 flex flex-col items-center justify-center text-center p-6">
-          <h1 className="title-gradient text-6xl md:text-7xl font-bold mb-4">
-            Driveway Cost Calculator
+          <h1 className="title-gradient text-6xl md:text-6xl font-bold mb-4">
+            DRIVEWAY COST CALCULATOR
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl">
             Estimate costs for gravel, concrete, asphalt, and paver driveways with precision

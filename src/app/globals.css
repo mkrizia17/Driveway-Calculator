@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -31,7 +31,7 @@ h6 {
 }
 
 body {
-  font-family: var(--font-roboto);
+  font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif;
   font-size: 20px;
   line-height: 1.6;
   color: #333;
@@ -189,3 +189,20 @@ section {
     font-size: 1.5rem;
   }
 }
+
+/* Apply Inter font globally */
+body {
+  font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Apply Inter font */
+}
+
+/* Apply Inter font to all headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Updated font for headings */
+}
+
+/* Ensure other elements inherit the body font */
+input, button, p, ul, li {
+  font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Updated font for other elements */
+}
+
+/* Additional styles can go here... */

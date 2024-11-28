@@ -1,16 +1,16 @@
 @import '../globals.css'; /* Import global styles if needed */
 
 body {
-    font-family: 'Roboto', sans-serif; /* Apply Roboto to the entire body */
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Apply Inter font */
 }
 
 h1 {
-    font-family: var(--h1-font-family, 'Arial, sans-serif'); /* Keep the existing font for h1 */
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Updated font for h1 */
 }
 
 /* Ensure other elements inherit the body font */
-input, button, p, ul, li, h2, h3 {
-    font-family: inherit;
+input, button, p, ul, li {
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Updated font for other elements */
 }
 
 .gravel-page-container {
@@ -18,7 +18,6 @@ input, button, p, ul, li, h2, h3 {
     background: rgb(31 41 55);  /* This is Tailwind's gray-800 color */
     color: hsl(0 0% 98%);
     padding: 2rem;
-    font-family: 'Roboto', sans-serif;
 }
 
 .content-wrapper {
@@ -82,7 +81,7 @@ input, button, p, ul, li, h2, h3 {
 }
 
 .page-title {
-    font-family: 'Roboto', sans-serif;
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Updated to use Inter font */
     font-weight: 500;
     color: #ffffff;
     margin-bottom: 2rem;

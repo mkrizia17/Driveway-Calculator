@@ -8,7 +8,7 @@ export default function PrivacyPolicyPage() {
     return (
         <div className="min-h-screen bg-gray-800 flex flex-col">
             <Header />
-            <main className="flex-1 container mx-auto px-4 py-8">
+            <main className="flex-1 container mx-auto px-4 py-8" style={{ fontFamily: '__Inter_d65c78, __Inter_Fallback_d65c78, sans-serif' }}>
                 <div className="bg-gray-800 rounded-lg p-8 text-gray-300">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 text-gray-100">Privacy Policy</h1>
                     

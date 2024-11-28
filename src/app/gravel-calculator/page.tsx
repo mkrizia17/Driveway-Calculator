@@ -187,10 +187,10 @@ export default function GravelPage() {
     return (
         <>
             <Header />
-            <div className="gravel-page-container font-roboto">
+            <div className="gravel-page-container" style={{ fontFamily: '__Inter_d65c78, __Inter_Fallback_d65c78, sans-serif' }}>
                 <div className="content-wrapper mt-8 px-4">
                     <div className="calculator-section">
-                        <h1 className="page-title font-roboto mb-6">Gravel Driveway Calculator</h1>
+                        <h1 className="page-title mb-6">Gravel Driveway Calculator</h1>
                         <div className="input-group">
                             <label>
                                 Width: <span className="required">*</span>
