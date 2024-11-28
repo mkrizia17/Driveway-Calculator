@@ -40,16 +40,15 @@ input, button, p, ul, li {
     padding: 2rem;
     border-radius: 10px;
     backdrop-filter: blur(10px);
+    
 }
 
 .info-section h2 {
-    font-family: 'Roboto', sans-serif;
     font-size: 1.875rem;  /* 30px */
     font-weight: 500;
 }
 
 .info-section h3 {
-    font-family: 'Roboto', sans-serif;
     font-size: 1.5rem;    /* 24px */
     font-weight: 500;
     margin-top: 2rem;
@@ -58,19 +57,16 @@ input, button, p, ul, li {
 }
 
 .info-section p {
-    font-family: 'Roboto', sans-serif;
     font-size: 1rem;      /* 16px */
     font-weight: 400;
     line-height: 1.5;
 }
 
 .info-section ul {
-    font-family: 'Roboto', sans-serif;
     font-size: 1rem;      /* 16px */
 }
 
 .info-section li {
-    font-family: 'Roboto', sans-serif;
     font-size: 1rem;      /* 16px */
     font-weight: 400;
     line-height: 1.5;
@@ -126,11 +122,12 @@ input, button, p, ul, li {
 }
 
 .result {
-    margin-top: 2rem;
+    margin-top: 1rem;
     padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
     font-family: 'Roboto', sans-serif;
+    font-size: 16px !important;
 }
 
 h2, h3, h4 {
@@ -434,5 +431,13 @@ h4 {
 
 h5 {
     font-weight: bold;
+}
+
+.text-26px {
+    font-size: 26px; /* Set font size to 26px */
+}
+
+.text-16px {
+    font-size: 16px; /* Custom class for 16px font size */
 }
   

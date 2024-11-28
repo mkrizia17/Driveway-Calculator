@@ -23,20 +23,20 @@ export default function Home() {
           priority
         />
         <div className="absolute inset-0 bg-black bg-opacity-65 flex flex-col items-center justify-center text-center p-6">
-          <h1 className="title-gradient text-6xl md:text-6xl font-bold mb-4">
+          <h1 className="title-gradient text-45px font-bold mb-4">
             DRIVEWAY COST CALCULATOR
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-2xl">
+          <p className="text-16px mb-8 max-w-2xl">
             Estimate costs for gravel, concrete, asphalt, and paver driveways with precision
           </p>
         </div>
       </section>
 
       {/* Calculator Section */}
-      <div className="container mx-auto mb-5 py-5 px-4 flex flex-col items-center">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-6">
+      <div className="container mx-auto mb-8 py-1 px-10 flex flex-col items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-10">
           <div className="rounded-xl border-2 text-card-foreground shadow bg-gray-700 border-gray-600">
-            <div className="flex flex-col space-y-1.5 p-6">
+            <div className="flex flex-col space-y-1 p-6">
               <Link href="/gravel-calculator" className="block">
                 <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">
                   <Image
@@ -54,9 +54,9 @@ export default function Home() {
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
                   href="/gravel-calculator" 
-                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300 text-16px"
                 >
-                  Gravel Calculator
+                  GRAVEL CALCULATOR
                 </Link>
               </h3>
             </div>
@@ -84,9 +84,9 @@ export default function Home() {
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
                   href="/concrete-calculator" 
-                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300 text-16px"
                 >
-                  Concrete Calculator
+                  CONCRETE CALCULATOR
                 </Link>
               </h3>
             </div>
@@ -114,9 +114,9 @@ export default function Home() {
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
                   href="/asphalt-calculator" 
-                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300 text-16px"
                 >
-                  Asphalt Calculator
+                  ASPHALT CALCULATOR
                 </Link>
               </h3>
             </div>
@@ -144,9 +144,9 @@ export default function Home() {
               <h3 className="text-2xl font-semibold text-center mt-4">
                 <Link 
                   href="/paver-calculator" 
-                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300"
+                  className="text-gray-200 hover:text-blue-400 transition-colors duration-300 text-16px"
                 >
-                  Paver Calculator
+                  PAVER CALCULATOR
                 </Link>
               </h3>
             </div>
@@ -159,8 +159,10 @@ export default function Home() {
 
       {/* Features Section */}
       <section className="bg-gray-800 py-16"> 
-        <div className="container mx-auto mb-3 py-3 px-4 flex flex-col items-center">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">Why Use Our Driveway Calculator?</h2>
+        <div className="container mx-auto mb-2 py-2 px-10 flex flex-col items-center">
+          <h2 className="text-26px font-bold text-center mb-8 text-gray-200">
+            Why Use Our Driveway Calculator?
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="bg-gray-700 border-gray-600">
               <CardHeader>
@@ -209,8 +211,8 @@ export default function Home() {
       </section>
 
       {/* Benefits Section */}
-      <div className="container mx-auto mb-12 py-12 px-4 flex flex-col items-center">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">
+      <div className="container mx-auto py-12 px-4">
+        <h2 className="text-26px font-bold text-center mb-8 text-gray-200">
           Benefits of our Driveway Cost Calculator
         </h2>
         <ul className="space-y-4 text-gray-300 max-w-3xl mx-auto">
@@ -261,7 +263,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="bg-gray-800 py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4 text-blue-400">
+          <h2 className="text-26px font-bold text-center mb-4 text-blue-400">
             Ready to Plan Your Driveway Project?
           </h2>
           <p className="text-xl mb-8 text-gray-300">Choose your driveway material and get started with your free estimate now.</p>

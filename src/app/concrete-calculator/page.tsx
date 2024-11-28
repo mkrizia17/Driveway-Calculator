@@ -252,7 +252,7 @@ export default function ConcretePage() {
                 <div className="gravel-page-container font-roboto">
                     <div className="content-wrapper">
                         <div className="calculator-section">
-                            <h1 className="page-title text-3xl">Concrete Driveway Calculator</h1>
+                            <h1 className="page-title text-26px whitespace-nowrap">Concrete Driveway Calculator</h1>
                             <div className="input-group">
                                 <label>
                                     Width: <span className="required">*</span>

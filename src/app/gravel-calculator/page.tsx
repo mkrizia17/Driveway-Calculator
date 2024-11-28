@@ -190,7 +190,7 @@ export default function GravelPage() {
             <div className="gravel-page-container" style={{ fontFamily: '__Inter_d65c78, __Inter_Fallback_d65c78, sans-serif' }}>
                 <div className="content-wrapper mt-8 px-4">
                     <div className="calculator-section">
-                        <h1 className="page-title mb-6 text-3xl">Gravel Driveway Calculator</h1>
+                        <h1 className="page-title mb-6 text-26px">Gravel Driveway Calculator</h1>
                         <div className="input-group">
                             <label>
                                 Width: <span className="required">*</span>
@@ -302,11 +302,11 @@ export default function GravelPage() {
                         <button className="calculate-button" onClick={calculateGravel}>Calculate</button>
 
                         <div className="result">
-                            <h2>Dimensions</h2>
-                            <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
-                            <p>Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
-                            <p>Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
-                            <p>Weight: {formatNumberOneDecimal(tonsNeeded ?? 0)} tons</p>
+                            <h2 className="text-16px">Dimensions</h2>
+                            <p className="text-16px">Driveway Area: 0.00 sq ft</p>
+                            <p className="text-16px">Driveway Perimeter: 0.00 ft</p>
+                            <p className="text-16px">Volume: 0.0 cubic yards</p>
+                            <p className="text-16px">Weight: 0.0 tons</p>
                         </div>
 
                         <div className="result">
@@ -356,7 +356,7 @@ export default function GravelPage() {
                     <div className="info-section">
                         <h2>How the Gravel Driveway Calculator Works</h2>
 
-                        <p className="info-paragraph">
+                        <p className="info-paragraph ">
                             The Gravel Driveway Calculator is a simple, yet powerful tool designed to help you estimate the amount of gravel needed for your driveway project. Whether you're planning a new driveway or refreshing an existing one, this calculator provides an accurate estimate based on the specific dimensions of your project.
                         </p>
 

@@ -259,7 +259,7 @@ export default function PaversPage() {
                 <div className="gravel-page-container font-roboto">
                     <div className="content-wrapper">
                         <div className="calculator-section">
-                            <h1 className="page-title text-3xl">Paver Driveway Calculator</h1>
+                            <h1 className="page-title text-26px whitespace-nowrap">Paver Driveway Calculator</h1>
                             <div className="calculator-section1">
                                 <h3>Project Dimensions</h3>
                                 

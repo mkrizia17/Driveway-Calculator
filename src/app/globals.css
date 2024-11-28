@@ -47,7 +47,7 @@ h6 {
 }
 
 body {
-  font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif;
+  font-family: 'Inter', sans-serif; /* Example font family */
   font-size: 20px;
   line-height: 1.6;
   color: #333;
@@ -229,3 +229,24 @@ input, button, p, ul, li {
     padding: 0;
     box-sizing: border-box;
 }
+
+html {
+    font-size: 0.875rem; /* Decrease base font size to 14px */
+}
+
+
+.text-45px {
+    font-size: 45px; /* Custom class for 35px font size */
+}
+
+.text-16px {
+    font-size: 16px; /* Custom class for 16px font size */
+}
+
+.text-26px {
+    font-size: 26px; /* Custom class for 18px font size */
+}
+
+
+
+
