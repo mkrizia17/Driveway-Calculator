@@ -13,16 +13,16 @@ export default function Home() {
     <main className="flex min-h-screen flex-col bg-gray-900 text-gray-100">
       <Header />
       {/* Hero Section */}
-      <section className="relative h-[55vh] min-h-[350px] w-full overflow-hidden">
+      <section className="relative h-[40vh] min-h-[250px] w-full overflow-hidden">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/hero-driveway.jpg-JEa1BKUj9Gsp8ZxiApTdyULbn6sDU5.jpeg"
+          src="/images/heroimage.jpg"
           alt="Beautiful residential property with a curved concrete driveway surrounded by manicured lawn and landscaping"
           fill
           style={{ objectFit: "cover", objectPosition: "center bottom" }}
           className="absolute inset-0"
           priority
         />
-        <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-center p-6">
+        <div className="absolute inset-0 bg-black bg-opacity-65 flex flex-col items-center justify-center text-center p-6">
           <h1 className="title-gradient text-6xl md:text-7xl font-bold mb-4">
             Driveway Cost Calculator
           </h1>

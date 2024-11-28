@@ -42,7 +42,7 @@ export default function FAQPage() {
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto mb-16">
           <Accordion type="single" collapsible>
             {faqItems.map((item, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border-b border-gray-700">
@@ -57,7 +57,7 @@ export default function FAQPage() {
           </Accordion>
         </div>
       </main>
-
+            
       <Footer />
     </div>
   );

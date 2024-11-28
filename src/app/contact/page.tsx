@@ -77,14 +77,6 @@ export default function ContactPage() {
                   <Mail className="h-5 w-5 text-blue-400" />
                   <span>support@drivewaycalculator.com</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Phone className="h-5 w-5 text-blue-400" />
-                  <span>+1 (555) 123-4567</span>
-                </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <MapPin className="h-5 w-5 text-blue-400" />
-                  <span>123 Calculator Street, Digital City, DC 12345</span>
-                </div>
               </div>
 
               <div>
@@ -92,9 +84,7 @@ export default function ContactPage() {
                   Business Hours
                 </h2>
                 <div className="space-y-2 text-gray-300">
-                  <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: 10:00 AM - 4:00 PM</p>
-                  <p>Sunday: Closed</p>
+                  <p>Monday - Sunday: 9:00 AM - 6:00 PM</p>
                 </div>
               </div>
             </div>
