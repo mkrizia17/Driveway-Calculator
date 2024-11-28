@@ -29,14 +29,12 @@ export default function Home() {
           <p className="text-xl md:text-2xl mb-8 max-w-2xl">
             Estimate costs for gravel, concrete, asphalt, and paver driveways with precision
           </p>
-        
         </div>
       </section>
 
       {/* Calculator Section */}
       <div className="container mx-auto py-12 px-4">
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-6">
           <div className="rounded-xl border-2 text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
               <Link href="/gravel-calculator" className="block">
