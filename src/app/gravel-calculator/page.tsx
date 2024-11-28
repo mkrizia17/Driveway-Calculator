@@ -29,7 +29,6 @@ export default function GravelPage() {
         length: '',
         depth: ''
     });
-    const [showWarning, setShowWarning] = useState(false);
 
     const convertToFeet = (value: number, unit: Unit): number => {
         let result: number;
@@ -138,7 +137,6 @@ export default function GravelPage() {
         const cost = pricePerCubicYard > 0 ? 
             Math.round(calculatedVolume * pricePerCubicYard * 100) / 100 : 0;
         setTotalCost(cost);
-        setShowWarning(true);
     };
 
     const formatNumber = (num: number): string => {
