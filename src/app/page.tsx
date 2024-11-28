@@ -13,7 +13,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col bg-gray-900 text-gray-100">
       <Header />
       {/* Hero Section */}
-      <section className="relative h-[40vh] min-h-[250px] w-full overflow-hidden">
+      <section className="relative h-[45vh] min-h-[300px] w-full overflow-hidden">
         <Image
           src="/images/heroimage.jpg"
           alt="Beautiful residential property with a curved concrete driveway surrounded by manicured lawn and landscaping"
@@ -33,7 +33,7 @@ export default function Home() {
       </section>
 
       {/* Calculator Section */}
-      <div className="container mx-auto py-12 px-4">
+      <div className="container mx-auto mb-5 py-5 px-4 flex flex-col items-center">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-6">
           <div className="rounded-xl border-2 text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
@@ -158,8 +158,8 @@ export default function Home() {
       </div>
 
       {/* Features Section */}
-      <section className="bg-gray-800 py-16">
-        <div className="container mx-auto px-4">
+      <section className="bg-gray-800 py-16"> 
+        <div className="container mx-auto mb-3 py-3 px-4 flex flex-col items-center">
           <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">Why Use Our Driveway Calculator?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="bg-gray-700 border-gray-600">
@@ -209,7 +209,7 @@ export default function Home() {
       </section>
 
       {/* Benefits Section */}
-      <div className="container mx-auto py-12 px-4">
+      <div className="container mx-auto mb-12 py-12 px-4 flex flex-col items-center">
         <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">
           Benefits of our Driveway Cost Calculator
         </h2>
