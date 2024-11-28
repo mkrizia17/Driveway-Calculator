@@ -13,7 +13,7 @@ export default function GravelPage() {
     const [width, setWidth] = useState<number>(0);
     const [length, setLength] = useState<number>(0);
     const [depth, setDepth] = useState<number>(0);
-    const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
+    const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(65);
     const [totalCost, setTotalCost] = useState<number | null>(null);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
     const [tonsNeeded, setTonsNeeded] = useState<number | null>(null);
@@ -29,6 +29,7 @@ export default function GravelPage() {
         length: '',
         depth: ''
     });
+    const [showWarning, setShowWarning] = useState(false);
 
     const convertToFeet = (value: number, unit: Unit): number => {
         let result: number;
@@ -137,6 +138,7 @@ export default function GravelPage() {
         const cost = pricePerCubicYard > 0 ? 
             Math.round(calculatedVolume * pricePerCubicYard * 100) / 100 : 0;
         setTotalCost(cost);
+        setShowWarning(true);
     };
 
     const formatNumber = (num: number): string => {
@@ -286,17 +288,21 @@ export default function GravelPage() {
                         </div>
                         <div className="input-group">
                             <label>
-                                Price per Cubic Yard (Optional):
+                                Price per Cubic Yard:
                                 <div className="price-input-container">
                                     <input 
                                         type="number" 
                                         value={pricePerCubicYard} 
                                         onChange={(e) => setPricePerCubicYard(parseFloat(e.target.value))} 
-                                        placeholder="0.00"
+                                        placeholder="65"
                                         className="price-input"
                                     />
                                     <span className="price-prefix">$</span>
                                 </div>
+                                <div className="mb-4" />
+                                <p className="text-sm text-gray-400 mt-2">
+                                    For our calculations, we use an average gravel price of $65 per cubic yard, with typical local prices ranging from $20 to $100. We recommend confirming rates with local suppliers for the most accurate estimate.
+                                </p>
                             </label>
                         </div>
                         <button className="calculate-button" onClick={calculateGravel}>Calculate</button>

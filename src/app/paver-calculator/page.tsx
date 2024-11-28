@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../gravel-calculator/GravelPage.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -44,7 +44,7 @@ export default function PaversPage() {
         paverLength: ''
     });
 
-    const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0);
+    const [pricePerCubicYard, setPricePerCubicYard] = useState<number>(0.60);
     const [totalCost, setTotalCost] = useState<number | null>(null);
     const [materialCosts, setMaterialCosts] = useState<{
         pavers: {min: number, max: number, custom?: number},
@@ -52,9 +52,17 @@ export default function PaversPage() {
         sand: {min: number, max: number},
         polymericSand: {min: number, max: number}
     } | null>(null);
-    const [installationCost, setInstallationCost] = useState<number>(0);
+    const [installationCost, setInstallationCost] = useState<number>(13);
     const [totalInstallationCost, setTotalInstallationCost] = useState<number>(0);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
+    const [showWarning, setShowWarning] = useState(false);
+    const [showInstallationWarning, setShowInstallationWarning] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+    const [calculationAttempted, setCalculationAttempted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     const calculatePavers = () => {
         // Reset errors
@@ -112,6 +120,9 @@ export default function PaversPage() {
         // Step 3: Calculate Number of Pavers Needed
         const totalPaversNeeded = Math.ceil(patioSquareFootage / paverSquareFootage);
 
+        // Calculate Pavers per Square Foot
+        const paversPerSqFt = paverSquareFootage > 0 ? 1 / paverSquareFootage : 0;
+
         // Calculate Base Materials for Material Estimate
         const area = widthInFeet * lengthInFeet;
         const depth = 0.4;
@@ -119,26 +130,20 @@ export default function PaversPage() {
         const roundedGravelCubicYards = Number(gravelCubicYards.toFixed(2));
 
         // Calculate Base Sand Volume
-        const sandDepth = 1/12;                         // 1 inch = 1/12 foot
+        const sandDepth = 1/12; // 1 inch = 1/12 foot
         const sandCubicYards = (area * sandDepth) / 27; // (144 * 1/12) / 27 = 0.44
-        
-        // Format to always show 2 decimal places
         const roundedSandCubicYards = Number(sandCubicYards.toFixed(2));
 
         // Calculate Polymeric Sand Bags Range
-        const minCoveragePerBag = 50;                   // Maximum coverage: 75 sq ft per bag
-        const maxCoveragePerBag = 100;                   // Minimum coverage: 50 sq ft per bag
-        
-        const minBags = Math.ceil(area / maxCoveragePerBag);  // Note: switched to maxCoverage for minBags
-        const maxBags = Math.ceil(area / minCoveragePerBag);  // Note: switched to minCoverage for maxBags
-        
-        // Calculate material costs using maximum bags for worst case scenario
-        const polymericSandCost = maxBags * 25;  // $25 per bag
+        const minCoveragePerBag = 50; // Maximum coverage: 75 sq ft per bag
+        const maxCoveragePerBag = 100; // Minimum coverage: 50 sq ft per bag
+        const minBags = Math.ceil(area / maxCoveragePerBag);
+        const maxBags = Math.ceil(area / minCoveragePerBag);
+        const polymericSandCost = maxBags * 25; // $25 per bag
 
         const paverCost = totalPaversNeeded * (pricePerCubicYard || 0);
-
         const gravelCost = Math.round(roundedGravelCubicYards * 45); // $45 per cubic yard
-        const sandCost = sandCubicYards * 15;      // $15 per cubic yard
+        const sandCost = sandCubicYards * 15; // $15 per cubic yard
 
         const calculatedInstallationCost = installationCost * area;
         setTotalInstallationCost(calculatedInstallationCost);
@@ -151,35 +156,17 @@ export default function PaversPage() {
             polymericSand: { min: polymericSandCost, max: polymericSandCost }
         });
 
-        console.log('Width in feet:', widthInFeet);
-        console.log('Length in feet:', lengthInFeet);
-
         // Update the display in the Estimated Material Cost section:
-        <div className="result">
-            <h2 className="text-xl font-semibold mb-4">Estimated Material Cost</h2>
-            <div className="space-y-2">
-                <p>
-                    Pavers Cost: {pricePerCubicYard === 0 ? 
-                        <span className="warning-text">Please enter Paver Price to calculate Pavers Cost</span> : 
-                        `$${formatNumber(materialCosts?.pavers.custom ?? 0)}`
-                    }
-                </p>
-                <p>
-                    Total installation cost: {installationCost === 0 ? 
-                        <span className="warning-text">Please enter Cost of Installation to calculate Total Installation Cost</span> : 
-                        `$${formatNumber(totalInstallationCost)}`
-                    }
-                </p>
-            </div>
-        </div>
-
         setVolumeInCubicYards({
             gravel: roundedGravelCubicYards,
             sand: roundedSandCubicYards,
             polymericSand: `${minBags}-${maxBags} bags`,
-            paversPerSqFt: patioSquareFootage / totalPaversNeeded,
+            paversPerSqFt: paversPerSqFt,
             pavers: totalPaversNeeded
         });
+
+        setShowWarning(true);
+        setShowInstallationWarning(installationCost <= 0 && calculationAttempted);
     };
 
     const formatNumber = (num: number): string => {
@@ -423,7 +410,7 @@ export default function PaversPage() {
 
                             <div className="input-group">
                                 <label>
-                                    <h4>Paver Price per piece (Optional):</h4>
+                                    <h4>Paver Price per piece:</h4>
                                     <div className="price-input-container">
                                         <input 
                                             type="number" 
@@ -442,7 +429,7 @@ export default function PaversPage() {
 
                             <div className="input-group">
                                 <label>
-                                    <h4>Cost of installation per sq ft (Optional):</h4>
+                                    <h4>Cost of installation per sq ft:</h4>
                                     <div className="price-input-container">
                                         <input 
                                             type="number" 
@@ -458,8 +445,18 @@ export default function PaversPage() {
                                     </div>
                                 </label>
                             </div>
+                            <p className="text-sm text-gray-400 mt-2">
+                                For our calculations, we use an average price of $0.60 per brick for brick pavers, with typical prices ranging from $0.35 to $0.90 per brick or $2 to $6 per square foot, excluding installation. We use an average of $13 per square foot for the cost of installation, with typical installation costs ranging from $10 to $17 per square foot.
+                            </p>
+                            <br />
+                            <p className="text-sm text-gray-400 mt-2">
+                                Prices may vary depending on the material used, such as clay brick, concrete, stone, slate, or cobblestone. We recommend checking with local suppliers for the most accurate estimate of both paver prices and installation costs.
+                            </p>
 
-                            <button className="calculate-button" onClick={calculatePavers}>Calculate</button>
+                            <button className="calculate-button" onClick={() => {
+                                setCalculationAttempted(true);
+                                calculatePavers();
+                            }}>Calculate</button>
 
                             <div className="result">
                                 <h2>Dimensions</h2>
@@ -485,7 +482,7 @@ export default function PaversPage() {
                                         }
                                     </p>
                                     <p>
-                                        Total installation cost: {installationCost === 0 ? 
+                                        Total installation cost: {installationCost === 0 && isMounted && calculationAttempted ? 
                                             <span className="warning-text">Please enter Cost of Installation to calculate installation cost</span> : 
                                             `$${formatNumber(totalInstallationCost)}`
                                         }
@@ -579,8 +576,8 @@ export default function PaversPage() {
 
                             <h4>Step 4: Estimate Costs</h4>
                             <ul className="info-list">
-                                <li>Paver Cost: Enter the price of a single paver to calculate the total material cost.</li>
-                                <li>Installation Cost: Add the professional installation cost per square foot. Typical rates range between $8 and $20, depending on your location.</li>
+                                <li>Paver Cost: Enter the price of a single paver to calculate the total material cost. Typical rates range between $0.35 to $0.90 per brick or $2 to $6 per square foot, depending on your location.</li>
+                                <li>Installation Cost: Add the professional installation cost per square foot. Typical rates range between $10 to $17, depending on your location.</li>
                             </ul>
 
                             <h4>Common Paver Sizes</h4>
