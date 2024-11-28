@@ -55,10 +55,8 @@ export default function PaversPage() {
     const [installationCost, setInstallationCost] = useState<number>(13);
     const [totalInstallationCost, setTotalInstallationCost] = useState<number>(0);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
-    const [showWarning, setShowWarning] = useState(false);
-    const [showInstallationWarning, setShowInstallationWarning] = useState(false);
-    const [isMounted, setIsMounted] = useState(false);
     const [calculationAttempted, setCalculationAttempted] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
         setIsMounted(true);
@@ -164,9 +162,6 @@ export default function PaversPage() {
             paversPerSqFt: paversPerSqFt,
             pavers: totalPaversNeeded
         });
-
-        setShowWarning(true);
-        setShowInstallationWarning(installationCost <= 0 && calculationAttempted);
     };
 
     const formatNumber = (num: number): string => {
