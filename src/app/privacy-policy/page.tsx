@@ -55,7 +55,7 @@ export default function PrivacyPolicyPage() {
                         <p className="mb-4">
                             If you have any questions about our Privacy Policy, please contact us at:
                         </p>
-                        <p className="text-blue-400">support@drivewaycalculator.com</p>
+                        <p className="text-blue-400">support@calcmydrive.com</p>
                     </section>
 
                     <section>

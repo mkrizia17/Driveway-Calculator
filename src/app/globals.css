@@ -247,6 +247,9 @@ html {
     font-size: 26px; /* Custom class for 18px font size */
 }
 
-
+.text-sm {
+  max-width: 300px; /* Adjust as needed */
+  margin: 0 auto; /* Center the text block */
+}
 
 
