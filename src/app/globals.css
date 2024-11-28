@@ -4,6 +4,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .bg-background {
+    background-color: #f0f0f0; /* Define your background color here */
+  }
+  .text-foreground {
+    color: #333; /* Define your text color here */
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.border-example {
+  @apply border border-gray-500;
+}
+
 /* Custom class for the gradient title */
 .title-gradient {
     font-family: 'Roboto', sans-serif !important;
