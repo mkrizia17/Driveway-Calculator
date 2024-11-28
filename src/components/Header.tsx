@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { HomeIcon } from 'lucide-react';
 
 export function Header() {
   return (
@@ -7,34 +6,33 @@ export function Header() {
       <div className="container mx-auto px-4 flex items-center justify-center">
         <Link 
           href="/" 
-          className="text-gray-100 hover:text-blue-400 transition-colors flex items-center gap-3 text-1xl mx-4 uppercase"
+          className="text-gray-100 hover:text-blue-400 transition-colors text-2xl mx-8 uppercase"
         >
-          <HomeIcon className="w-8 h-8" />
           HOME
         </Link>
         <Link 
           href="/gravel-calculator" 
-          className="text-gray-100 hover:text-blue-400 transition-colors text-1xl mx-8 uppercase"
+          className="text-gray-100 hover:text-blue-400 transition-colors text-2xl mx-8 uppercase"
         >
           GRAVEL
         </Link>
         <Link 
           href="/concrete-calculator" 
-          className="text-gray-100 hover:text-blue-400 transition-colors text-1xl mx-8 uppercase"
+          className="text-gray-100 hover:text-blue-400 transition-colors text-2xl mx-8 uppercase"
         >
-          CONCRETE 
+          CONCRETE
         </Link>
         <Link 
           href="/asphalt-calculator" 
-          className="text-gray-100 hover:text-blue-400 transition-colors text-1xl mx-8 uppercase"
+          className="text-gray-100 hover:text-blue-400 transition-colors text-2xl mx-8 uppercase"
         >
-          ASPHALT 
+          ASPHALT
         </Link>
         <Link 
           href="/paver-calculator" 
-          className="text-gray-100 hover:text-blue-400 transition-colors text-1xl mx-8 uppercase"
+          className="text-gray-100 hover:text-blue-400 transition-colors text-2xl mx-8 uppercase"
         >
-          PAVER 
+          PAVER
         </Link>
       </div>
     </div>

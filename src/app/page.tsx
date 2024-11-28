@@ -35,12 +35,9 @@ export default function Home() {
 
       {/* Calculator Section */}
       <div className="container mx-auto py-12 px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 text-gray-200">
-          Find Your Calculator
-        </h2>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-          <div className="rounded-xl border text-card-foreground shadow bg-gray-700 border-gray-600">
+          <div className="rounded-xl border-2 text-card-foreground shadow bg-gray-700 border-gray-600">
             <div className="flex flex-col space-y-1.5 p-6">
               <Link href="/gravel-calculator" className="block">
                 <div className="relative w-full aspect-square overflow-hidden rounded-lg mb-6">

@@ -254,7 +254,7 @@ export default function AsphaltPage() {
                 <div className="gravel-page-container font-roboto">
                     <div className="content-wrapper">
                         <div className="calculator-section">
-                            <h1 className="page-title font-roboto">Asphalt Driveway Calculator</h1>
+                            <h1 className="page-title text-3xl">Asphalt Driveway Calculator</h1>
                             <div className="input-group">
                                 <label>
                                     Width: <span className="required">*</span>
