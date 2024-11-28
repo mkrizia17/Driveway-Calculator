@@ -303,10 +303,10 @@ export default function GravelPage() {
 
                         <div className="result">
                             <h2 className="text-16px">Dimensions</h2>
-                            <p className="text-16px">Driveway Area: 0.00 sq ft</p>
-                            <p className="text-16px">Driveway Perimeter: 0.00 ft</p>
-                            <p className="text-16px">Volume: 0.0 cubic yards</p>
-                            <p className="text-16px">Weight: 0.0 tons</p>
+                            <p className="text-16px">Driveway Area: {formatNumber(calculateArea())} sq ft</p>
+                            <p className="text-16px">Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
+                            <p className="text-16px">Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
+                            <p className="text-16px">Weight: {formatNumberOneDecimal(tonsNeeded ?? 0)} tons</p>
                         </div>
 
                         <div className="result">
