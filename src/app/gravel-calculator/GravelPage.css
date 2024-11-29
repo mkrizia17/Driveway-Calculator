@@ -40,7 +40,8 @@ input, button, p, ul, li {
     padding: 2rem;
     border-radius: 10px;
     backdrop-filter: blur(10px);
-    
+    font-size: 20px;
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif;
 }
 
 .info-section h2 {
@@ -91,7 +92,6 @@ input, button, p, ul, li {
     display: block;
     margin-bottom: 0.5rem;
     color: #ffffff;
-    font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
 
@@ -113,7 +113,6 @@ input, button, p, ul, li {
     cursor: pointer;
     font-size: 1rem;
     margin-top: 1rem;
-    font-family: 'Roboto', sans-serif;
     font-weight: 500;
 }
 
@@ -126,13 +125,12 @@ input, button, p, ul, li {
     padding: 1rem;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px !important;
+    font-size: 20px;
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif;
 }
 
 h2, h3, h4 {
     color: #ffffff;
-    font-family: 'Roboto', sans-serif;
     font-weight: 500;
 }
 
@@ -240,9 +238,8 @@ li {
 }
 
 .info-paragraph {
-    margin-bottom: 1rem;
-    line-height: 1.6;
-    color: #D1D5DB;  /* gray-300 */
+    font-size: 16px;
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif;
 }
 
 .info-image-container {
@@ -427,6 +424,7 @@ h4 {
     font-weight: 600;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
+    font-size: 16px;
 }
 
 h5 {
@@ -443,10 +441,19 @@ h5 {
 
 .info-text {
     font-size: 16px;
-    font-family: 'Roboto', sans-serif; /* Adjust as necessary */
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif; /* Adjust as necessary */
 }
 
 .custom-font-size {
     font-size: 20px;
 }
+
+.calculation-steps {
+    font-size: 16px;
+}
+
+.example-box {
+    font-size: 16px;
+}
+
   

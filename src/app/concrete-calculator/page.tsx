@@ -18,17 +18,17 @@ const PRICE_PER_STAKE = 0.50;
 export default function ConcretePage() {
     const [width, setWidth] = useState<number>(0);
     const [length, setLength] = useState<number>(0);
-    const [depth, setDepth] = useState<number>(0);
+    const [depth, setDepth] = useState<number>(6);
     const [totalCost, setTotalCost] = useState<number | null>(null);
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<number | null>(null);
     const [widthUnit, setWidthUnit] = useState<Unit>('ft');
     const [lengthUnit, setLengthUnit] = useState<Unit>('ft');
     const [depthUnit, setDepthUnit] = useState<Unit>('in');
-    const [customConcreteCost, setCustomConcreteCost] = useState<number>(0);
-    const [customGravelCost, setCustomGravelCost] = useState<number>(0);
-    const [customRebarCost, setCustomRebarCost] = useState<number>(0);
-    const [customFormCost, setCustomFormCost] = useState<number>(0);
-    const [customStakeCost, setCustomStakeCost] = useState<number>(0);
+    const [customConcreteCost, setCustomConcreteCost] = useState<number>(125);
+    const [customGravelCost, setCustomGravelCost] = useState<number>(16);
+    const [customRebarCost, setCustomRebarCost] = useState<number>(0.75);
+    const [customFormCost, setCustomFormCost] = useState<number>(0.50);
+    const [customStakeCost, setCustomStakeCost] = useState<number>(0.50);
     const [showOptionalCosts, setShowOptionalCosts] = useState<boolean>(false);
     const [errors, setErrors] = useState<{
         width: string;
@@ -40,6 +40,7 @@ export default function ConcretePage() {
         depth: ''
     });
     const [showInfo, setShowInfo] = useState<boolean>(false);
+    const [showInfoMessage, setShowInfoMessage] = useState<boolean>(false);
 
     const formatNumber = (num: number): string => {
         return new Intl.NumberFormat('en-US', {
@@ -324,8 +325,8 @@ export default function ConcretePage() {
                                         title="Click for more information" 
                                         onClick={() => setShowInfo(!showInfo)}
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
-                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 15a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm-.93-4.412a.5.5 0 0 1 .93 0v.002a.5.5 0 0 1-.93 0v-.002zm.93-8.588a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V3.5a.5.5 0 0 1 .5-.5z"/>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
                                         </svg>
                                     </span>
                                     <div className="input-with-unit">
@@ -378,8 +379,22 @@ export default function ConcretePage() {
                                 >
                                     <h3 className="toggle-header mr-2 custom-font-size">Optional Material Costs</h3>
                                     <span className="toggle-arrow text-lg">▼</span>
+                                    <svg 
+                                        xmlns="http://www.w3.org/2000/svg" 
+                                        width="16" 
+                                        height="16" 
+                                        fill="currentColor" 
+                                        viewBox="0 0 16 16" 
+                                        className="ml-1 cursor-pointer"
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Prevents the button click event
+                                            setShowInfoMessage(!showInfoMessage);
+                                        }}
+                                    >
+                                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+                                    </svg>
                                 </button>
-                                
+
                                 {showOptionalCosts && (
                                     <div className="optional-costs">
                                         <div className="input-group">
@@ -460,16 +475,32 @@ export default function ConcretePage() {
                                     </div>
                                 )}
                             </div>
+
+                            {showInfoMessage && (
+                                <div className="text-sm">
+                                    <h5 className="font-bold mt-4">Default Material Prices:</h5>
+                                    <br />
+                                    <ul>
+                                    <li className="text-sm text-gray-400 mt-2">Concrete: $125 per cubic yard</li>
+                                        <li className="text-sm text-gray-400 mt-2">Gravel: $16 per cubic yard</li>
+                                        <li className="text-sm text-gray-400 mt-2">Rebar: $0.75 per linear foot</li>
+                                        <li className="text-sm text-gray-400 mt-2">Forms: $0.50 per linear foot</li>
+                                        <li className="text-sm text-gray-400 mt-2">Form Stakes: $0.50 per stake</li>
+                                    </ul>
+                                    <p className="text-sm text-gray-400 mt-2">We recommend confirming rates with local suppliers for the most accurate estimate.</p>
+                                </div>
+                            )}
+
                             <button className="calculate-button" onClick={calculateConcrete}>Calculate</button>
 
                             <div className="result">
-                                <h2>Dimensions</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Dimensions</p>
                                 <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
                                 <p>Driveway Perimeter: {formatNumber(length && width ? 2 * (convertToFeet(length, lengthUnit) + convertToFeet(width, widthUnit)) : 0)} ft</p>
                             </div>
 
                             <div className="result">
-                                <h2>Material Estimations</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Material Estimations</p>
                                 <p>Concrete Volume: {formatNumberOneDecimal(volumeInCubicYards ?? 0)} cubic yards</p>
                                 <p>Gravel Volume: {formatNumberOneDecimal(calculateGravelVolume())} cubic yards</p>
                                 <p>Rebar Length: {formatNumber(calculateRebarLength())} ft ({Math.ceil(calculateRebarLength() / 20)} pieces of 20' #4 rebar)</p>
@@ -478,7 +509,7 @@ export default function ConcretePage() {
                             </div>
 
                             <div className="result">
-                                <h2>Cost Breakdown</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Cost Breakdown</p>
                                 <p>Concrete: ${formatWholeNumber(calculateConcretePrice())}</p>
                                 <p>Gravel: ${formatWholeNumber(calculateGravelPrice())}</p>
                                 <p>Rebar: ${formatWholeNumber(calculateRebarPrice())}</p>
@@ -487,7 +518,7 @@ export default function ConcretePage() {
                             </div>
 
                             <div className="result">
-                                <h2>Estimated Total Cost</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Estimated Total Cost</p>
                                 <h4 className="total-cost">${formatWholeNumber(totalCost ?? 0)}</h4>
                                 <p className="estimate-note">Estimate only – weight varies by material</p>
                             </div>
@@ -597,7 +628,7 @@ export default function ConcretePage() {
                                 <p>Adding reinforcement like rebar or wire mesh helps prevent cracking due to shifting.</p>
 
                                 <h5 style={{ fontWeight: 'bold' }}>Rebar vs. Mesh:</h5>
-                                <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12�� grid for driveways thicker than 5″.</p>
+                                <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12 grid for driveways thicker than 5″.</p>
 
                                 <h5>Estimating Rebar for Rectangular Driveways:</h5>
                                 <p>Measure the length and width of the driveway. Subtract 6–12″ from each to account for the grid's edge spacing. Calculate rows and columns of rebar spaced every 12″.</p>
