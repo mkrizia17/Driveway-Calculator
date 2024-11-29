@@ -57,6 +57,8 @@ export default function PaversPage() {
     const [volumeInCubicYards, setVolumeInCubicYards] = useState<VolumeInCubicYards | null>(null);
     const [calculationAttempted, setCalculationAttempted] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [showPaverPriceInfo, setShowPaverPriceInfo] = useState<boolean>(false);
+    const [showInstallationCostInfo, setShowInstallationCostInfo] = useState<boolean>(false);
 
     useEffect(() => {
         setIsMounted(true);
@@ -243,7 +245,7 @@ export default function PaversPage() {
                         <div className="calculator-section">
                             <h1 className="page-title text-26px whitespace-nowrap">Paver Driveway Calculator</h1>
                             <div className="calculator-section1">
-                                <h3>Project Dimensions</h3>
+                                <h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Project Dimensions</h3>
                                 
                                 <div className="input-group">
                                     <label>
@@ -323,8 +325,7 @@ export default function PaversPage() {
                             </div>
                             
                             <div className="calculator-paver">
-                                <br/>
-                                <h3>Paver's Dimensions</h3>
+                                <h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Paver's Dimensions</h3>
                                 
                                 <div className="input-group">
                                     <label>
@@ -405,7 +406,17 @@ export default function PaversPage() {
 
                             <div className="input-group">
                                 <label>
-                                    <h4>Paver Price per piece:</h4>
+                                    <h4 style={{ display: 'inline', marginRight: '5px' }}>Paver Price per piece:</h4>
+                                    <span 
+                                        className="info-icon cursor-pointer inline-block align-middle"
+                                        title="Click for more information"
+                                        style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                                        onClick={() => setShowPaverPriceInfo(!showPaverPriceInfo)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+                                        </svg>
+                                    </span>
                                     <div className="price-input-container">
                                         <input 
                                             type="number" 
@@ -419,12 +430,34 @@ export default function PaversPage() {
                                         />
                                         <span className="price-prefix">$</span>
                                     </div>
+                                    {showPaverPriceInfo && (
+                                        <>
+                                            <br />
+                                            <p className="text-sm text-gray-400 mt-2">
+                                                For our calculations, we use an average price of $0.60 per brick for brick pavers, with typical prices ranging from $0.35 to $0.90 per brick or $2 to $6 per square foot, excluding installation. We use an average of $13 per square foot for the cost of installation, with typical installation costs ranging from $10 to $17 per square foot.
+                                            </p>
+                                            <br />
+                                            <p className="text-sm text-gray-400 mt-2">
+                                            Prices may vary depending on the material used, such as clay brick, concrete, stone, slate, or cobblestone. We recommend checking with local suppliers for the most accurate estimate of both paver prices and installation costs.
+                                            </p>
+                                        </>
+                                    )}
                                 </label>
                             </div>
 
                             <div className="input-group">
                                 <label>
-                                    <h4>Cost of installation per sq ft:</h4>
+                                    <h4 style={{ display: 'inline', marginRight: '5px' }}>Cost of installation per sq ft:</h4>
+                                    <span 
+                                        className="info-icon cursor-pointer inline-block align-middle"
+                                        title="Click for more information"
+                                        style={{ display: 'inline-block', verticalAlign: 'middle' }}
+                                        onClick={() => setShowInstallationCostInfo(!showInstallationCostInfo)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+                                        </svg>
+                                    </span>
                                     <div className="price-input-container">
                                         <input 
                                             type="number" 
@@ -438,15 +471,20 @@ export default function PaversPage() {
                                         />
                                         <span className="price-prefix">$</span>
                                     </div>
+                                    {showInstallationCostInfo && (
+                                        <>
+                                            <br />
+                                            <p className="text-sm text-gray-400 mt-2">
+                                                For our calculations, we use an average price of $0.60 per brick for brick pavers, with typical prices ranging from $0.35 to $0.90 per brick or $2 to $6 per square foot, excluding installation. We use an average of $13 per square foot for the cost of installation, with typical installation costs ranging from $10 to $17 per square foot. 
+                                            </p>
+                                            <br />
+                                            <p className="text-sm text-gray-400 mt-2">
+                                                Prices may vary depending on the material used, such as clay brick, concrete, stone, slate, or cobblestone. We recommend checking with local suppliers for the most accurate estimate of both paver prices and installation costs.
+                                            </p>
+                                        </>
+                                    )}
                                 </label>
                             </div>
-                            <p className="text-sm text-gray-400 mt-2">
-                                For our calculations, we use an average price of $0.60 per brick for brick pavers, with typical prices ranging from $0.35 to $0.90 per brick or $2 to $6 per square foot, excluding installation. We use an average of $13 per square foot for the cost of installation, with typical installation costs ranging from $10 to $17 per square foot.
-                            </p>
-                            <br />
-                            <p className="text-sm text-gray-400 mt-2">
-                                Prices may vary depending on the material used, such as clay brick, concrete, stone, slate, or cobblestone. We recommend checking with local suppliers for the most accurate estimate of both paver prices and installation costs.
-                            </p>
 
                             <button className="calculate-button" onClick={() => {
                                 setCalculationAttempted(true);
@@ -454,21 +492,19 @@ export default function PaversPage() {
                             }}>Calculate</button>
 
                             <div className="result">
-                                <h2>Dimensions</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Dimensions</p>
                                 <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
                                 <p>Driveway Perimeter: {formatNumber(projectDimensions.length && projectDimensions.width ? 2 * (convertToFeet(projectDimensions.length, projectDimensions.lengthUnit) + convertToFeet(projectDimensions.width, projectDimensions.widthUnit)) : 0)} ft</p>
                             </div>
 
                             <div className="result">
-                                <h2 className="text-xl font-semibold mb-4">Paver Estimate</h2>
-                                <div className="space-y-2">
-                                    <p>Pavers per sq ft: {formatNumberOneDecimal(volumeInCubicYards?.paversPerSqFt ?? 0)}</p>
-                                    <p>Pavers: {formatNumberOneDecimal(volumeInCubicYards?.pavers ?? 0)} pieces</p>
-                                </div>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Paver Estimate</p>
+                                <p>Pavers per sq ft: {formatNumberOneDecimal(volumeInCubicYards?.paversPerSqFt ?? 0)}</p>
+                                <p>Pavers: {formatNumberOneDecimal(volumeInCubicYards?.pavers ?? 0)} pieces</p>
                             </div>
 
                             <div className="result">
-                                <h2 className="text-xl font-semibold mb-4">Estimated Material Cost</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Estimated Material Cost</p>
                                 <div className="space-y-2">
                                     <p>
                                         Pavers Cost: {pricePerCubicYard === 0 ? 
@@ -486,9 +522,15 @@ export default function PaversPage() {
                             </div>
 
                             <div className="result">
-                                <h2>Estimated Total Cost</h2>
-                                <h4 className="total-cost">${formatNumber(totalCost ?? 0)}</h4>
-                                <p className="estimate-note">*Estimate only - costs vary by location/vendor</p>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Estimated Total Cost</p>
+                                {(!pricePerCubicYard || pricePerCubicYard <= 0) ? (
+                                    <p className="warning-text">Please enter Paver Price to calculate total cost</p>
+                                ) : (
+                                    <>
+                                        <h4 className="total-cost" style={{ fontWeight: 'bold', fontSize: '24px' }}>${formatNumber(totalCost ?? 0)}</h4>
+                                        <p className="estimate-note">*Estimate only - costs vary by location/vendor</p>
+                                    </>
+                                )}
                             </div>
 
                             <div className="compare-section">
@@ -540,7 +582,7 @@ export default function PaversPage() {
                                 Width of the Driveway: Measure how wide your driveway will be in feet. This is typically the most variable measurement, as driveways can vary in size depending on your needs.
                             </p>
                             <p className="info-paragraph">
-                                Base Material Depth: Choose the depth or thickness of the base material layer. This is often measured in inches and typically ranges from 4 to 8 inches for residential driveways, depending on soil conditions and climate.
+                            Paver Dimensions: The size of each individual paver is essential for calculating how many pavers you will need. Measure the length, width, and thickness of the pavers you plan to use in inches or feet.
                             </p>
 
                             <h3>How the Calculator Works:</h3>
@@ -576,7 +618,7 @@ export default function PaversPage() {
                             </ul>
 
                             <h4>Common Paver Sizes</h4>
-                            <table className="paver-sizes-table">
+                            <table className="paver-sizes-table" style={{ fontSize: '16px' }}>
                                 <thead>
                                     <tr>
                                         <th style={{ color: '#333333', textAlign: 'center' }}>Size (in)</th>

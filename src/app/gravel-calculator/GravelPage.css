@@ -158,14 +158,14 @@ li {
 
 /* Result sections styling */
 .result h2 {
-    font-family: 'Roboto', sans-serif;
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif;
     font-size: 1.75rem;  /* 28px */
     font-weight: 500;
     margin-bottom: 1rem;
 }
 
 .result p {
-    font-family: 'Roboto', sans-serif;
+    font-family: '__Inter_d65c78', '__Inter_Fallback_d65c78', sans-serif;
     font-size: 1.25rem;  /* 20px */
     font-weight: 400;
     margin-bottom: 0.75rem;
@@ -205,14 +205,14 @@ li {
     font-size: 0.9rem;
 }
 
-.input-group input[required]:invalid {
+/* Remove or comment out these lines if you don't want initial red styling */
+/* .input-group input[required]:invalid {
     border-color: #ff6b6b;
 }
 
-/* Style for the required placeholder */
 .input-group input[required]:invalid::placeholder {
     color: #ff6b6b;
-}
+} */
 
 .estimate-note {
     font-size: 0.875rem;  /* 14px */
@@ -454,6 +454,11 @@ h5 {
 
 .example-box {
     font-size: 16px;
+}
+
+.price-input::placeholder {
+    color: white !important;
+    opacity: 1; /* Ensures the color is not affected by opacity */
 }
 
   

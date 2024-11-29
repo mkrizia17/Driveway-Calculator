@@ -30,9 +30,9 @@ type ExactCosts = {
 };
 
 export default function AsphaltPage() {
-    const [width, setWidth] = useState<number>(0);
-    const [length, setLength] = useState<number>(0);
-    const [depth, setDepth] = useState<number>(0);
+    const [width, setWidth] = useState<string>('');
+    const [length, setLength] = useState<string>('');
+    const [depth, setDepth] = useState<number>(3);
     const [totalCost, setTotalCost] = useState<{min: number, max: number} | null>(null);
     const [asphaltTons, setAsphaltTons] = useState<{tons: number, yards: number} | null>(null);
     const [crushedStoneYards, setCrushedStoneYards] = useState<{min: number, max: number} | null>(null);
@@ -54,6 +54,8 @@ export default function AsphaltPage() {
         crushedStone: {min: number, max: number},
         equipment: {min: number, max: number}
     } | null>(null);
+    const [showPriceInfo, setShowPriceInfo] = useState<boolean>(false);
+    const [showDepthInfo, setShowDepthInfo] = useState<boolean>(false);
 
     const formatNumber = (num: number): string => {
         return num.toLocaleString('en-US');
@@ -116,15 +118,15 @@ export default function AsphaltPage() {
 
     const calculateArea = (): number => {
         if (!length || !width) return 0;
-        const lengthInFeet = convertToFeet(length, lengthUnit);
-        const widthInFeet = convertToFeet(width, widthUnit);
+        const lengthInFeet = convertToFeet(parseFloat(length), lengthUnit);
+        const widthInFeet = convertToFeet(parseFloat(width), widthUnit);
         return lengthInFeet * widthInFeet;
     };
 
     const calculatePerimeter = (): number => {
         if (!length || !width) return 0;
-        const lengthInFeet = convertToFeet(length, lengthUnit);
-        const widthInFeet = convertToFeet(width, widthUnit);
+        const lengthInFeet = convertToFeet(parseFloat(length), lengthUnit);
+        const widthInFeet = convertToFeet(parseFloat(width), widthUnit);
         return 2 * (lengthInFeet + widthInFeet);
     };
 
@@ -144,12 +146,12 @@ export default function AsphaltPage() {
             depth: ''
         };
 
-        if (!width || width <= 0) {
+        if (!width || parseFloat(width) <= 0) {
             newErrors.width = 'Width is required and must be greater than 0';
             hasErrors = true;
         }
 
-        if (!length || length <= 0) {
+        if (!length || parseFloat(length) <= 0) {
             newErrors.length = 'Length is required and must be greater than 0';
             hasErrors = true;
         }
@@ -164,8 +166,8 @@ export default function AsphaltPage() {
             return;
         }
 
-        const widthInFeet = convertToFeet(width, widthUnit);
-        const lengthInFeet = convertToFeet(length, lengthUnit);
+        const widthInFeet = convertToFeet(parseFloat(width), widthUnit);
+        const lengthInFeet = convertToFeet(parseFloat(length), lengthUnit);
         const depthInFeet = convertToInches(depth, depthUnit) / 12;
         
         const exactAsphaltTons = (widthInFeet * lengthInFeet * depthInFeet * POUNDS_PER_CUBIC_FOOT) / POUNDS_PER_TON;
@@ -262,9 +264,9 @@ export default function AsphaltPage() {
                                         <input 
                                             type="number" 
                                             value={width} 
-                                            onChange={(e) => setWidth(parseFloat(e.target.value))} 
+                                            onChange={(e) => setWidth(e.target.value)} 
                                             required 
-                                            placeholder={width <= 0 ? "This field is required" : "Please fill in this field"}
+                                            placeholder="Enter Width"
                                         />
                                         <select 
                                             value={widthUnit} 
@@ -288,9 +290,9 @@ export default function AsphaltPage() {
                                         <input 
                                             type="number" 
                                             value={length} 
-                                            onChange={(e) => setLength(parseFloat(e.target.value))} 
+                                            onChange={(e) => setLength(e.target.value)} 
                                             required 
-                                            placeholder={length <= 0 ? "This field is required" : "Please fill in this field"}
+                                            placeholder="Enter Length"
                                         />
                                         <select 
                                             value={lengthUnit} 
@@ -310,6 +312,15 @@ export default function AsphaltPage() {
                             <div className="input-group">
                                 <label>
                                     Depth: <span className="required">*</span>
+                                    <span 
+                                        className="info-icon cursor-pointer inline-block align-middle ml-1"
+                                        title="Click for more information"
+                                        onClick={() => setShowDepthInfo(!showDepthInfo)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+                                        </svg>
+                                    </span>
                                     <div className="input-with-unit">
                                         <input 
                                             type="number" 
@@ -330,12 +341,38 @@ export default function AsphaltPage() {
                                             <option value="yd">yd</option>
                                         </select>
                                     </div>
+                                    {errors.depth && <div className="error-message">{errors.depth}</div>}
+                                    {showDepthInfo && (
+                                        <>
+                                            <br />
+                                            <p className="text-sm text-gray-400 mt-2">
+                                                The average asphalt driveway thickness varies based on its purpose and usage:
+                                            </p>
+                                            <ul className="text-sm text-gray-400 mt-2">
+                                                <li>Residential Driveways: Typically 2–3 inches, though 3 inches is recommended for larger vehicles like trucks.</li>
+                                                <li>Commercial Driveways: Typically 3 inches, but 4–7 inches is ideal for heavy-duty use.</li>
+                                                <li>Parking Lots: Usually 3 inches, but 6 inches is better for standard lots.</li>
+                                                <li>Extra Heavy-Duty Driveways: Typically 8–10 inches, designed for trucks and buses.</li>
+                                            </ul>
+                                            <p className="text-sm text-gray-400 mt-2">
+                                                For our calculations, we are using a standard thickness of 3 inches. You can adjust the thickness based on specific needs and usage.
+                                            </p>
+                                        </>
+                                    )}
                                 </label>
-                                {errors.depth && <div className="error-message">{errors.depth}</div>}
                             </div>
                             <div className="input-group">
                                 <label>
-                                    Price per Ton (Optional):
+                                    Price per Ton:
+                                    <span 
+                                        className="info-icon cursor-pointer inline-block align-middle ml-1"
+                                        title="Click for more information"
+                                        onClick={() => setShowPriceInfo(!showPriceInfo)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm1 12H7V7h2v5zm0-6H7V4h2v2z"/>
+                                        </svg>
+                                    </span>
                                     <div className="price-input-container">
                                         <input 
                                             type="number" 
@@ -344,29 +381,45 @@ export default function AsphaltPage() {
                                                 const value = e.target.value;
                                                 setCustomAsphaltCost(value === '' ? 0 : parseFloat(value));
                                             }} 
-                                            placeholder="0.00"
+                                            placeholder="100-140"
                                             className="price-input"
                                         />
                                         <span className="price-prefix">$</span>
                                     </div>
+                                    {showPriceInfo && (
+                                        <>
+                                            <br />
+                                            <p className="text-sm text-gray-400 mt-2">
+                                                For our calculations, we use the following fixed per-unit costs:
+                                            </p>
+                                            <ul className="text-sm text-gray-400 mt-2">
+                                                <li>Hot Mix Asphalt: Average price ranges from $100 to $140 per ton.</li>
+                                                <li>Crushed Stone: Priced at $16 per cubic yard.</li>
+                                                <li>Equipment Rentals & Supplies: Average costs range from $15.33 to $25.54 per ton of asphalt.</li>
+                                            </ul>
+                                            <p className="text-sm text-gray-400 mt-2">
+                                                However, you can adjust the prices as needed. We recommend confirming rates with local suppliers for the most accurate estimate.
+                                            </p>
+                                        </>
+                                    )}
                                 </label>
                             </div>
                             <button className="calculate-button" onClick={calculateAsphalt}>Calculate</button>
 
                             <div className="result">
-                                <h2>Dimensions</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Dimensions</p>
                                 <p>Driveway Area: {formatNumber(calculateArea())} sq ft</p>
                                 <p>Driveway Perimeter: {formatNumber(calculatePerimeter())} ft</p>
                             </div>
 
                             <div className="result">
-                                <h2>Material Estimate</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Material Estimate</p>
                                 <p>Hot Mix Asphalt: {formatNumberOneDecimal(asphaltTons?.tons ?? 0)} tons ({formatNumberOneDecimal(asphaltTons?.yards ?? 0)} yds³)</p>
                                 <p>Crushed Stone Base: {formatNumberOneDecimal(crushedStoneYards?.min ?? 0)} - {formatNumberOneDecimal(crushedStoneYards?.max ?? 0)} yds³</p>
                             </div>
 
                             <div className="result">
-                                <h2>Estimated Material Cost</h2>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Estimated Material Cost</p>
                                 {materialCosts?.asphalt.custom ? (
                                     <p>Asphalt: ${formatNumber(materialCosts.asphalt.custom)}</p>
                                 ) : (
@@ -377,8 +430,10 @@ export default function AsphaltPage() {
                             </div>
 
                             <div className="result">
-                                <h2>Estimated Total Cost</h2>
-                                <h4 className="total-cost">${formatNumber(totalCost?.min ?? 0)} - ${formatNumber(totalCost?.max ?? 0)}</h4>
+                                <p style={{ fontWeight: 'bold', fontSize: '20px' }}>Estimated Total Cost</p>
+                                <h4 className="total-cost" style={{ fontWeight: 'bold', fontSize: '24px' }}>
+                                    ${formatNumber(totalCost?.min ?? 0)} - ${formatNumber(totalCost?.max ?? 0)}
+                                </h4>
                                 <p className="estimate-note">*Estimate only - costs vary by location/vendor</p>
                             </div>
 
@@ -431,7 +486,7 @@ export default function AsphaltPage() {
                                 Width of the Driveway: Measure how wide your driveway will be in feet. This is typically the most variable measurement, as driveways can vary in size depending on your needs.
                             </p>
                             <p className="info-paragraph">
-                                Asphalt Depth: Choose the depth or thickness of the asphalt layer. This is often measured in inches and typically ranges from 2 to 4 inches for residential driveways.
+                                Asphalt Depth: Choose the depth or thickness of the asphalt layer. This is often measured in inches and typically ranges from 2 to 3 inches for residential driveways.
                             </p>
 
                             <h3>How to Calculate Asphalt for Your Driveway</h3>

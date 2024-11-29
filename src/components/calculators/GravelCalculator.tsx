@@ -149,6 +149,11 @@ const GravelCalculator: React.FC = () => {
                   Estimated Cost: ${results.totalCost.toFixed(2)}
                 </div>
               )}
+              <div className="ml-4">
+                <p className="text-sm text-gray-400 mt-2">
+                  For our calculations, we use an average gravel price of $65 per cubic yard, with typical local prices ranging from $20 to $100. We recommend confirming rates with local suppliers for the most accurate estimate.
+                </p>
+              </div>
             </div>
           )}
         </div>
