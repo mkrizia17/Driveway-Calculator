@@ -39,6 +39,7 @@ export default function ConcretePage() {
         length: '',
         depth: ''
     });
+    const [showInfo, setShowInfo] = useState<boolean>(false);
 
     const formatNumber = (num: number): string => {
         return new Intl.NumberFormat('en-US', {
@@ -255,7 +256,7 @@ export default function ConcretePage() {
                             <h1 className="page-title text-26px whitespace-nowrap">Concrete Driveway Calculator</h1>
                             <div className="input-group">
                                 <label>
-                                    Width: <span className="required">*</span>
+                                    Width <span className="required">*</span>
                                     <div className="input-with-unit">
                                         <input 
                                             type="number" 
@@ -286,7 +287,7 @@ export default function ConcretePage() {
                             </div>
                             <div className="input-group">
                                 <label>
-                                    Length: <span className="required">*</span>
+                                    Length <span className="required">*</span>
                                     <div className="input-with-unit">
                                         <input 
                                             type="number" 
@@ -318,6 +319,15 @@ export default function ConcretePage() {
                             <div className="input-group">
                                 <label>
                                     Depth: <span className="required">*</span>
+                                    <span 
+                                        className="info-icon cursor-pointer inline-block align-middle ml-1"
+                                        title="Click for more information" 
+                                        onClick={() => setShowInfo(!showInfo)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-info-circle" viewBox="0 0 16 16">
+                                            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 15a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm-.93-4.412a.5.5 0 0 1 .93 0v.002a.5.5 0 0 1-.93 0v-.002zm.93-8.588a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V3.5a.5.5 0 0 1 .5-.5z"/>
+                                        </svg>
+                                    </span>
                                     <div className="input-with-unit">
                                         <input 
                                             type="number" 
@@ -345,15 +355,29 @@ export default function ConcretePage() {
                                     </div>
                                     {errors.depth && <span className="error-message">{errors.depth}</span>}
                                 </label>
+                                {showInfo && (
+                                    <div className="text-sm">
+                                        <h5 className="font-bold mt-4">Residential Driveway: Standard Concrete Driveway Thickness</h5>
+                                        <p className="text-sm text-gray-400 mt-2">The minimum thickness for a residential concrete driveway is 4 inches. However, 5 or 6 inches is recommended if you live in an area with heavy traffic or large vehicles. For extra strength and durability, you can go up to 8 inches.</p>
+                                        
+                                        <h5 className="font-bold mt-4">Commercial Driveway: Minimum Concrete Driveway Thickness</h5>
+                                        <p className="text-sm text-gray-400 mt-2">The minimum thickness for a commercial concrete driveway is 6 inches. However, 8 or 10 inches is recommended for high-traffic areas or if you plan to park large vehicles on the driveway. For extra strength and durability, you can go up to 12 inches.</p>
+                                        
+                                        <h5 className="font-bold mt-4">Factors to Consider for Concrete Driveway Thickness</h5>
+                                        <p className="text-sm text-gray-400 mt-2">Do you have a concrete driveway? How thick is it? The average concrete driveway is about four inches thick. However, the thickness of your driveway will depend on many factors. It includes the soil type underneath, the climate in your area, the amount of traffic, and its features.</p>
+                                        
+                                        <br />
+                                        <p className="text-sm text-gray-400 mt-2">In general, driveways that will be subject to more wear and tear – such as those in areas with harsh winters or high traffic – need to be thicker than those in more moderate climates.</p>
+                                    </div>
+                                )}
                             </div>
-                            <div className="result">
+                            <div className="result p-0 mb-1">
                                 <button 
-                                    className="toggle-button" 
+                                    className="toggle-button inline-flex items-center justify-center w-full" 
                                     onClick={() => setShowOptionalCosts(!showOptionalCosts)}
                                 >
-                                    <h3 className="toggle-header">
-                                        Optional Material Costs <span className="toggle-arrow">{showOptionalCosts ? '▼' : '▶'}</span>
-                                    </h3>
+                                    <h3 className="toggle-header mr-2 custom-font-size">Optional Material Costs</h3>
+                                    <span className="toggle-arrow text-lg">▼</span>
                                 </button>
                                 
                                 {showOptionalCosts && (
@@ -573,7 +597,7 @@ export default function ConcretePage() {
                                 <p>Adding reinforcement like rebar or wire mesh helps prevent cracking due to shifting.</p>
 
                                 <h5 style={{ fontWeight: 'bold' }}>Rebar vs. Mesh:</h5>
-                                <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12″ grid for driveways thicker than 5″.</p>
+                                <p>Use wire mesh for driveways 4–5″ thick. Opt for #3 or #4 rebar in a 12�� grid for driveways thicker than 5″.</p>
 
                                 <h5>Estimating Rebar for Rectangular Driveways:</h5>
                                 <p>Measure the length and width of the driveway. Subtract 6–12″ from each to account for the grid's edge spacing. Calculate rows and columns of rebar spaced every 12″.</p>

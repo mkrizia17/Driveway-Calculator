@@ -440,4 +440,13 @@ h5 {
 .text-16px {
     font-size: 16px; /* Custom class for 16px font size */
 }
+
+.info-text {
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif; /* Adjust as necessary */
+}
+
+.custom-font-size {
+    font-size: 20px;
+}
   
