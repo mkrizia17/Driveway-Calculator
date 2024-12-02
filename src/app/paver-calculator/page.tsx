@@ -434,11 +434,7 @@ export default function PaversPage() {
                                         <>
                                             <br />
                                             <p className="text-sm text-gray-400 mt-2">
-                                                For our calculations, we use an average price of $0.60 per brick for brick pavers, with typical prices ranging from $0.35 to $0.90 per brick or $2 to $6 per square foot, excluding installation. We use an average of $13 per square foot for the cost of installation, with typical installation costs ranging from $10 to $17 per square foot.
-                                            </p>
-                                            <br />
-                                            <p className="text-sm text-gray-400 mt-2">
-                                            Prices may vary depending on the material used, such as clay brick, concrete, stone, slate, or cobblestone. We recommend checking with local suppliers for the most accurate estimate of both paver prices and installation costs.
+                                            For our calculations, we use an average price of $0.60 per brick for brick pavers, with typical prices ranging from $0.35 to $0.90 per brick or $2 to $6 per square foot, excluding installation. Prices may vary depending on the material used, such as clay brick, concrete, stone, slate, or cobblestone. We recommend checking with local suppliers for the most accurate estimate of paver prices.
                                             </p>
                                         </>
                                     )}
@@ -475,11 +471,7 @@ export default function PaversPage() {
                                         <>
                                             <br />
                                             <p className="text-sm text-gray-400 mt-2">
-                                                For our calculations, we use an average price of $0.60 per brick for brick pavers, with typical prices ranging from $0.35 to $0.90 per brick or $2 to $6 per square foot, excluding installation. We use an average of $13 per square foot for the cost of installation, with typical installation costs ranging from $10 to $17 per square foot. 
-                                            </p>
-                                            <br />
-                                            <p className="text-sm text-gray-400 mt-2">
-                                                Prices may vary depending on the material used, such as clay brick, concrete, stone, slate, or cobblestone. We recommend checking with local suppliers for the most accurate estimate of both paver prices and installation costs.
+                                            We use an average of $13 per square foot for installation, with typical installation costs ranging from $10 to $17 per square foot. We recommend checking with local suppliers for the most accurate estimate of installation costs.
                                             </p>
                                         </>
                                     )}
