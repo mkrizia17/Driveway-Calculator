@@ -1,5 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
+import JsonLd from '@/components/JsonLd';
 
 const inter = Inter({
     subsets: ['latin'],
@@ -13,6 +14,9 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
+            <head>
+                <JsonLd />
+            </head>
             <body className={inter.className}>
                 {children}
             </body>

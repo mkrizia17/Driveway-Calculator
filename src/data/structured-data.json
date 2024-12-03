@@ -1,0 +1,59 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Driveway Cost Calculator",
+  "description": "Calculate accurate costs for asphalt, concrete, gravel, and paved driveways with our comprehensive calculator tools.",
+  "applicationCategory": "Calculator",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "mainEntity": {
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I calculate asphalt tonnage for a driveway?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "To calculate asphalt tonnage: 1) Measure length x width for square footage 2) Multiply by depth (inches) 3) Multiply by 145 lbs/sq ft/inch 4) Divide by 2000 for tons. For most driveways, plan for 2-3 inches depth."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I calculate gravel for a driveway?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Calculate gravel needed by: 1) Measuring length x width for square footage 2) Multiply by desired depth (typically 4 inches or 0.33 feet) 3) Divide by 27 to get cubic yards 4) Add 10% for compaction."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the cost difference between concrete and asphalt driveways?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Concrete driveways typically cost $4-8 per square foot while asphalt averages $2-6 per square foot. Though concrete costs more initially, it often lasts longer with proper maintenance."
+        }
+      }
+    ]
+  },
+  "keywords": [
+    "asphalt calculator",
+    "gravel driveway calculator",
+    "concrete driveway cost calculator",
+    "driveway paving cost calculator",
+    "asphalt tonnage calculator",
+    "driveway material calculator",
+    "asphalt vs concrete cost calculator"
+  ],
+  "potentialAction": {
+    "@type": "CalculateAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.calcmydrive.com/calculator",
+      "description": "Calculate driveway costs and materials needed"
+    }
+  }
+} 
