@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { metadata } from './metadata';
 
 type Unit = 'in' | 'ft' | 'cm' | 'm' | 'yd';
 
