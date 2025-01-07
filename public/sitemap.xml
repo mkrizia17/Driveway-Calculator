@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Main Page -->
   <url>
-    <loc>https://www.calcmydrive.com/</loc>
+    <loc>https://www.calcmydrive.com</loc>
     <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -43,7 +42,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <!-- Add more blog posts here -->
   <url>
     <loc>https://www.calcmydrive.com/blog/posts/concrete-vs-asphalt</loc>
     <lastmod>2024-12-13T09:02:32.035Z</lastmod>
