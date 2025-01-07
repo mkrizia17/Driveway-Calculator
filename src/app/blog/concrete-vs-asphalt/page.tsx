@@ -3,7 +3,7 @@ import { BlogPostLayout } from '@/components/BlogPostLayout';
 
 export default function ConcreteVsAsphaltPost() {
   return (
-    <BlogPostLayout currentPath="/blog/posts/concrete-vs-asphalt">
+    <BlogPostLayout currentPath="/blog/concrete-vs-asphalt">
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-white">
         Concrete vs. Asphalt: Making the Right Choice for Your Driveway
       </h1>

@@ -3,7 +3,7 @@ import { BlogPostLayout } from '@/components/BlogPostLayout';
 
 export default function GravelTypesPost() {
   return (
-    <BlogPostLayout currentPath="/blog/posts/gravel-types">
+    <BlogPostLayout currentPath="/blog/gravel-types">
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-white">
         Understanding Different Types of Gravel for Your Driveway
       </h1>

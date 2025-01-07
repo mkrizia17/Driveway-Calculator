@@ -3,7 +3,7 @@ import { BlogPostLayout } from '@/components/BlogPostLayout';
 
 export default function PaverInstallationPost() {
   return (
-    <BlogPostLayout currentPath="/blog/posts/paver-installation">
+    <BlogPostLayout currentPath="/blog/paver-installation">
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 text-white">
         How to Properly Install Pavers for Your Driveway: A Step-by-Step Guide
       </h1>

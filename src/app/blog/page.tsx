@@ -16,19 +16,19 @@ const blogPosts: BlogPost[] = [
     title: "Understanding Different Types of Gravel for Your Driveway",
     date: "March 15, 2024",
     excerpt: "Learn about the various types of gravel available for driveways and which one might be best for your project...",
-    href: "/blog/posts/gravel-types"
+    href: "/blog/gravel-types"
   },
   {
     title: "How to Properly Install Pavers: A Step-by-Step Guide",
     date: "March 10, 2024",
     excerpt: "Discover the essential steps and best practices for installing pavers to ensure a beautiful and lasting result...",
-    href: "/blog/posts/paver-installation"
+    href: "/blog/paver-installation"
   },
   {
     title: "Comparing Concrete vs Asphalt Driveways",
     date: "March 5, 2024",
     excerpt: "An in-depth comparison of concrete and asphalt driveways, including costs, durability, and maintenance requirements...",
-    href: "/blog/posts/concrete-vs-asphalt"
+    href: "/blog/concrete-vs-asphalt"
   }
 ];
 
@@ -47,7 +47,7 @@ export default function BlogPage() {
             <Card key={index} className="overflow-hidden hover:shadow-xl transition-all duration-300 bg-gray-700 border-gray-600">
               <CardContent className="p-6">
                 <p className="text-sm text-blue-400 mb-3">{post.date}</p>
-                <h2 className="text-2xl font-semibold text-gray-100 mb-4 hover:text-blue-400 transition-colors">
+                <h2 className="text-2xl font-semibold text-gray-100 mb-4">
                   {post.title}
                 </h2>
                 <p className="text-gray-300 mb-6 line-clamp-3">
