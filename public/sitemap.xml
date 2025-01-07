@@ -3,68 +3,75 @@
   <!-- Main Page -->
   <url>
     <loc>https://www.calcmydrive.com/</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- Calculator Pages -->
   <url>
     <loc>https://www.calcmydrive.com/gravel-calculator</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.calcmydrive.com/concrete-calculator</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.calcmydrive.com/asphalt-calculator</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.calcmydrive.com/paver-calculator</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
-
-  <!-- Blog Posts -->
   <url>
     <loc>https://www.calcmydrive.com/blog</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.calcmydrive.com/blog/posts/paver-installation</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- Information Pages -->
+  <!-- Add more blog posts here -->
+  <url>
+    <loc>https://www.calcmydrive.com/blog/posts/concrete-vs-asphalt</loc>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.calcmydrive.com/blog/posts/gravel-types</loc>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://www.calcmydrive.com/FAQs</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.calcmydrive.com/contact</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.calcmydrive.com/privacy-policy</loc>
-    <lastmod>2024-03-20</lastmod>
+    <lastmod>2024-12-13T09:02:32.035Z</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.8</priority>
   </url>
 </urlset> 
