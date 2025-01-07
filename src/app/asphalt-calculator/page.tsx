@@ -472,7 +472,7 @@ export default function AsphaltPage() {
                             <div className="info-image-container">
                                 <Image 
                                     src="/images/asphalt.jpg" 
-                                    alt="Smooth asphalt driveway with professional finish" 
+                                    alt="Asphalt Driveway" 
                                     width={800}
                                     height={600}
                                     className="info-image"

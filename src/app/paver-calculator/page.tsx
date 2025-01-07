@@ -559,7 +559,7 @@ export default function PaversPage() {
                             <div className="info-image-container">
                                 <Image 
                                     src="/images/pavers.jpg" 
-                                    alt="Beautiful paver driveway with intricate pattern design" 
+                                    alt="Paver driveway" 
                                     width={800}
                                     height={600}
                                     className="info-image"

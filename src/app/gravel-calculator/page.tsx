@@ -397,7 +397,7 @@ export default function GravelPage() {
                         <div className="info-image-container">
                             <Image 
                                 src="/images/gravel.jpg" 
-                                alt="Gravel driveway with clean edges" 
+                                alt="Gravel Driveway" 
                                 fill
                                 sizes="(max-width: 768px) 100vw,
                                        (max-width: 1200px) 80vw,

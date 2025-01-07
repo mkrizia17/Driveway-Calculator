@@ -557,7 +557,7 @@ export default function ConcretePage() {
                             <div className="info-image-container">
                                 <Image 
                                     src="/images/concrete.jpg" 
-                                    alt="Concrete driveway with a professional finish" 
+                                    alt="Concrete Driveway" 
                                     width={800}
                                     height={600}
                                     className="info-image"
